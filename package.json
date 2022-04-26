@@ -1,0 +1,22 @@
+{
+  "name": "archbuddy-backend",
+  "version": "1.0.0",
+  "description": "Backend to handle all application interaction, authentication and so on",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/archbuddy/backend.git"
+  },
+  "author": "https://github.com/archbuddy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/archbuddy/backend/issues"
+  },
+  "homepage": "https://archbuddy.github.io/documentation",
+  "dependencies": {
+    "fastify": "^3.28.0"
+  }
+}
