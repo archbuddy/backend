@@ -3,7 +3,7 @@ const fastify = require('fastify')({ logger: true })
 const nodes = require('./src/nodes')
 const edges = require('./src/edges')
 
-fastify.register(require('@fastify/cors'), { 
+fastify.register(require('@fastify/cors'), {
   // put your options here
   origin: true
 })
@@ -13,7 +13,7 @@ fastify.get('/healthcheck', async (request, reply) => {
 })
 
 fastify.get('/', async (request, reply) => {
-  return { nodes, edges}
+  return { nodes, edges }
 })
 
 // Run the server!

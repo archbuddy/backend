@@ -4,7 +4,9 @@
   "description": "Backend to handle all application interaction, authentication and so on",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "lint": "standard",
+    "lint:fix": "standard --fix"
   },
   "repository": {
     "type": "git",
@@ -17,7 +19,10 @@
   },
   "homepage": "https://archbuddy.github.io/documentation",
   "dependencies": {
-    "fastify": "^3.28.0",
-    "@fastify/cors": "^7.0.0"
+    "@fastify/cors": "^7.0.0",
+    "fastify": "^3.28.0"
+  },
+  "devDependencies": {
+    "standard": "^17.0.0"
   }
 }
