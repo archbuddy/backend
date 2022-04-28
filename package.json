@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "test": "standard",
     "lint": "standard",
-    "lint:fix": "standard --fix"
+    "lint:fix": "standard --fix",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -23,6 +25,7 @@
     "fastify": "^3.28.0"
   },
   "devDependencies": {
+    "husky": "^7.0.4",
     "standard": "^17.0.0"
   }
 }
