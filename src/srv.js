@@ -55,10 +55,28 @@ async function deleteEdge (id) {
     edges.splice(index, 1)
   }
 }
+
+async function deleteNode (id) {
+  // dummy implementation
+  let index = -1
+  do {
+    index = edges.findIndex((obj) => (obj.source === id || obj.target === id))
+    if (index > -1) {
+      edges.splice(index, 1)
+    }
+  } while (index > -1)
+
+  index = nodes.findIndex((obj) => obj.id === id)
+  if (index > -1) {
+    nodes.splice(index, 1)
+  }
+}
+
 module.exports = {
   getNodes,
   getEdges,
   addEdge,
   addNode,
-  deleteEdge
+  deleteEdge,
+  deleteNode
 }

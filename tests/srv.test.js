@@ -37,3 +37,11 @@ test('delete edge', async function () {
   await srv.deleteEdge('n2n3')
   expect((await srv.getEdges()).length).toBe(2)
 })
+
+test('delete node', async function () {
+  expect((await srv.getEdges()).length).toBe(2)
+  expect((await srv.getNodes()).length).toBe(4)
+  await srv.deleteNode('n2')
+  expect((await srv.getEdges()).length).toBe(1)
+  expect((await srv.getNodes()).length).toBe(3)
+})

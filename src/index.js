@@ -31,6 +31,11 @@ fastify.delete('/edge/:id', async (request, reply) => {
   return { }
 })
 
+fastify.delete('/node/:id', async (request, reply) => {
+  await service.deleteNode(request.params.id)
+  return { }
+})
+
 // Run the server!
 const start = async () => {
   try {
