@@ -1,8 +1,6 @@
 // Require the framework and instantiate it
 const fastify = require('fastify')({ logger: true })
-
-const nodes = require('./src/nodes')
-const edges = require('./src/edges')
+const service = require('./srv')
 
 fastify.register(require('@fastify/cors'), {
   // put your options here
@@ -15,32 +13,21 @@ fastify.get('/healthcheck', async (request, reply) => {
 })
 
 fastify.get('/', async (request, reply) => {
-  return { nodes, edges }
+  return { nodes: await service.getNodes(), edges: await service.getEdges() }
 })
 
 fastify.post('/system', async (request, reply) => {
-  //dummy implementation
-  nodes.push(  {
-    id: `n${nodes.length+1}`,
-    data: { label: request.body.name },
-    position: { x: -30, y: 10 },
-    type: 'system'
-  })
+  await service.addNode(request.body)
   return { }
 })
 
 fastify.post('/edge', async (request, reply) => {
-  const body = request.body
-  //dummy implementation
-  edges.push({ id: `${body.source}${body.target}`, source: `${body.source}`, sourceHandle: `${body.sourceHandle}`, target: `${body.target}`, targetHandle: `${body.targetHandle}`, label: `${body.label}`})
+  await service.addEdge(request.body)
   return { }
 })
 
-
 fastify.delete('/edge/:id', async (request, reply) => {
-  //dummy implementation
-  const index = edges.findIndex((obj) => obj.id === request.params.id)
-  delete edges[index];
+  await service.deleteEdge(request.params.id)
   return { }
 })
 

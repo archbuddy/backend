@@ -2,10 +2,10 @@
   "name": "archbuddy-backend",
   "version": "1.0.0",
   "description": "Backend to handle all application interaction, authentication and so on",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "standard",
+    "start": "node src/index.js",
+    "test": "standard --fix && jest ./tests/*",
     "lint": "standard",
     "lint:fix": "standard --fix",
     "prepare": "husky install"
@@ -26,6 +26,21 @@
   },
   "devDependencies": {
     "husky": "^7.0.4",
+    "jest": "^28.0.2",
     "standard": "^17.0.0"
+  },
+  "standard": {
+    "globals": [
+        "beforeAll",
+        "afterAll",
+        "beforeEach",
+        "afterEach",
+        "setTimeout",
+        "describe",
+        "it",
+        "test",
+        "expect",
+        "jest"
+    ]
   }
 }
