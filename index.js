@@ -1,9 +1,19 @@
 // Require the framework and instantiate it
 const fastify = require('fastify')({ logger: true })
+const nodes = require('./src/nodes')
+const edges = require('./src/edges')
 
-// Declare a route
+fastify.register(require('@fastify/cors'), { 
+  // put your options here
+  origin: true
+})
+
+fastify.get('/healthcheck', async (request, reply) => {
+  return { status: 'OK' }
+})
+
 fastify.get('/', async (request, reply) => {
-  return { hello: 'world' }
+  return { nodes, edges}
 })
 
 // Run the server!
