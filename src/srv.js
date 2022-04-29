@@ -33,14 +33,12 @@ async function getEdges () {
 }
 
 async function addNode (body) {
-  console.log(nodes.length)
   nodes.push({
     id: `n${nodes.length + 1}`,
     data: { label: body.name },
     position: { x: -30, y: 10 },
     type: 'system'
   })
-  console.log(nodes.length)
 }
 
 async function addEdge (body) {
