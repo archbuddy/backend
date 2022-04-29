@@ -41,6 +41,14 @@ async function addNode (body) {
   })
 }
 
+async function patchNode (body) {
+  body.forEach(element => {
+    const index = nodes.findIndex((obj) => obj.id === element.id)
+    nodes[index].position.x = element.position.x
+    nodes[index].position.y = element.position.y
+  })
+}
+
 async function addEdge (body) {
   // dummy implementation
   edges.push({ id: `${body.source}${body.target}`, source: `${body.source}`, sourceHandle: `${body.sourceHandle}`, target: `${body.target}`, targetHandle: `${body.targetHandle}`, label: `${body.label}` })
@@ -76,5 +84,6 @@ module.exports = {
   addEdge,
   addNode,
   deleteEdge,
-  deleteNode
+  deleteNode,
+  patchNode
 }

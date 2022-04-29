@@ -21,6 +21,11 @@ fastify.post('/system', async (request, reply) => {
   return { }
 })
 
+fastify.patch('/system', async (request, reply) => {
+  await service.patchNode(request.body)
+  return { }
+})
+
 fastify.post('/edge', async (request, reply) => {
   await service.addEdge(request.body)
   return { }

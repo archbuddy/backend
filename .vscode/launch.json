@@ -9,6 +9,7 @@
             "type": "node",
             "request": "launch",
             "cwd": "${workspaceRoot}",
+            "outputCapture": "std",
             "runtimeExecutable": "npm",
             "runtimeArgs": [
              "run-script",
@@ -21,6 +22,7 @@
             "type": "node",
             "request": "launch",
             "cwd": "${workspaceRoot}",
+            "outputCapture": "std",
             "runtimeExecutable": "npm",
             "runtimeArgs": [
              "run-script",
