@@ -23,3 +23,13 @@ test('delete edge', async function () {
   await srv.deleteEdge('n2n3')
   expect((await srv.getEdges()).length).toBe(2)
 })
+
+test('patch edge', async function () {
+  const edges = await srv.getEdges()
+  expect(edges[0].label).toBe('authenticate')
+
+  await srv.patchEdge({ id: edges[0].id, label: 'teste' })
+
+  const edgesNovo = await srv.getEdges()
+  expect(edgesNovo[0].label).toBe('teste')
+})

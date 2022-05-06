@@ -78,6 +78,13 @@ async function deleteNode (id) {
   }
 }
 
+async function patchEdge (edge) {
+  const index = edges.findIndex((obj) => obj.id === edge.id)
+  if (index > -1) {
+    edges[index].label = edge.label
+  }
+}
+
 module.exports = {
   getNodes,
   getEdges,
@@ -85,5 +92,6 @@ module.exports = {
   addNode,
   deleteEdge,
   deleteNode,
-  patchNode
+  patchNode,
+  patchEdge
 }

@@ -31,6 +31,11 @@ fastify.post('/edge', async (request, reply) => {
   return { }
 })
 
+fastify.patch('/edge', async (request, reply) => {
+  await service.patchEdge(request.body)
+  return { }
+})
+
 fastify.delete('/edge/:id', async (request, reply) => {
   await service.deleteEdge(request.params.id)
   return { }
