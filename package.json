@@ -4,7 +4,7 @@
   "description": "Backend to handle all application interaction, authentication and so on",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "nodemon src/index.js",
     "test": "standard --fix && jest ./tests/*",
     "lint": "standard",
     "lint:fix": "standard --fix",
@@ -27,20 +27,21 @@
   "devDependencies": {
     "husky": "^7.0.4",
     "jest": "^28.0.2",
+    "nodemon": "^2.0.16",
     "standard": "^17.0.0"
   },
   "standard": {
     "globals": [
-        "beforeAll",
-        "afterAll",
-        "beforeEach",
-        "afterEach",
-        "setTimeout",
-        "describe",
-        "it",
-        "test",
-        "expect",
-        "jest"
+      "beforeAll",
+      "afterAll",
+      "beforeEach",
+      "afterEach",
+      "setTimeout",
+      "describe",
+      "it",
+      "test",
+      "expect",
+      "jest"
     ]
   }
 }
