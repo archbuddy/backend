@@ -25,7 +25,7 @@
     "fastify": "^3.28.0"
   },
   "devDependencies": {
-    "husky": "^7.0.4",
+    "husky": "^8.0.0",
     "jest": "^28.0.2",
     "nodemon": "^2.0.16",
     "standard": "^17.0.0"
