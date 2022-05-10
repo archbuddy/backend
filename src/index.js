@@ -1,4 +1,4 @@
-// Require the framework and instantiate it
+require('dotenv').config()
 const fastify = require('fastify')({ logger: true })
 const serviceEdge = require('./service/edges')
 const serviceNode = require('./service/nodes')
