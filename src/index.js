@@ -1,6 +1,7 @@
 // Require the framework and instantiate it
 const fastify = require('fastify')({ logger: true })
-const service = require('./srv')
+const serviceEdge = require('./service/edges')
+const serviceNode = require('./service/nodes')
 
 fastify.register(require('@fastify/cors'), {
   // put your options here
@@ -13,36 +14,36 @@ fastify.get('/healthcheck', async (request, reply) => {
 })
 
 fastify.get('/', async (request, reply) => {
-  return { nodes: await service.getNodes(), edges: await service.getEdges() }
+  return { nodes: await serviceNode.getNodes(), edges: await serviceEdge.getEdges() }
 })
 
 fastify.post('/system', async (request, reply) => {
-  await service.addNode(request.body)
+  await serviceNode.addNode(request.body)
   return { }
 })
 
 fastify.patch('/system', async (request, reply) => {
-  await service.patchNode(request.body)
+  await serviceNode.patchNode(request.body)
   return { }
 })
 
 fastify.post('/edge', async (request, reply) => {
-  await service.addEdge(request.body)
+  await serviceEdge.addEdge(request.body)
   return { }
 })
 
 fastify.patch('/edge', async (request, reply) => {
-  await service.patchEdge(request.body)
+  await serviceEdge.patchEdge(request.body)
   return { }
 })
 
 fastify.delete('/edge/:id', async (request, reply) => {
-  await service.deleteEdge(request.params.id)
+  await serviceEdge.deleteEdge(request.params.id)
   return { }
 })
 
 fastify.delete('/node/:id', async (request, reply) => {
-  await service.deleteNode(request.params.id)
+  await serviceNode.deleteNode(request.params.id)
   return { }
 })
 
