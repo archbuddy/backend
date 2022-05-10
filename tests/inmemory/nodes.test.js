@@ -1,4 +1,4 @@
-const srv = require('../src/srv')
+const srv = require('../../src/repository/db')
 
 test('nodes', async function () {
   expect((await srv.getNodes()).length > 0).toBe(true)
@@ -15,10 +15,10 @@ test('add nodes', async function () {
 })
 
 test('delete node', async function () {
-  expect((await srv.getEdges()).length).toBe(2)
+  expect((await srv.getEdges()).length).toBe(3)
   expect((await srv.getNodes()).length).toBe(4)
   await srv.deleteNode('n2')
-  expect((await srv.getEdges()).length).toBe(1)
+  expect((await srv.getEdges()).length).toBe(2)
   expect((await srv.getNodes()).length).toBe(3)
 })
 

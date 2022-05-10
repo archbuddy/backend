@@ -1,7 +1,8 @@
-const srv = require('../src/srv')
+const srv = require('../../src/repository/db')
 
 test('edges', async function () {
-  expect((await srv.getEdges()).length > 0).toBe(true)
+  const edges = await srv.getEdges()
+  expect(edges.length > 0).toBe(true)
 })
 
 test('add edge', async function () {
@@ -12,16 +13,16 @@ test('add edge', async function () {
     targetHandle: 'l1',
     label: 'test'
   }
-  expect((await srv.getEdges()).length).toBe(2)
+  expect((await srv.getEdges()).length).toBe(3)
   await srv.addEdge(edge)
   const edges = await srv.getEdges()
-  expect(edges.length).toBe(3)
+  expect(edges.length).toBe(4)
 })
 
 test('delete edge', async function () {
-  expect((await srv.getEdges()).length).toBe(3)
+  expect((await srv.getEdges()).length).toBe(4)
   await srv.deleteEdge('n2n3')
-  expect((await srv.getEdges()).length).toBe(2)
+  expect((await srv.getEdges()).length).toBe(3)
 })
 
 test('patch edge', async function () {
