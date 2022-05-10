@@ -1,4 +1,4 @@
-const srv = require('../src/srv')
+const srv = require('../../src/repository/db')
 
 test('edges', async function () {
   const edges = await srv.getEdges()

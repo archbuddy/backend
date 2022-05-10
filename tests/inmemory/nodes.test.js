@@ -1,4 +1,4 @@
-const srv = require('../src/srv')
+const srv = require('../../src/repository/db')
 
 test('nodes', async function () {
   expect((await srv.getNodes()).length > 0).toBe(true)
