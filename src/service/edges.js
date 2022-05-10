@@ -1,7 +1,6 @@
 const repo = require('../repository/db')
 
-async function prepareEdges (list) {
-  // Identitfy similiar edges
+function getEdgeAsMap (list) {
   const map = new Map()
   for (const item of list) {
     const uniqueId = `${item.source}${item.target}${item.sourceHandle}${item.targetHandle}`
@@ -11,6 +10,12 @@ async function prepareEdges (list) {
       map.set(uniqueId, [item])
     }
   }
+  return map
+}
+
+async function prepareEdges (edges) {
+  // Identitfy similiar edges
+  const map = getEdgeAsMap(edges)
   const listToReturn = []
   // create a merge edge and external data
   for (const entry of map.entries()) {
@@ -20,21 +25,21 @@ async function prepareEdges (list) {
     }
     if (list.length === 1) {
       listToReturn.push(list[0])
-    } else {
-      const obj = JSON.parse(JSON.stringify(list[0]))
-      obj.innerList = []
-      obj.label = ''
-      for (let index = 0; index < list.length; index++) {
-        const item = list[index]
-        if ((index + 1) === list.length) {
-          obj.label += item.label
-        } else {
-          obj.label += item.label + ', '
-        }
-        obj.innerList.push(item)
-      }
-      listToReturn.push(obj)
+      continue
     }
+    const obj = JSON.parse(JSON.stringify(list[0]))
+    obj.innerList = []
+    obj.label = ''
+    for (let index = 0; index < list.length; index++) {
+      const item = list[index]
+      if ((index + 1) === list.length) {
+        obj.label += item.label
+      } else {
+        obj.label += item.label + ', '
+      }
+      obj.innerList.push(item)
+    }
+    listToReturn.push(obj)
   }
 
   return listToReturn
@@ -42,8 +47,7 @@ async function prepareEdges (list) {
 
 async function getEdges () {
   if (process.env.MERGE_EDGES === 'true') {
-    const list = await prepareEdges(await repo.getEdges())
-    return list
+    return await prepareEdges(await repo.getEdges())
   } else {
     return await repo.getEdges()
   }
