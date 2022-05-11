@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon src/index.js",
     "test": "standard --fix && jest ./tests/*",
+    "test:custom": "standard --fix && jest ./tests/service/viewPoint.test.js",
     "lint": "standard",
     "lint:fix": "standard --fix",
     "prepare": "husky install"
@@ -22,6 +23,7 @@
   "homepage": "https://archbuddy.github.io/documentation",
   "dependencies": {
     "@fastify/cors": "^7.0.0",
+    "ajv": "^8.11.0",
     "fastify": "^3.28.0"
   },
   "devDependencies": {
