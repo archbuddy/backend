@@ -34,3 +34,10 @@ test('patch nodes', async function () {
   expect(nodes[index].position.x).toBe(900)
   expect(nodes[index].position.y).toBe(200)
 })
+
+test('exists', async function () {
+  let exists = await srv.nodeExists('n1')
+  expect(exists).not.toBe(undefined)
+  exists = await srv.nodeExists('1')
+  expect(exists).toBe(undefined)
+})
