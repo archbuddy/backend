@@ -34,3 +34,10 @@ test('patch edge', async function () {
   const edgesNovo = await srv.getEdges()
   expect(edgesNovo[0].label).toBe('teste')
 })
+
+test('exists', async function () {
+  let exists = await srv.edgeExists('n1n2')
+  expect(exists).not.toBe(undefined)
+  exists = await srv.edgeExists('1')
+  expect(exists).toBe(undefined)
+})

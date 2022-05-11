@@ -2,6 +2,7 @@ require('dotenv').config()
 const fastify = require('fastify')({ logger: true })
 const serviceEdge = require('./service/edges')
 const serviceNode = require('./service/nodes')
+const serviceViewPoint = require('./service/viewPoint')
 
 fastify.register(require('@fastify/cors'), {
   // put your options here
@@ -44,6 +45,26 @@ fastify.delete('/edge/:id', async (request, reply) => {
 
 fastify.delete('/node/:id', async (request, reply) => {
   await serviceNode.deleteNode(request.params.id)
+  return { }
+})
+
+fastify.get('/viewpoint/:id', async (request, reply) => {
+  const item = await serviceViewPoint.get(request.params.id)
+  return item
+})
+
+fastify.get('/viewpoint', async (request, reply) => {
+  const list = await serviceViewPoint.list()
+  return { list }
+})
+
+fastify.post('/viewpoint', async (request, reply) => {
+  await serviceViewPoint.create(request.body.name)
+  return { }
+})
+
+fastify.patch('/viewpoint', async (request, reply) => {
+  await serviceViewPoint.associate(request.body)
   return { }
 })
 

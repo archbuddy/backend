@@ -5,7 +5,14 @@ async function list () {
   return repo.getViewPoints()
 }
 
+async function get (id) {
+  return repo.viewPointExists(id)
+}
+
 async function create (name) {
+  if (name === undefined || name.trim().length === 0) {
+    throw new Error('Body name is required')
+  }
   await repo.createViewPoint(name)
 }
 
@@ -16,6 +23,11 @@ async function associate (viewPoint) {
 
   if (validateViewPoint.errors && validateViewPoint.errors.length > 0) {
     throw new Error(JSON.stringify(validateViewPoint.errors))
+  }
+
+  const exists = await repo.viewPointExists(viewPoint.id)
+  if (!exists) {
+    throw new Error(`View point ${viewPoint.id} do not exists`)
   }
 
   for (const id of viewPoint.nodes) {
@@ -45,5 +57,6 @@ async function associate (viewPoint) {
 module.exports = {
   list,
   create,
-  associate
+  associate,
+  get
 }
