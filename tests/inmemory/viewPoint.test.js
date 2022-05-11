@@ -17,9 +17,11 @@ test('create view point', async function () {
 })
 
 test('exists', async function () {
-  let exists = await srv.viewPointExists(1)
+  let exists = await srv.viewPointExists('1')
   expect(exists).not.toBe(undefined)
-  exists = await srv.viewPointExists('1')
+  exists = await srv.viewPointExists(444)
+  expect(exists).toBe(undefined)
+  exists = await srv.viewPointExists('a')
   expect(exists).toBe(undefined)
 })
 
