@@ -107,16 +107,27 @@ async function updateViewPoint (viewPoint) {
 }
 
 async function edgeExists (id) {
-  return (edges.findIndex((obj) => obj.id === id) >= 0)
+  const index = edges.findIndex((obj) => obj.id === id)
+  if (index === -1) {
+    return undefined
+  }
+  return edges[index]
 }
 
 async function nodeExists (id) {
-  return (nodes.findIndex((obj) => obj.id === id) >= 0)
+  const index = nodes.findIndex((obj) => obj.id === id)
+  if (index === -1) {
+    return undefined
+  }
+  return nodes[index]
 }
 
 async function viewPointExists (id) {
   const index = viewPoints.findIndex((obj) => obj.id === id)
-  return (index >= 0)
+  if (index === -1) {
+    return undefined
+  }
+  return viewPoints[index]
 }
 
 module.exports = {
