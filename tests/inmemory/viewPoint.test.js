@@ -14,6 +14,9 @@ test('create view point', async function () {
   expect(list[0].name).toBe('a')
   expect(list[1].id).toBe(2)
   expect(list[1].name).toBe('b')
+
+  const exists = await srv.viewPointExists(list[0].id)
+  expect(exists).toBe(true)
 })
 
 test('associate view point', async function () {

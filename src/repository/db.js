@@ -107,11 +107,16 @@ async function updateViewPoint (viewPoint) {
 }
 
 async function edgeExists (id) {
-  return (edges.findIndex((obj) => obj.id === id) >= 1)
+  return (edges.findIndex((obj) => obj.id === id) >= 0)
 }
 
 async function nodeExists (id) {
-  return (nodes.findIndex((obj) => obj.id === id) >= 1)
+  return (nodes.findIndex((obj) => obj.id === id) >= 0)
+}
+
+async function viewPointExists (id) {
+  const index = viewPoints.findIndex((obj) => obj.id === id)
+  return (index >= 0)
 }
 
 module.exports = {
@@ -127,5 +132,6 @@ module.exports = {
   createViewPoint,
   updateViewPoint,
   edgeExists,
-  nodeExists
+  nodeExists,
+  viewPointExists
 }

@@ -47,20 +47,20 @@ test('required fields - nodes empty', async function () {
 
 test('required fields - nodes invalid item', async function () {
   try {
-    await srvViewPoint.associate({ id: 1, name: 'abcdefg', nodes: ['a'] })
+    await srvViewPoint.associate({ id: 1, name: 'abcdefg', nodes: [1] })
     // fail on purpose
     expect(0).toBe(1)
   } catch (err) {
-    expect(err.toString().indexOf('must be integer') > 0).toBe(true)
+    expect(err.toString().indexOf('must be string') > 0).toBe(true)
   }
 })
 
 test('required fields - edge invalid item', async function () {
   try {
-    await srvViewPoint.associate({ id: 1, name: 'abcdefg', nodes: [1], edges: ['a'] })
+    await srvViewPoint.associate({ id: 1, name: 'abcdefg', nodes: ['1'], edges: [1] })
     // fail on purpose
     expect(0).toBe(1)
   } catch (err) {
-    expect(err.toString().indexOf('must be integer') > 0).toBe(true)
+    expect(err.toString().indexOf('must be string') > 0).toBe(true)
   }
 })
