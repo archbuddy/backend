@@ -123,7 +123,8 @@ async function nodeExists (id) {
 }
 
 async function viewPointExists (id) {
-  const index = viewPoints.findIndex((obj) => obj.id === id)
+  const searchId = parseInt(id)
+  const index = viewPoints.findIndex((obj) => obj.id === searchId)
   if (index === -1) {
     return undefined
   }
