@@ -25,12 +25,18 @@ const nodes = [
   }
 ]
 
+const viewPoints = []
+
 async function getNodes () {
   return nodes
 }
 
 async function getEdges () {
   return edges
+}
+
+async function getViewPoints () {
+  return viewPoints
 }
 
 async function addNode (body) {
@@ -86,6 +92,28 @@ async function patchEdge (edge) {
   }
 }
 
+async function createViewPoint (name) {
+  const viewPoint = {}
+  viewPoint.id = viewPoints.length + 1
+  viewPoint.name = name
+  viewPoints.push(viewPoint)
+}
+
+async function updateViewPoint (viewPoint) {
+  const index = viewPoints.findIndex((obj) => obj.id === viewPoint.id)
+  if (index > -1) {
+    viewPoints[index] = viewPoint
+  }
+}
+
+async function edgeExists (id) {
+  return (edges.findIndex((obj) => obj.id === id) >= 1)
+}
+
+async function nodeExists (id) {
+  return (nodes.findIndex((obj) => obj.id === id) >= 1)
+}
+
 module.exports = {
   getNodes,
   getEdges,
@@ -94,5 +122,10 @@ module.exports = {
   deleteEdge,
   deleteNode,
   patchNode,
-  patchEdge
+  patchEdge,
+  getViewPoints,
+  createViewPoint,
+  updateViewPoint,
+  edgeExists,
+  nodeExists
 }
