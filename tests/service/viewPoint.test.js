@@ -44,3 +44,9 @@ test('save viewPoint with invalid edge and node', async function () {
     expect(err.data[1]).toBe('Edge id 1 do not exists')
   }
 })
+
+test('save viewPoint', async function () {
+  const spy = jest.spyOn(repository, 'updateViewPoint')
+  await srvViewPoint.associate({ id: 1, name: 'abcdef', nodes: [2], edges: [4] })
+  expect(spy).toHaveBeenCalledTimes(1)
+})
