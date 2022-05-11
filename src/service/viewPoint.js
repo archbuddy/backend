@@ -5,6 +5,10 @@ async function list () {
   return repo.getViewPoints()
 }
 
+async function get (id) {
+  return repo.viewPointExists(id)
+}
+
 async function create (name) {
   if (name === undefined || name.trim().length === 0) {
     throw new Error('Body name is required')
@@ -53,5 +57,6 @@ async function associate (viewPoint) {
 module.exports = {
   list,
   create,
-  associate
+  associate,
+  get
 }

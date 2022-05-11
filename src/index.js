@@ -48,6 +48,11 @@ fastify.delete('/node/:id', async (request, reply) => {
   return { }
 })
 
+fastify.get('/viewpoint/:id', async (request, reply) => {
+  const list = await serviceViewPoint.get(request.params.id)
+  return { list }
+})
+
 fastify.get('/viewpoint', async (request, reply) => {
   const list = await serviceViewPoint.list()
   return { list }
