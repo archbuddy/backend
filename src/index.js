@@ -55,7 +55,7 @@ fastify.get('/viewpoint/:id', async (request, reply) => {
 
 fastify.get('/viewpoint', async (request, reply) => {
   const list = await serviceViewPoint.list()
-  return { list }
+  return list
 })
 
 fastify.post('/viewpoint', async (request, reply) => {
