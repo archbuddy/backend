@@ -6,7 +6,12 @@ async function list () {
 }
 
 async function get (id) {
-  return repo.viewPointExists(id)
+  const vp = await repo.viewPointExists(id)
+
+  return {
+    nodes: await repo.filterNodes(vp.nodes),
+    edges: await repo.filterEdges(vp.edges)
+  }
 }
 
 async function create (name) {

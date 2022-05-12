@@ -41,3 +41,8 @@ test('exists', async function () {
   exists = await srv.nodeExists('1')
   expect(exists).toBe(undefined)
 })
+
+test('filter', async function () {
+  const list = await srv.filterNodes(['n1'])
+  expect(list.length).toBe(1)
+})

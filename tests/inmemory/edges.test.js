@@ -41,3 +41,8 @@ test('exists', async function () {
   exists = await srv.edgeExists('1')
   expect(exists).toBe(undefined)
 })
+
+test('filter', async function () {
+  const list = await srv.filterEdges(['n1n2'])
+  expect(list.length).toBe(1)
+})

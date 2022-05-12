@@ -131,6 +131,22 @@ async function viewPointExists (id) {
   return viewPoints[index]
 }
 
+async function filterNodes (listOfIds) {
+  if (listOfIds && listOfIds.length > 0) {
+    return nodes.filter((item) => listOfIds.indexOf(item.id) >= 0)
+  } else {
+    return []
+  }
+}
+
+async function filterEdges (listOfIds) {
+  if (listOfIds && listOfIds.length > 0) {
+    return edges.filter((item) => listOfIds.indexOf(item.id) >= 0)
+  } else {
+    return []
+  }
+}
+
 module.exports = {
   getNodes,
   getEdges,
@@ -145,5 +161,7 @@ module.exports = {
   updateViewPoint,
   edgeExists,
   nodeExists,
-  viewPointExists
+  viewPointExists,
+  filterNodes,
+  filterEdges
 }
