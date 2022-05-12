@@ -15,10 +15,7 @@ fastify.get('/healthcheck', async (request, reply) => {
 })
 
 fastify.get('/', async (request, reply) => {
-  if (request.query.viewPoint) {
-    return serviceViewPoint.get(request.query.viewPoint)
-  }
-  return { nodes: await serviceNode.getNodes(), edges: await serviceEdge.getEdges() }
+  return serviceViewPoint.get(request.query.viewPoint)
 })
 
 fastify.post('/system', async (request, reply) => {
@@ -78,6 +75,19 @@ const start = async () => {
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)
+  }
+
+  if (process.env.LOAD_DUMMY_DATA === 'true') {
+    fastify.log.info('loading dummy data - start')
+    await serviceViewPoint.create('view point 1')
+    await serviceViewPoint.associate({ id: 1, name: 'view point 1', nodes:['n1','n2'], edges: ['n1n2'] })
+    await serviceViewPoint.create('view point 2')
+    await serviceViewPoint.associate({ id: 2, name: 'view point 2', nodes:['n1','n3'], edges: ['n1n3'] })
+    await serviceViewPoint.create('view point 3')
+    await serviceViewPoint.associate({ id: 3, name: 'view point 3', nodes:['n1','n3'], edges: ['n1n3','n1n3-1'] })
+    await serviceViewPoint.create('view point 4')
+    await serviceViewPoint.associate({ id: 4, name: 'view point 4', nodes:['n1','n2','n3'], edges: ['n1n3','n1n3-1', 'n1n2'] })
+    fastify.log.info('loading dummy data - end')
   }
 }
 start()

@@ -1,16 +1,25 @@
 const repo = require('../repository/db')
 const validateViewPoint = require('../model/viewPoint')
+const srvEdges = require('./edges')
+const srvNodes = require('./nodes')
 
 async function list () {
   return repo.getViewPoints()
 }
 
 async function get (id) {
+  // TODO make id required and remove the uncessary code
+  if (!id) {
+    return {
+      nodes: await srvNodes.getNodes(),
+      edges: await srvEdges.getEdges()
+    }
+  }
   const vp = await repo.viewPointExists(id)
 
   return {
-    nodes: await repo.filterNodes(vp.nodes),
-    edges: await repo.filterEdges(vp.edges)
+    nodes: await srvNodes.filterNodes(vp.nodes),
+    edges: await srvEdges.filterEdges(vp.edges)
   }
 }
 
@@ -30,8 +39,8 @@ async function associate (viewPoint) {
     throw new Error(JSON.stringify(validateViewPoint.errors))
   }
 
-  const exists = await repo.viewPointExists(viewPoint.id)
-  if (!exists) {
+  const dbData = await repo.viewPointExists(viewPoint.id)
+  if (!dbData) {
     throw new Error(`View point ${viewPoint.id} do not exists`)
   }
 

@@ -46,11 +46,7 @@ async function prepareEdges (edges) {
 }
 
 async function getEdges () {
-  if (process.env.MERGE_EDGES === 'true') {
-    return await prepareEdges(await repo.getEdges())
-  } else {
-    return await repo.getEdges()
-  }
+  return filterEdges(undefined)
 }
 
 async function addEdge (body) {
@@ -65,9 +61,26 @@ async function patchEdge (edge) {
   await repo.patchEdge(edge)
 }
 
+async function filterEdges (edgesList) {
+  if (process.env.MERGE_EDGES === 'true') {
+    if (edgesList) {
+      return await prepareEdges(await repo.filterEdges(edgesList))
+    } else {
+      return await prepareEdges(await repo.getEdges())
+    }
+  } else {
+    if (edgesList) {
+      return await repo.filterEdges(edgesList)
+    }
+    return await repo.getEdges()
+  }
+  
+}
+
 module.exports = {
   getEdges,
   addEdge,
   deleteEdge,
-  patchEdge
+  patchEdge,
+  filterEdges
 }
