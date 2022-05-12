@@ -15,6 +15,9 @@ fastify.get('/healthcheck', async (request, reply) => {
 })
 
 fastify.get('/', async (request, reply) => {
+  if (request.query.viewPoint) {
+    return serviceViewPoint.get(request.query.viewPoint)
+  }
   return { nodes: await serviceNode.getNodes(), edges: await serviceEdge.getEdges() }
 })
 
