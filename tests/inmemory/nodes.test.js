@@ -1,4 +1,9 @@
 const srv = require('../../src/repository/db')
+const dummy = require('../../src/dummy')
+
+beforeAll(async () => {
+  await dummy.load()
+})
 
 test('nodes', async function () {
   expect((await srv.getNodes()).length > 0).toBe(true)
@@ -40,4 +45,9 @@ test('exists', async function () {
   expect(exists).not.toBe(undefined)
   exists = await srv.nodeExists('1')
   expect(exists).toBe(undefined)
+})
+
+test('filter', async function () {
+  const list = await srv.filterNodes(['n1'])
+  expect(list.length).toBe(1)
 })

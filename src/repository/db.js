@@ -1,30 +1,5 @@
-const edges = [
-  { id: 'n1n2', source: 'n1', sourceHandle: 'r1', target: 'n2', targetHandle: 'l1', label: 'authenticate' },
-  { id: 'n1n3', source: 'n1', sourceHandle: 'r1', target: 'n3', targetHandle: 'l1', label: 'authenticate' },
-  { id: 'n1n3-1', source: 'n1', sourceHandle: 'r1', target: 'n3', targetHandle: 'l1', label: 'user' }
-]
-
-const nodes = [
-  {
-    id: 'n1',
-    data: { label: 'Arch Buddy' },
-    position: { x: -30, y: 10 },
-    type: 'system'
-  },
-  {
-    id: 'n2',
-    data: { label: 'Microsoft Identity' },
-    position: { x: 99, y: -59 },
-    type: 'system'
-  },
-  {
-    id: 'n3',
-    data: { label: 'Google Authenticator' },
-    position: { x: 91, y: 54 },
-    type: 'system'
-  }
-]
-
+const edges = []
+const nodes = []
 const viewPoints = []
 
 async function getNodes () {
@@ -40,12 +15,8 @@ async function getViewPoints () {
 }
 
 async function addNode (body) {
-  nodes.push({
-    id: `n${nodes.length + 1}`,
-    data: { label: body.name },
-    position: { x: -30, y: 10 },
-    type: 'system'
-  })
+  body.id = `n${nodes.length + 1}`
+  nodes.push(body)
 }
 
 async function patchNode (body) {
@@ -57,8 +28,8 @@ async function patchNode (body) {
 }
 
 async function addEdge (body) {
-  // dummy implementation
-  edges.push({ id: `${body.source}${body.target}`, source: `${body.source}`, sourceHandle: `${body.sourceHandle}`, target: `${body.target}`, targetHandle: `${body.targetHandle}`, label: `${body.label}` })
+  // TODO remove if ID handlers and replace for a logic
+  edges.push({ id: body.id ? body.id : `${body.source}${body.target}`, source: `${body.source}`, sourceHandle: `${body.sourceHandle}`, target: `${body.target}`, targetHandle: `${body.targetHandle}`, label: `${body.label}` })
 }
 
 async function deleteEdge (id) {
@@ -131,6 +102,22 @@ async function viewPointExists (id) {
   return viewPoints[index]
 }
 
+async function filterNodes (listOfIds) {
+  if (listOfIds && listOfIds.length > 0) {
+    return nodes.filter((item) => listOfIds.indexOf(item.id) >= 0)
+  } else {
+    return []
+  }
+}
+
+async function filterEdges (listOfIds) {
+  if (listOfIds && listOfIds.length > 0) {
+    return edges.filter((item) => listOfIds.indexOf(item.id) >= 0)
+  } else {
+    return []
+  }
+}
+
 module.exports = {
   getNodes,
   getEdges,
@@ -145,5 +132,7 @@ module.exports = {
   updateViewPoint,
   edgeExists,
   nodeExists,
-  viewPointExists
+  viewPointExists,
+  filterNodes,
+  filterEdges
 }

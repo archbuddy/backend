@@ -16,9 +16,14 @@ async function getNodes () {
   return await repo.getNodes()
 }
 
+async function filterNodes (nodeList) {
+  return repo.filterNodes(nodeList)
+}
+
 module.exports = {
   deleteNode,
   patchNode,
   addNode,
-  getNodes
+  getNodes,
+  filterNodes
 }
