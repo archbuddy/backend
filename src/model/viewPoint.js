@@ -2,7 +2,7 @@ const Ajv = require('ajv')
 const ajv = new Ajv({ allErrors: true })
 
 const nodeSchema = {
-  $id: 'http://archbuddy.github.io/nodeViewPoint.json',
+  $id: 'https://archbuddy.github.io/nodeViewPoint.json',
   type: 'object',
   properties: {
     id: { type: 'string' },
@@ -25,7 +25,7 @@ const schema = {
   properties: {
     id: { type: 'integer' },
     name: { type: 'string', minLength: 5 },
-    nodes: { type: 'array', minItems: 1, uniqueItems: true, items: { $ref: 'http://archbuddy.github.io/nodeViewPoint.json' } },
+    nodes: { type: 'array', minItems: 1, uniqueItems: true, items: { $ref: 'https://archbuddy.github.io/nodeViewPoint.json' } },
     edges: { type: 'array', minItems: 0, uniqueItems: true, items: { type: 'string' } }
   },
   required: ['id', 'name', 'nodes'],
