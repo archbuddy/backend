@@ -1,4 +1,9 @@
 const srv = require('../../src/repository/db')
+const dummy = require('../../src/dummy')
+
+beforeAll(async () => {
+  await dummy.load()
+})
 
 test('nodes', async function () {
   expect((await srv.getNodes()).length > 0).toBe(true)

@@ -1,4 +1,9 @@
 const srv = require('../../src/repository/db')
+const dummy = require('../../src/dummy')
+
+beforeAll(async () => {
+  await dummy.load()
+})
 
 test('edges', async function () {
   const edges = await srv.getEdges()

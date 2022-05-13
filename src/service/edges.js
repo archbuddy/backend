@@ -74,7 +74,6 @@ async function filterEdges (edgesList) {
     }
     return await repo.getEdges()
   }
-  
 }
 
 module.exports = {

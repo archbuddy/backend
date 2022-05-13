@@ -3,6 +3,7 @@ const fastify = require('fastify')({ logger: true })
 const serviceEdge = require('./service/edges')
 const serviceNode = require('./service/nodes')
 const serviceViewPoint = require('./service/viewPoint')
+const dummy = require('./dummy')
 
 fastify.register(require('@fastify/cors'), {
   // put your options here
@@ -76,18 +77,8 @@ const start = async () => {
     fastify.log.error(err)
     process.exit(1)
   }
-
   if (process.env.LOAD_DUMMY_DATA === 'true') {
-    fastify.log.info('loading dummy data - start')
-    await serviceViewPoint.create('view point 1')
-    await serviceViewPoint.associate({ id: 1, name: 'view point 1', nodes:['n1','n2'], edges: ['n1n2'] })
-    await serviceViewPoint.create('view point 2')
-    await serviceViewPoint.associate({ id: 2, name: 'view point 2', nodes:['n1','n3'], edges: ['n1n3'] })
-    await serviceViewPoint.create('view point 3')
-    await serviceViewPoint.associate({ id: 3, name: 'view point 3', nodes:['n1','n3'], edges: ['n1n3','n1n3-1'] })
-    await serviceViewPoint.create('view point 4')
-    await serviceViewPoint.associate({ id: 4, name: 'view point 4', nodes:['n1','n2','n3'], edges: ['n1n3','n1n3-1', 'n1n2'] })
-    fastify.log.info('loading dummy data - end')
+    await dummy.load()
   }
 }
 start()
