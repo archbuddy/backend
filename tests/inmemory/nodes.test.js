@@ -39,10 +39,10 @@ test('patch nodes', async function () {
 })
 
 test('exists', async function () {
-  let exists = await srv.nodeExists('n1')
-  expect(exists).not.toBe(undefined)
-  exists = await srv.nodeExists('1')
-  expect(exists).toBe(undefined)
+  let node = await srv.getNode('n1')
+  expect(node).not.toBe(undefined)
+  node = await srv.getNode('1')
+  expect(node).toBe(undefined)
 })
 
 test('filter', async function () {

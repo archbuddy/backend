@@ -76,7 +76,7 @@ async function updateViewPoint (viewPoint) {
   }
 }
 
-async function edgeExists (id) {
+async function getEdge (id) {
   const index = edges.findIndex((obj) => obj.id === id)
   if (index === -1) {
     return undefined
@@ -84,7 +84,7 @@ async function edgeExists (id) {
   return edges[index]
 }
 
-async function nodeExists (id) {
+async function getNode (id) {
   const index = nodes.findIndex((obj) => obj.id === id)
   if (index === -1) {
     return undefined
@@ -92,7 +92,7 @@ async function nodeExists (id) {
   return nodes[index]
 }
 
-async function viewPointExists (id) {
+async function getViewPoint (id) {
   const searchId = parseInt(id)
   const index = viewPoints.findIndex((obj) => obj.id === searchId)
   if (index === -1) {
@@ -101,10 +101,10 @@ async function viewPointExists (id) {
   return viewPoints[index]
 }
 
-async function filterNodes (listOfNodes) {
-  // TODO rethink how this works
+async function filterNodes (listOfNodesObject) {
+  // TODO rethink how this works, this will be used on merging the node from view point with the the db node
   const listOfIds = []
-  listOfNodes.forEach((i) => listOfIds.push(i.id))
+  listOfNodesObject.forEach((i) => listOfIds.push(i.id))
   if (listOfIds && listOfIds.length > 0) {
     return nodes.filter((item) => listOfIds.indexOf(item.id) >= 0)
   } else {
@@ -132,9 +132,9 @@ module.exports = {
   getViewPoints,
   createViewPoint,
   updateViewPoint,
-  edgeExists,
-  nodeExists,
-  viewPointExists,
+  getEdge,
+  getNode,
+  getViewPoint,
   filterNodes,
   filterEdges
 }

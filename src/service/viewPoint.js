@@ -13,7 +13,7 @@ function getNode (nodes, id) {
 }
 
 async function get (id) {
-  const vp = await repo.viewPointExists(id)
+  const vp = await repo.getViewPoint(id)
   if (vp === undefined) {
     throw new Error(`View point with id ${id} not found`)
   }
@@ -44,21 +44,21 @@ async function associate (viewPoint) {
     throw new Error(JSON.stringify(validateViewPoint.errors))
   }
 
-  const dbData = await repo.viewPointExists(viewPoint.id)
+  const dbData = await repo.getViewPoint(viewPoint.id)
   if (!dbData) {
     throw new Error(`View point ${viewPoint.id} do not exists`)
   }
 
   for (const item of viewPoint.nodes) {
-    const exists = await repo.nodeExists(item.id)
-    if (!exists) {
+    const node = await repo.getNode(item.id)
+    if (!node) {
       errors.push(`Node id ${item.id} do not exists`)
     }
   }
   if (viewPoint.edges) {
     for (const id of viewPoint.edges) {
-      const exists = await repo.edgeExists(id)
-      if (!exists) {
+      const edge = await repo.getEdge(id)
+      if (!edge) {
         errors.push(`Edge id ${id} do not exists`)
       }
     }

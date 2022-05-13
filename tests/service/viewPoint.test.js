@@ -7,15 +7,15 @@ jest.mock('../../src/repository/db')
 jest.mock('../../src/service/nodes')
 jest.mock('../../src/service/edges')
 
-repository.nodeExists.mockImplementation((id) => {
+repository.getNode.mockImplementation((id) => {
   return id % 2 === 0
 })
 
-repository.edgeExists.mockImplementation((id) => {
+repository.getEdge.mockImplementation((id) => {
   return id % 2 === 0
 })
 
-repository.viewPointExists.mockImplementation((id) => {
+repository.getViewPoint.mockImplementation((id) => {
   if (id % 2 === 0) {
     return {}
   }
