@@ -102,7 +102,7 @@ async function getViewPoint (id) {
 }
 
 async function filterNodes (listOfNodesObject) {
-  // TODO rethink how this works
+  // TODO rethink how this works, this will be used on merging the node from view point with the the db node
   const listOfIds = []
   listOfNodesObject.forEach((i) => listOfIds.push(i.id))
   if (listOfIds && listOfIds.length > 0) {
