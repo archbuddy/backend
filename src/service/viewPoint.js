@@ -7,15 +7,25 @@ async function list () {
   return repo.getViewPoints()
 }
 
+function getNode(nodes, id) {
+  const index = nodes.findIndex((item) => item.id === id)
+  return nodes[index]
+}
+
 async function get (id) {
   const vp = await repo.viewPointExists(id)
   if (vp === undefined) {
     throw new Error(`View point with id ${id} not found`)
   }
-  return {
+  const obj = {
     nodes: await srvNodes.filterNodes(vp.nodes),
     edges: await srvEdges.filterEdges(vp.edges)
   }
+  // TODO rethink logic
+  for (const item of obj.nodes) {
+    item.position = getNode(vp.nodes, item.id).position
+  }
+  return obj
 }
 
 async function create (name) {
