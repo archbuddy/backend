@@ -46,6 +46,6 @@ test('exists', async function () {
 })
 
 test('filter', async function () {
-  const list = await srv.filterNodes(['n1'])
+  const list = await srv.filterNodes([{ id: 'n1' }])
   expect(list.length).toBe(1)
 })

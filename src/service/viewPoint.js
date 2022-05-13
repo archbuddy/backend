@@ -7,7 +7,7 @@ async function list () {
   return repo.getViewPoints()
 }
 
-function getNode(nodes, id) {
+function getNode (nodes, id) {
   const index = nodes.findIndex((item) => item.id === id)
   return nodes[index]
 }
