@@ -17,7 +17,7 @@ repository.viewPointExists.mockImplementation((id) => {
 
 test('save viewPoint with invalid nodes', async function () {
   try {
-    await srvViewPoint.associate({ id: 2, name: 'abcdef', nodes: ['1', '2'] })
+    await srvViewPoint.associate({ id: 2, name: 'abcdef', nodes: [{ id: '1', position: { x: 0, y: 0 } }, { id: '2', position: { x: 0, y: 0 } }] })
     // fail on purpose
     expect(0).toBe(1)
   } catch (err) {
@@ -28,7 +28,7 @@ test('save viewPoint with invalid nodes', async function () {
 
 test('save viewPoint with invalid edge', async function () {
   try {
-    await srvViewPoint.associate({ id: 2, name: 'abcdef', nodes: ['2'], edges: ['1'] })
+    await srvViewPoint.associate({ id: 2, name: 'abcdef', nodes: [{ id: '2', position: { x: 0, y: 0 } }], edges: ['1'] })
     // fail on purpose
     expect(0).toBe(1)
   } catch (err) {
@@ -39,7 +39,7 @@ test('save viewPoint with invalid edge', async function () {
 
 test('save viewPoint with invalid edge and node', async function () {
   try {
-    await srvViewPoint.associate({ id: 2, name: 'abcdef', nodes: ['2', '1'], edges: ['1', '4'] })
+    await srvViewPoint.associate({ id: 2, name: 'abcdef', nodes: [{ id: '2', position: { x: 0, y: 0 } }, { id: '1', position: { x: 0, y: 0 } }], edges: ['1', '4'] })
     // fail on purpose
     expect(0).toBe(1)
   } catch (err) {
@@ -51,7 +51,7 @@ test('save viewPoint with invalid edge and node', async function () {
 
 test('invalid viewPoint', async function () {
   try {
-    await srvViewPoint.associate({ id: 1, name: 'abcdef', nodes: ['2'], edges: ['4'] })
+    await srvViewPoint.associate({ id: 1, name: 'abcdef', nodes: [{ id: '2', position: { x: 0, y: 0 } }], edges: ['4'] })
     // fail on purpose
     expect(0).toBe(1)
   } catch (err) {
@@ -61,6 +61,6 @@ test('invalid viewPoint', async function () {
 
 test('save viewPoint', async function () {
   const spy = jest.spyOn(repository, 'updateViewPoint')
-  await srvViewPoint.associate({ id: 2, name: 'abcdef', nodes: ['2'], edges: ['4'] })
+  await srvViewPoint.associate({ id: 2, name: 'abcdef', nodes: [{ id: '2', position: { x: 0, y: 0 } }], edges: ['4'] })
   expect(spy).toHaveBeenCalledTimes(1)
 })

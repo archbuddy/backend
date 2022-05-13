@@ -44,10 +44,10 @@ async function associate (viewPoint) {
     throw new Error(`View point ${viewPoint.id} do not exists`)
   }
 
-  for (const id of viewPoint.nodes) {
-    const exists = await repo.nodeExists(id)
+  for (const item of viewPoint.nodes) {
+    const exists = await repo.nodeExists(item.id)
     if (!exists) {
-      errors.push(`Node id ${id} do not exists`)
+      errors.push(`Node id ${item.id} do not exists`)
     }
   }
   if (viewPoint.edges) {
@@ -60,7 +60,9 @@ async function associate (viewPoint) {
   }
 
   if (errors.length > 0) {
+    console.log(JSON.stringify(errors))
     const err = Error('Payload is invalid')
+    // TODO change fastify error handler to return custom errors when needed
     err.data = errors
     throw err
   }

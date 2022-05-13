@@ -51,16 +51,36 @@ test('required fields - nodes invalid item', async function () {
     // fail on purpose
     expect(0).toBe(1)
   } catch (err) {
-    expect(err.toString().indexOf('must be string') > 0).toBe(true)
+    expect(err.toString().indexOf('must be object') > 0).toBe(true)
   }
 })
 
-test('required fields - edge invalid item', async function () {
+test('required fields - nodes invalid node object', async function () {
   try {
-    await srvViewPoint.associate({ id: 1, name: 'abcdefg', nodes: ['1'], edges: [1] })
+    await srvViewPoint.associate({ id: 1, name: 'abcdefg', nodes: [{}] })
     // fail on purpose
     expect(0).toBe(1)
   } catch (err) {
-    expect(err.toString().indexOf('must be string') > 0).toBe(true)
+    expect(err.toString().indexOf('must have required property') > 0).toBe(true)
+  }
+})
+
+test('required fields - nodes invalid position object', async function () {
+  try {
+    await srvViewPoint.associate({ id: 1, name: 'abcdefg', nodes: [{ id: '1' }] })
+    // fail on purpose
+    expect(0).toBe(1)
+  } catch (err) {
+    expect(err.toString().indexOf('must have required property') > 0).toBe(true)
+  }
+})
+
+test('required fields - nodes invalid attribute', async function () {
+  try {
+    await srvViewPoint.associate({ id: 1, name: 'abcdefg', nodes: [{ id: '1', position: {} }] })
+    // fail on purpose
+    expect(0).toBe(1)
+  } catch (err) {
+    expect(err.toString().indexOf('must have required property') > 0).toBe(true)
   }
 })

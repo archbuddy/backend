@@ -22,8 +22,7 @@ async function addNode (body) {
 async function patchNode (body) {
   body.forEach(element => {
     const index = nodes.findIndex((obj) => obj.id === element.id)
-    nodes[index].position.x = element.position.x
-    nodes[index].position.y = element.position.y
+    nodes[index].name = element.name
   })
 }
 
