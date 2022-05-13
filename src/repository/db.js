@@ -101,10 +101,10 @@ async function getViewPoint (id) {
   return viewPoints[index]
 }
 
-async function filterNodes (listOfNodes) {
+async function filterNodes (listOfNodesObject) {
   // TODO rethink how this works
   const listOfIds = []
-  listOfNodes.forEach((i) => listOfIds.push(i.id))
+  listOfNodesObject.forEach((i) => listOfIds.push(i.id))
   if (listOfIds && listOfIds.length > 0) {
     return nodes.filter((item) => listOfIds.indexOf(item.id) >= 0)
   } else {
