@@ -8,15 +8,10 @@ async function list () {
 }
 
 async function get (id) {
-  // TODO make id required and remove the uncessary code
-  if (!id) {
-    return {
-      nodes: await srvNodes.getNodes(),
-      edges: await srvEdges.getEdges()
-    }
-  }
   const vp = await repo.viewPointExists(id)
-
+  if (vp === undefined) {
+    throw new Error(`View point with id ${id} not found`)
+  }
   return {
     nodes: await srvNodes.filterNodes(vp.nodes),
     edges: await srvEdges.filterEdges(vp.edges)
