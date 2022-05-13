@@ -41,10 +41,10 @@ test('patch edge', async function () {
 })
 
 test('exists', async function () {
-  let exists = await srv.edgeExists('n1n2')
-  expect(exists).not.toBe(undefined)
-  exists = await srv.edgeExists('1')
-  expect(exists).toBe(undefined)
+  let edge = await srv.getEdge('n1n2')
+  expect(edge).not.toBe(undefined)
+  edge = await srv.getEdge('1')
+  expect(edge).toBe(undefined)
 })
 
 test('filter', async function () {
