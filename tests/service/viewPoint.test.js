@@ -1,7 +1,11 @@
 const srvViewPoint = require('../../src/service/viewPoint')
 const repository = require('../../src/repository/db')
+const srvNodes = require('../../src/service/nodes')
+const srvEdges = require('../../src/service/edges')
 
 jest.mock('../../src/repository/db')
+jest.mock('../../src/service/nodes')
+jest.mock('../../src/service/edges')
 
 repository.nodeExists.mockImplementation((id) => {
   return id % 2 === 0
@@ -12,12 +16,23 @@ repository.edgeExists.mockImplementation((id) => {
 })
 
 repository.viewPointExists.mockImplementation((id) => {
-  return id % 2 === 0
+  if (id % 2 === 0) {
+    return {}
+  }
+  return undefined
+})
+
+srvNodes.filterNodes.mockImplementation((list) => {
+  return []
+})
+
+srvEdges.filterEdges.mockImplementation((list) => {
+  return []
 })
 
 test('save viewPoint with invalid nodes', async function () {
   try {
-    await srvViewPoint.associate({ id: 2, name: 'abcdef', nodes: ['1', '2'] })
+    await srvViewPoint.associate({ id: 2, name: 'abcdef', nodes: [{ id: '1', position: { x: 0, y: 0 } }, { id: '2', position: { x: 0, y: 0 } }] })
     // fail on purpose
     expect(0).toBe(1)
   } catch (err) {
@@ -28,7 +43,7 @@ test('save viewPoint with invalid nodes', async function () {
 
 test('save viewPoint with invalid edge', async function () {
   try {
-    await srvViewPoint.associate({ id: 2, name: 'abcdef', nodes: ['2'], edges: ['1'] })
+    await srvViewPoint.associate({ id: 2, name: 'abcdef', nodes: [{ id: '2', position: { x: 0, y: 0 } }], edges: ['1'] })
     // fail on purpose
     expect(0).toBe(1)
   } catch (err) {
@@ -39,7 +54,7 @@ test('save viewPoint with invalid edge', async function () {
 
 test('save viewPoint with invalid edge and node', async function () {
   try {
-    await srvViewPoint.associate({ id: 2, name: 'abcdef', nodes: ['2', '1'], edges: ['1', '4'] })
+    await srvViewPoint.associate({ id: 2, name: 'abcdef', nodes: [{ id: '2', position: { x: 0, y: 0 } }, { id: '1', position: { x: 0, y: 0 } }], edges: ['1', '4'] })
     // fail on purpose
     expect(0).toBe(1)
   } catch (err) {
@@ -51,7 +66,7 @@ test('save viewPoint with invalid edge and node', async function () {
 
 test('invalid viewPoint', async function () {
   try {
-    await srvViewPoint.associate({ id: 1, name: 'abcdef', nodes: ['2'], edges: ['4'] })
+    await srvViewPoint.associate({ id: 1, name: 'abcdef', nodes: [{ id: '2', position: { x: 0, y: 0 } }], edges: ['4'] })
     // fail on purpose
     expect(0).toBe(1)
   } catch (err) {
@@ -59,8 +74,24 @@ test('invalid viewPoint', async function () {
   }
 })
 
-test('save viewPoint', async function () {
+test('associate viewPoint', async function () {
   const spy = jest.spyOn(repository, 'updateViewPoint')
-  await srvViewPoint.associate({ id: 2, name: 'abcdef', nodes: ['2'], edges: ['4'] })
+  await srvViewPoint.associate({ id: 2, name: 'abcdef', nodes: [{ id: '2', position: { x: 0, y: 0 } }], edges: ['4'] })
   expect(spy).toHaveBeenCalledTimes(1)
+})
+
+test('get view point - id not found', async function () {
+  try {
+    await srvViewPoint.get(1)
+    // fail on purpose
+    expect(0).toBe(1)
+  } catch (err) {
+    expect(err.message).toBe('View point with id 1 not found')
+  }
+})
+
+test('get view point - id  found', async function () {
+  const vp = await srvViewPoint.get(2)
+  expect(vp).toHaveProperty('nodes')
+  expect(vp).toHaveProperty('edges')
 })

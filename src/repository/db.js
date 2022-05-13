@@ -22,8 +22,7 @@ async function addNode (body) {
 async function patchNode (body) {
   body.forEach(element => {
     const index = nodes.findIndex((obj) => obj.id === element.id)
-    nodes[index].position.x = element.position.x
-    nodes[index].position.y = element.position.y
+    nodes[index].name = element.name
   })
 }
 
@@ -102,7 +101,10 @@ async function viewPointExists (id) {
   return viewPoints[index]
 }
 
-async function filterNodes (listOfIds) {
+async function filterNodes (listOfNodes) {
+  // TODO rethink how this works
+  const listOfIds = []
+  listOfNodes.forEach((i) => listOfIds.push(i.id))
   if (listOfIds && listOfIds.length > 0) {
     return nodes.filter((item) => listOfIds.indexOf(item.id) >= 0)
   } else {

@@ -7,20 +7,25 @@ async function list () {
   return repo.getViewPoints()
 }
 
-async function get (id) {
-  // TODO make id required and remove the uncessary code
-  if (!id) {
-    return {
-      nodes: await srvNodes.getNodes(),
-      edges: await srvEdges.getEdges()
-    }
-  }
-  const vp = await repo.viewPointExists(id)
+function getNode (nodes, id) {
+  const index = nodes.findIndex((item) => item.id === id)
+  return nodes[index]
+}
 
-  return {
+async function get (id) {
+  const vp = await repo.viewPointExists(id)
+  if (vp === undefined) {
+    throw new Error(`View point with id ${id} not found`)
+  }
+  const obj = {
     nodes: await srvNodes.filterNodes(vp.nodes),
     edges: await srvEdges.filterEdges(vp.edges)
   }
+  // TODO rethink logic
+  for (const item of obj.nodes) {
+    item.position = getNode(vp.nodes, item.id).position
+  }
+  return obj
 }
 
 async function create (name) {
@@ -44,10 +49,10 @@ async function associate (viewPoint) {
     throw new Error(`View point ${viewPoint.id} do not exists`)
   }
 
-  for (const id of viewPoint.nodes) {
-    const exists = await repo.nodeExists(id)
+  for (const item of viewPoint.nodes) {
+    const exists = await repo.nodeExists(item.id)
     if (!exists) {
-      errors.push(`Node id ${id} do not exists`)
+      errors.push(`Node id ${item.id} do not exists`)
     }
   }
   if (viewPoint.edges) {
@@ -60,7 +65,9 @@ async function associate (viewPoint) {
   }
 
   if (errors.length > 0) {
+    console.log(JSON.stringify(errors))
     const err = Error('Payload is invalid')
+    // TODO change fastify error handler to return custom errors when needed
     err.data = errors
     throw err
   }

@@ -19,12 +19,12 @@ fastify.get('/', async (request, reply) => {
   return serviceViewPoint.get(request.query.viewPoint)
 })
 
-fastify.post('/system', async (request, reply) => {
+fastify.post('/node', async (request, reply) => {
   await serviceNode.addNode(request.body)
   return { }
 })
 
-fastify.patch('/system', async (request, reply) => {
+fastify.patch('/node', async (request, reply) => {
   await serviceNode.patchNode(request.body)
   return { }
 })

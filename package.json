@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon src/index.js",
-    "test": "standard --fix && jest ./tests/*",
-    "test:custom": "standard --fix && jest ./tests/inmemory/viewPoint.test.js",
+    "test": "standard --fix && jest  --coverage ./tests/*",
+    "test:custom": "standard --fix && jest ./tests/service/viewPoint.test.js",
     "lint": "standard",
     "lint:fix": "standard --fix",
     "prepare": "husky install"
@@ -44,7 +44,8 @@
       "it",
       "test",
       "expect",
-      "jest"
+      "jest",
+      "fit"
     ]
   }
 }

@@ -28,16 +28,14 @@ test('delete node', async function () {
 })
 
 test('patch nodes', async function () {
+  const name = (await srv.getNodes())[0].name
   const obj = {
     id: 'n1',
-    position: { x: 900, y: 200 }
+    name: 'xxx'
   }
   await srv.patchNode([obj])
-
-  const nodes = await srv.getNodes()
-  const index = nodes.findIndex((element) => element.id === obj.id)
-  expect(nodes[index].position.x).toBe(900)
-  expect(nodes[index].position.y).toBe(200)
+  const nodesAfter = await srv.getNodes()
+  expect(name).not.toBe(nodesAfter[0].name)
 })
 
 test('exists', async function () {
@@ -48,6 +46,6 @@ test('exists', async function () {
 })
 
 test('filter', async function () {
-  const list = await srv.filterNodes(['n1'])
+  const list = await srv.filterNodes([{ id: 'n1' }])
   expect(list.length).toBe(1)
 })
