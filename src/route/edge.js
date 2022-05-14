@@ -1,11 +1,8 @@
 const { preHandler, preValidation } = require('../hook/edge.js')
 const edgeController = require('../controller/edge.js')
 const { getPageSchema } = require('../swagger.js')
-const edgeSchema = require('../schema/edge.json')
-const diagramItemSchema = require('../schema/diagramItem.json')
-
-const { ...rest } = edgeSchema.allOf[1].properties
-const idStripedSchema = { ...edgeSchema, properties: rest }
+const { edgeUpsertSchema } = require('../schema/edge.js')
+const { diagramItemSchema } = require('../schema/diagramItem.js')
 
 const list = {
   preValidation,
@@ -119,7 +116,7 @@ const create = {
   handler: edgeController.create,
   schema: {
     tags: ['Edge'],
-    body: idStripedSchema,
+    body: edgeUpsertSchema,
     response: {
       201: {
         description: 'Successfully created item',
@@ -140,7 +137,7 @@ const update = {
   handler: edgeController.update,
   schema: {
     tags: ['Edge'],
-    body: idStripedSchema,
+    body: edgeUpsertSchema,
     response: {
       204: {
         description: 'Successfully updated item',
@@ -167,7 +164,7 @@ const partialUpdate = {
     tags: ['Edge'],
     body: {
       type: 'object',
-      properties: idStripedSchema.properties
+      properties: edgeUpsertSchema.properties
     },
     response: {
       204: {

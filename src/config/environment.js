@@ -79,7 +79,7 @@ const config = convict({
     doc: 'Mongo database name',
     format: String,
     env: 'MONGO_DBNAME',
-    default: 'franchiseApi'
+    default: 'archbuddy'
   },
   MONGO_PORT: {
     doc: 'Mongo database port',

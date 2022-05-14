@@ -1,10 +1,7 @@
 const { preHandler, preValidation } = require('../hook/relation.js')
 const relationController = require('../controller/relation.js')
 const { getPageSchema } = require('../swagger.js')
-const relationSchema = require('../schema/relation.json')
-
-const { id, includedAt, updatedAt, ...rest } = relationSchema.properties
-const idStripedSchema = { ...relationSchema, properties: rest }
+const { relationSchema, relationUpsertSchema } = require('../schema/relation.js')
 
 const list = {
   preValidation,
@@ -118,7 +115,7 @@ const create = {
   handler: relationController.create,
   schema: {
     tags: ['Relation'],
-    body: idStripedSchema,
+    body: relationUpsertSchema,
     response: {
       201: {
         description: 'Successfully created item',
@@ -139,7 +136,7 @@ const update = {
   handler: relationController.update,
   schema: {
     tags: ['Relation'],
-    body: idStripedSchema,
+    body: relationUpsertSchema,
     response: {
       204: {
         description: 'Successfully updated item',
@@ -166,7 +163,7 @@ const partialUpdate = {
     tags: ['Relation'],
     body: {
       type: 'object',
-      properties: idStripedSchema.properties
+      properties: relationUpsertSchema.properties
     },
     response: {
       204: {

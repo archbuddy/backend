@@ -11,7 +11,7 @@ const diagramSchema = new Schema({
     ref: entityModel(),
     relationship: {
       type: 'ONE_TO_ONE',
-      localField: 'source',
+      localField: 'entity',
       foreignField: 'id'
     }
   },

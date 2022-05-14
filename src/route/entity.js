@@ -1,10 +1,7 @@
 const { preHandler, preValidation } = require('../hook/entity.js')
 const entityController = require('../controller/entity.js')
 const { getPageSchema } = require('../swagger.js')
-const entitySchema = require('../schema/entity.json')
-
-const { id, includedAt, updatedAt, ...rest } = entitySchema.properties
-const idStripedSchema = { ...entitySchema, properties: rest }
+const { entitySchema, entityUpsertSchema } = require('../schema/entity.js')
 
 const list = {
   preValidation,
@@ -118,7 +115,7 @@ const create = {
   handler: entityController.create,
   schema: {
     tags: ['Entity'],
-    body: idStripedSchema,
+    body: entityUpsertSchema,
     response: {
       201: {
         description: 'Successfully created item',
@@ -139,7 +136,7 @@ const update = {
   handler: entityController.update,
   schema: {
     tags: ['Entity'],
-    body: idStripedSchema,
+    body: entityUpsertSchema,
     response: {
       204: {
         description: 'Successfully updated item',
@@ -166,7 +163,7 @@ const partialUpdate = {
     tags: ['Entity'],
     body: {
       type: 'object',
-      properties: idStripedSchema.properties
+      properties: entityUpsertSchema.properties
     },
     response: {
       204: {

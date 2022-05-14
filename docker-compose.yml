@@ -8,8 +8,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
     ports:
       - 27017:27017
-    # volumes:
-      # - "./.tmp/mongo:/etc/mongo"
+    volumes:
+      - "./.tmp/mongo:/etc/mongo"
     networks:
       - arch-buddy
 

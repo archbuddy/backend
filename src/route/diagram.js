@@ -1,10 +1,7 @@
 const { preHandler, preValidation } = require('../hook/diagram.js')
 const diagramController = require('../controller/diagram.js')
 const { getPageSchema } = require('../swagger.js')
-const diagramSchema = require('../schema/diagram.json')
-
-const { id, includedAt, updatedAt, ...rest } = diagramSchema.properties
-const idStripedSchema = { ...diagramSchema, properties: rest }
+const { diagramSchema, diagramUpsertSchema } = require('../schema/diagram.js')
 
 const list = {
   preValidation,
@@ -118,7 +115,7 @@ const create = {
   handler: diagramController.create,
   schema: {
     tags: ['Diagram'],
-    body: idStripedSchema,
+    body: diagramUpsertSchema,
     response: {
       201: {
         description: 'Successfully created item',
@@ -139,7 +136,7 @@ const update = {
   handler: diagramController.update,
   schema: {
     tags: ['Diagram'],
-    body: idStripedSchema,
+    body: diagramUpsertSchema,
     response: {
       204: {
         description: 'Successfully updated item',
@@ -166,7 +163,7 @@ const partialUpdate = {
     tags: ['Diagram'],
     body: {
       type: 'object',
-      properties: idStripedSchema.properties
+      properties: diagramUpsertSchema.properties
     },
     response: {
       204: {

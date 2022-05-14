@@ -18,12 +18,12 @@ fastify.register(require('@fastify/cors'), {
   origin: true
 })
 fastify.register(fastifySwagger, getOpenapiDefinition())
-fastify.addSchema(require('./schema/entity.json'))
-fastify.addSchema(require('./schema/diagram.json'))
-fastify.addSchema(require('./schema/diagramItem.json'))
-fastify.addSchema(require('./schema/edge.json'))
-fastify.addSchema(require('./schema/node.json'))
-fastify.addSchema(require('./schema/relation.json'))
+fastify.addSchema(require('./schema/entity.js').entitySchema)
+fastify.addSchema(require('./schema/relation.js').relationSchema)
+fastify.addSchema(require('./schema/diagram.js').diagramSchema)
+fastify.addSchema(require('./schema/diagramItem.js').diagramItemSchema)
+fastify.addSchema(require('./schema/edge.js').edgeSchema)
+fastify.addSchema(require('./schema/node.js').nodeSchema)
 
 fastify.register(fastifyHelmet)
 
