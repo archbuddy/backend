@@ -12,7 +12,7 @@ async function preHandler (request, reply) {
 async function preValidation (request, reply) {
   // Add here your pre-validation code
   // For example:
-  // if (!request.headers['x-businessunit']) {
+  // if (!request.headers['x-youheader']) {
   //   throw new createError.BadRequest('Missing business unit header on request')
   // }
 }
