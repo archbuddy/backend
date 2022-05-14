@@ -1,6 +1,6 @@
 const parser = require('fiql-parser')
 
-export function buildQuery (model, params) {
+function buildQuery (model, params) {
   params = {
     ...{ limit: 10, skip: 0 },
     ...params
@@ -252,3 +252,5 @@ const _getSchemaFromFieldDefinition = (fieldDefinition, model) => {
 
   return null
 }
+
+module.exports = { buildQuery }

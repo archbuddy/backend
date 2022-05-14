@@ -1,140 +1,66 @@
-const edges = []
-const nodes = []
-const viewPoints = []
+const mongoose = require('mongoose')
+const config = require('../config/environment.js')
+const { readFileSync } = require('fs')
+const { join } = require('path')
 
-async function getNodes () {
-  return nodes
-}
-
-async function getEdges () {
-  return edges
-}
-
-async function getViewPoints () {
-  return viewPoints
-}
-
-async function addNode (body) {
-  body.id = `n${nodes.length + 1}`
-  nodes.push(body)
-}
-
-async function patchNode (body) {
-  body.forEach(element => {
-    const index = nodes.findIndex((obj) => obj.id === element.id)
-    nodes[index].name = element.name
-  })
-}
-
-async function addEdge (body) {
-  // TODO remove if ID handlers and replace for a logic
-  edges.push({ id: body.id ? body.id : `${body.source}${body.target}`, source: `${body.source}`, sourceHandle: `${body.sourceHandle}`, target: `${body.target}`, targetHandle: `${body.targetHandle}`, label: `${body.label}` })
-}
-
-async function deleteEdge (id) {
-  // dummy implementation
-  const index = edges.findIndex((obj) => obj.id === id)
-  if (index > -1) {
-    edges.splice(index, 1)
+async function connectMongo () {
+  const options = {
+    dbName: config.MONGO_DBNAME,
+    ssl: config.MONGO_SSL,
+    useNewUrlParser: true,
+    useUnifiedTopology: true
   }
-}
 
-async function deleteNode (id) {
-  // dummy implementation
-  let index = -1
-  do {
-    index = edges.findIndex((obj) => (obj.source === id || obj.target === id))
-    if (index > -1) {
-      edges.splice(index, 1)
+  if (!areWeTestingWithJest()) {
+    options.auth = {
+      username: config.MONGO_USER,
+      password: config.MONGO_PWD
     }
-  } while (index > -1)
 
-  index = nodes.findIndex((obj) => obj.id === id)
-  if (index > -1) {
-    nodes.splice(index, 1)
-  }
-}
+    if (config.MONGO_CERT_FILE_NAME && config.MONGO_CERT_FILE_NAME !== '') {
+      options.sslCA = readFileSync(
+        join(__dirname, 'cert', config.MONGO_CERT_FILE_NAME)
+      )
+    }
 
-async function patchEdge (edge) {
-  const index = edges.findIndex((obj) => obj.id === edge.id)
-  if (index > -1) {
-    edges[index].label = edge.label
-  }
-}
-
-async function createViewPoint (name) {
-  const viewPoint = {}
-  viewPoint.id = viewPoints.length + 1
-  viewPoint.name = name
-  viewPoints.push(viewPoint)
-}
-
-async function updateViewPoint (viewPoint) {
-  const index = viewPoints.findIndex((obj) => obj.id === viewPoint.id)
-  if (index > -1) {
-    viewPoints[index] = viewPoint
-  }
-}
-
-async function getEdge (id) {
-  const index = edges.findIndex((obj) => obj.id === id)
-  if (index === -1) {
-    return undefined
-  }
-  return edges[index]
-}
-
-async function getNode (id) {
-  const index = nodes.findIndex((obj) => obj.id === id)
-  if (index === -1) {
-    return undefined
-  }
-  return nodes[index]
-}
-
-async function getViewPoint (id) {
-  const searchId = parseInt(id)
-  const index = viewPoints.findIndex((obj) => obj.id === searchId)
-  if (index === -1) {
-    return undefined
-  }
-  return viewPoints[index]
-}
-
-async function filterNodes (listOfNodesObject) {
-  // TODO rethink how this works, this will be used on merging the node from view point with the the db node
-  const listOfIds = []
-  listOfNodesObject.forEach((i) => listOfIds.push(i.id))
-  if (listOfIds && listOfIds.length > 0) {
-    return nodes.filter((item) => listOfIds.indexOf(item.id) >= 0)
+    if (config.MONGO_REPLICA_SET && config.MONGO_REPLICA_SET !== '') {
+      options.replicaSet = config.MONGO_REPLICA_SET
+    }
   } else {
-    return []
+    options.ssl = false
+  }
+
+  let mongoUrl
+  if (config.MONGO_URL) {
+    mongoUrl = config.MONGO_URL
+  } else {
+    mongoUrl = `mongodb://${config.MONGO_URI}:${config.MONGO_PORT}`
+  }
+
+  try {
+    await mongoose.connect(mongoUrl, options)
+  } catch (err) {
+    console.log('error: ' + err)
   }
 }
 
-async function filterEdges (listOfIds) {
-  if (listOfIds && listOfIds.length > 0) {
-    return edges.filter((item) => listOfIds.indexOf(item.id) >= 0)
-  } else {
-    return []
-  }
+async function disconnectMongo () {
+  await mongoose.disconnect()
+}
+
+async function getMongooseConnectionStatus () {
+  return mongoose.connection.readyState === 1 ||
+    mongoose.connection.readyState === 2
+    ? 'ok'
+    : 'nok'
+}
+
+function areWeTestingWithJest () {
+  return process.env.JEST_WORKER_ID !== undefined
 }
 
 module.exports = {
-  getNodes,
-  getEdges,
-  addEdge,
-  addNode,
-  deleteEdge,
-  deleteNode,
-  patchNode,
-  patchEdge,
-  getViewPoints,
-  createViewPoint,
-  updateViewPoint,
-  getEdge,
-  getNode,
-  getViewPoint,
-  filterNodes,
-  filterEdges
+  connectMongo,
+  disconnectMongo,
+  getMongooseConnectionStatus
 }

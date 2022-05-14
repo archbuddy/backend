@@ -1,84 +1,69 @@
 require('dotenv').config()
 const fastify = require('fastify')({ logger: true })
-const serviceEdge = require('./service/edges')
-const serviceNode = require('./service/nodes')
-const serviceViewPoint = require('./service/viewPoint')
-const dummy = require('./dummy')
+const fastifySwagger = require('fastify-swagger')
+const fastifyHelmet = require('@fastify/helmet')
+const { getOpenapiDefinition, getSchemas } = require('./swagger.js')
+
+const healthRoute = require('./route/health')
+const diagramRoute = require('./route/diagram')
+const diagramItemRoute = require('./route/diagramItem')
+const edgeRoute = require('./route/edge')
+const entityRoute = require('./route/entity')
+const nodeRoute = require('./route/node')
+const relationRoute = require('./route/relation')
+const { connectMongo, disconnectMongo } = require('./repository/db.js')
 
 fastify.register(require('@fastify/cors'), {
   // put your options here
   origin: true
 })
+fastify.register(fastifySwagger, getOpenapiDefinition())
+fastify.addSchema(require('./schema/entity.json'))
+fastify.addSchema(require('./schema/diagram.json'))
+fastify.addSchema(require('./schema/diagramItem.json'))
+fastify.addSchema(require('./schema/edge.json'))
+fastify.addSchema(require('./schema/node.json'))
+fastify.addSchema(require('./schema/relation.json'))
 
-fastify.get('/healthcheck', async (request, reply) => {
-  fastify.log.info('healthcheck')
-  return { status: 'OK' }
-})
+fastify.register(fastifyHelmet)
 
-fastify.get('/', async (request, reply) => {
-  return serviceViewPoint.get(request.query.viewPoint)
-})
+fastify.get('/healthcheck', healthRoute.check)
+fastify.get('/healthcheck/complete', healthRoute.complete)
 
-fastify.post('/node', async (request, reply) => {
-  await serviceNode.addNode(request.body)
-  return { }
-})
+const registryCommonRoutes = (app, routePrefix, route) => {
+  app.get(routePrefix, route.list)
+  app.post(routePrefix, route.create)
+  app.get(`${routePrefix}/:id`, route.byId)
+  app.head(`${routePrefix}/:id`, route.byIdHead)
+  app.put(`${routePrefix}/:id`, route.update)
+  app.patch(`${routePrefix}/:id`, route.partialUpdate)
+  app.delete(`${routePrefix}/:id`, route.deleteById)
+}
 
-fastify.patch('/node', async (request, reply) => {
-  await serviceNode.patchNode(request.body)
-  return { }
-})
+registryCommonRoutes(fastify, '/diagrams', diagramRoute)
+registryCommonRoutes(fastify, '/edges', edgeRoute)
+registryCommonRoutes(fastify, '/entities', entityRoute)
+registryCommonRoutes(fastify, '/nodes', nodeRoute)
+registryCommonRoutes(fastify, '/relations', relationRoute)
 
-fastify.post('/edge', async (request, reply) => {
-  await serviceEdge.addEdge(request.body)
-  return { }
-})
+fastify.get('/diagramItems', diagramItemRoute.list)
+fastify.get('/diagramItems/:id', diagramItemRoute.byId)
+fastify.head('/diagramItems/:id', diagramItemRoute.byIdHead)
+fastify.delete('/diagramItems/:id', diagramItemRoute.deleteById)
 
-fastify.patch('/edge', async (request, reply) => {
-  await serviceEdge.patchEdge(request.body)
-  return { }
-})
-
-fastify.delete('/edge/:id', async (request, reply) => {
-  await serviceEdge.deleteEdge(request.params.id)
-  return { }
-})
-
-fastify.delete('/node/:id', async (request, reply) => {
-  await serviceNode.deleteNode(request.params.id)
-  return { }
-})
-
-fastify.get('/viewpoint/:id', async (request, reply) => {
-  const item = await serviceViewPoint.get(request.params.id)
-  return item
-})
-
-fastify.get('/viewpoint', async (request, reply) => {
-  const list = await serviceViewPoint.list()
-  return list
-})
-
-fastify.post('/viewpoint', async (request, reply) => {
-  await serviceViewPoint.create(request.body.name)
-  return { }
-})
-
-fastify.patch('/viewpoint', async (request, reply) => {
-  await serviceViewPoint.associate(request.body)
-  return { }
+fastify.setErrorHandler(function (error, request, reply) {
+  reply.send(error)
 })
 
 // Run the server!
 const start = async () => {
+  await connectMongo()
   try {
     await fastify.listen(3000)
   } catch (err) {
+    await disconnectMongo()
     fastify.log.error(err)
     process.exit(1)
-  }
-  if (process.env.LOAD_DUMMY_DATA === 'true') {
-    await dummy.load()
   }
 }
 start()

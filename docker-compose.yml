@@ -1,0 +1,30 @@
+version: "3"
+services:
+  arch-buddy-mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - 27017:27017
+    # volumes:
+      # - "./.tmp/mongo:/etc/mongo"
+    networks:
+      - arch-buddy
+
+  arch-buddy-mongo-express:
+    image: mongo-express
+    depends_on: ['arch-buddy-mongo']
+    restart: unless-stopped
+    ports:
+      - 27018:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_SERVER: arch-buddy-mongo
+    networks:
+      - arch-buddy
+
+networks:
+  arch-buddy:
