@@ -1,21 +1,14 @@
-const { getModel } = require('../db/models/node.js')
-const {
-  list: _list,
-  byId: _byId,
-  create: _create,
-  update: _update,
-  partialUpdate: _partialUpdate,
-  deleteById: _deleteById
-} = require('./commonController.js')
+const { nodeModel } = require('../model/node')
+const commonController = require('./commonController.js')
 
 /**
- * List Nodes
+ * List nodes
  *
  * @param {import('fastify').FastifyRequest} request
  * @param {import('fastify').FastifyReply} reply
  */
 async function list (request, reply) {
-  return _list(getModel(), request, reply)
+  return commonController.list(nodeModel(), request, reply)
 }
 
 /**
@@ -24,7 +17,7 @@ async function list (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function byId (request, reply) {
-  return _byId(getModel(), request, reply)
+  return commonController.byId(nodeModel(), request, reply)
 }
 
 /**
@@ -33,7 +26,7 @@ async function byId (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function create (request, reply) {
-  return _create(getModel(), request, reply)
+  return commonController.create(nodeModel(), request, reply)
 }
 
 /**
@@ -42,7 +35,7 @@ async function create (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function update (request, reply) {
-  return _update(getModel(), request, reply)
+  return commonController.update(nodeModel(), request, reply)
 }
 
 /**
@@ -52,7 +45,7 @@ async function update (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function partialUpdate (request, reply) {
-  return _partialUpdate(getModel(), request, reply)
+  return commonController.partialUpdate(nodeModel(), request, reply)
 }
 
 /**
@@ -62,7 +55,7 @@ async function partialUpdate (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function deleteById (request, reply) {
-  return _deleteById(getModel(), request, reply)
+  return commonController.deleteById(nodeModel(), request, reply)
 }
 
 module.exports = { list, byId, create, update, partialUpdate, deleteById }
