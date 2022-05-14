@@ -16,7 +16,7 @@ fastify.get('/healthcheck', async (request, reply) => {
 })
 
 fastify.get('/', async (request, reply) => {
-  return serviceViewPoint.get(request.query.viewPoint)
+  return serviceViewPoint.get(request.query.viewpoint)
 })
 
 fastify.post('/node', async (request, reply) => {
