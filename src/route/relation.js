@@ -27,7 +27,7 @@ const list = {
             __All object and sub-object properties are available to be used in your query__.
 
 #### Example 
-Request: '/relations?fiql=active==true;name==CPLV'
+Request: '/relations?fiql=active==true;name==SEARCH_NAME'
 
 #### Combinations
 Operator | Description
