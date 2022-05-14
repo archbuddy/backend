@@ -9,7 +9,8 @@
     "test:custom": "standard --fix && jest ./tests/service/viewPoint.test.js",
     "lint": "standard",
     "lint:fix": "standard --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "seed": "node src/repository/seed.js"
   },
   "repository": {
     "type": "git",

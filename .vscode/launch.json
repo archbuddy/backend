@@ -14,8 +14,7 @@
             "runtimeArgs": [
              "run-script",
              "start"
-            ],
-            "port": 5858
+            ]
         },
         {
             "name": "Debug Tests",
@@ -27,8 +26,7 @@
             "runtimeArgs": [
              "run-script",
              "test:custom"
-            ],
-            "port": 5858
+            ]
         }
     ]
 }
