@@ -1,0 +1,23 @@
+{
+  "$id": "node",
+  "allOf": [
+    {
+      "$ref": "diagramItem"
+    },
+    {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "entity": {
+          "$ref": "entity"
+        }
+      }
+    }
+  ]
+}
