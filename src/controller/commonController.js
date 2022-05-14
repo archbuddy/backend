@@ -26,16 +26,18 @@ async function list (model, request, reply) {
 
   await Promise.all([entitiesPromise, countPromise])
 
+  const page = new Page(
+    request.routerPath,
+    entities,
+    request.query.offset,
+    request.query.limit,
+    count
+  )
+
   return reply
     .code(200)
     .send(
-      new Page(
-        request.routerPath,
-        entities,
-        request.query.offset,
-        request.query.limit,
-        count
-      ).getJson()
+      page.getJson()
     )
 }
 
