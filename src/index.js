@@ -2,7 +2,7 @@ require('dotenv').config()
 const fastify = require('fastify')({ logger: true })
 const fastifySwagger = require('fastify-swagger')
 const fastifyHelmet = require('@fastify/helmet')
-const { getOpenapiDefinition, getSchemas } = require('./swagger.js')
+const { getOpenapiDefinition } = require('./swagger.js')
 
 const healthRoute = require('./route/health')
 const diagramRoute = require('./route/diagram')

@@ -1,6 +1,6 @@
 const { NotFound } = require('http-errors')
 const Page = require('../util/page.js')
-const { v4: uuidv4 } = require('uuid')
+const { uuid: uuidv4 } = require('uuidv4')
 const { buildQuery } = require('../util/fiqlQueryBuilder.js')
 /**
  * List Entity

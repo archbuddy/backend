@@ -74,9 +74,6 @@ const connectMongo = async () => {
   mongoServer = await MongoMemoryServer.create()
   const mongoUri = mongoServer.getUri()
   const mongooseOpts = {
-    autoReconnect: true,
-    reconnectTries: Number.MAX_VALUE,
-    reconnectInterval: 1000,
     useNewUrlParser: true,
     dbName: 'fiqlQueryBuilderTest'
   }
