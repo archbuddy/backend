@@ -41,7 +41,9 @@ async function associate (viewPoint) {
   validateViewPoint(viewPoint)
 
   if (validateViewPoint.errors && validateViewPoint.errors.length > 0) {
-    throw new Error(JSON.stringify(validateViewPoint.errors))
+    const errors = JSON.stringify(validateViewPoint.errors)
+    console.log(errors)
+    throw new Error(errors)
   }
 
   const dbData = await repo.getViewPoint(viewPoint.id)
