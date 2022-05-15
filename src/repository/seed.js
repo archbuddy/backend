@@ -50,7 +50,7 @@ const createView3 = async (diagram, systems, relations) => {
     { x: -30, y: 10, entity: systems[0]._id, diagram: diagram._id },
     { x: 91, y: 54, entity: systems[2]._id, diagram: diagram._id }
   ])
-  
+
   await edgeModel().insertMany([
     { sourceHandle: 'r1', targetHandle: 'l1', relation: relations[2]._id, diagram: diagram._id }
   ])
@@ -61,7 +61,7 @@ const createView4 = async (diagram, systems, relations) => {
     { x: 99, y: -59, entity: systems[1]._id, diagram: diagram._id },
     { x: 91, y: 54, entity: systems[2]._id, diagram: diagram._id }
   ])
-    
+
   await edgeModel().insertMany([
     { sourceHandle: 'r1', targetHandle: 'l1', relation: relations[0]._id, diagram: diagram._id },
     { sourceHandle: 'r1', targetHandle: 'l1', relation: relations[1]._id, diagram: diagram._id },
