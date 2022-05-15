@@ -52,7 +52,7 @@ registryCommonRoutes(fastify, '/relations', relationRoute)
 // fastify.head('/diagramItems/:id', diagramItemRoute.byIdHead)
 // fastify.delete('/diagramItems/:id', diagramItemRoute.deleteById)
 
-fastify.get('/reactflow/:id', diagramRoute.reactFlow)
+fastify.get('/diagrams/:id/reactflow', diagramRoute.reactFlow)
 
 fastify.setErrorHandler(function (error, request, reply) {
   reply.send(error)
