@@ -2,8 +2,6 @@ const { diagramModel } = require('../model/diagram')
 const commonController = require('./commonController')
 const { nodeModel } = require('../model/node')
 const { edgeModel } = require('../model/edge')
-const { entityModel } = require('../model/entity')
-const { relationModel } = require('../model/relation')
 /**
  * List diagram
  *
