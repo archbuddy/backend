@@ -46,10 +46,13 @@ registryCommonRoutes(fastify, '/entities', entityRoute)
 registryCommonRoutes(fastify, '/nodes', nodeRoute)
 registryCommonRoutes(fastify, '/relations', relationRoute)
 
-fastify.get('/diagramItems', diagramItemRoute.list)
-fastify.get('/diagramItems/:id', diagramItemRoute.byId)
-fastify.head('/diagramItems/:id', diagramItemRoute.byIdHead)
-fastify.delete('/diagramItems/:id', diagramItemRoute.deleteById)
+// TODO Maybe we don't need this for now
+// fastify.get('/diagramItems', diagramItemRoute.list)
+// fastify.get('/diagramItems/:id', diagramItemRoute.byId)
+// fastify.head('/diagramItems/:id', diagramItemRoute.byIdHead)
+// fastify.delete('/diagramItems/:id', diagramItemRoute.deleteById)
+
+fastify.get('/reactflow/:id', diagramRoute.reactFlow)
 
 fastify.setErrorHandler(function (error, request, reply) {
   reply.send(error)

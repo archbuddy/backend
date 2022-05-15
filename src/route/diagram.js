@@ -207,7 +207,11 @@ const deleteById = {
     }
   }
 }
-
+const reactFlow = {
+  preValidation,
+  preHandler,
+  handler: diagramController.reactFlow
+}
 module.exports = {
   list,
   byId,
@@ -215,5 +219,6 @@ module.exports = {
   create,
   update,
   partialUpdate,
-  deleteById
+  deleteById,
+  reactFlow
 }
