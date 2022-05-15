@@ -10,7 +10,7 @@ const seedDb = async () => {
   await clear()
   const systems = await loadSystem()
   const relations = await loadRelations(systems)
-  const diagrams = await loadDiagram(systems, relations)
+  const diagrams = await loadDiagram()
   await createView1(diagrams[0], systems, relations)
   await createView2(diagrams[1], systems, relations)
   await createView3(diagrams[2], systems, relations)
