@@ -3,6 +3,7 @@ const { entityModel } = require('../model/entity')
 const { relationModel } = require('../model/relation')
 const { diagramModel } = require('../model/diagram')
 const { nodeModel } = require('../model/node')
+const { edgeModel } = require('../model/edge')
 
 const seedDb = async () => {
   await connectMongo()
@@ -18,43 +19,54 @@ const seedDb = async () => {
 
 const clear = async () => {
   await nodeModel().deleteMany()
+  await edgeModel().deleteMany()
   await diagramModel().deleteMany()
   await relationModel().deleteMany()
   await entityModel().deleteMany()
 }
 
 const createView1 = async (diagram, systems, relations) => {
-  // prettier-ignore
-  const nodes = await nodeModel().insertMany([
-    { x: -30, y: 10, entity: systems[0]._id },
-    { x: 99, y: -59, entity: systems[1]._id }
+  await nodeModel().insertMany([
+    { x: -30, y: 10, entity: systems[0]._id, diagram: diagram._id },
+    { x: 99, y: -59, entity: systems[1]._id, diagram: diagram._id }
   ])
-  return nodes
+
+  await edgeModel().insertMany([
+    { sourceHandle: 'r1', targetHandle: 'l1', relation: relations[0]._id, diagram: diagram._id }
+  ])
 }
 const createView2 = async (diagram, systems, relations) => {
-  // prettier-ignore
-  const nodes = await nodeModel().insertMany([
-    { x: -30, y: 10, entity: systems[0]._id },
-    { x: 91, y: 54, entity: systems[2]._id }
+  await nodeModel().insertMany([
+    { x: -30, y: 10, entity: systems[0]._id, diagram: diagram._id },
+    { x: 91, y: 54, entity: systems[2]._id, diagram: diagram._id }
   ])
-  return nodes
+
+  await edgeModel().insertMany([
+    { sourceHandle: 'r1', targetHandle: 'l1', relation: relations[1]._id, diagram: diagram._id }
+  ])
 }
 const createView3 = async (diagram, systems, relations) => {
-  // prettier-ignore
-  const nodes = await nodeModel().insertMany([
-    { x: -30, y: 10, entity: systems[0]._id },
-    { x: 91, y: 54, entity: systems[2]._id }
+  await nodeModel().insertMany([
+    { x: -30, y: 10, entity: systems[0]._id, diagram: diagram._id },
+    { x: 91, y: 54, entity: systems[2]._id, diagram: diagram._id }
   ])
-  return nodes
+  
+  await edgeModel().insertMany([
+    { sourceHandle: 'r1', targetHandle: 'l1', relation: relations[2]._id, diagram: diagram._id }
+  ])
 }
 const createView4 = async (diagram, systems, relations) => {
-  // prettier-ignore
-  const nodes = await nodeModel().insertMany([
-    { x: -30, y: 10, entity: systems[0]._id },
-    { x: 99, y: -59, entity: systems[1]._id },
-    { x: 91, y: 54, entity: systems[2]._id }
+  await nodeModel().insertMany([
+    { x: -30, y: 10, entity: systems[0]._id, diagram: diagram._id },
+    { x: 99, y: -59, entity: systems[1]._id, diagram: diagram._id },
+    { x: 91, y: 54, entity: systems[2]._id, diagram: diagram._id }
   ])
-  return nodes
+    
+  await edgeModel().insertMany([
+    { sourceHandle: 'r1', targetHandle: 'l1', relation: relations[0]._id, diagram: diagram._id },
+    { sourceHandle: 'r1', targetHandle: 'l1', relation: relations[1]._id, diagram: diagram._id },
+    { sourceHandle: 'r1', targetHandle: 'l1', relation: relations[2]._id, diagram: diagram._id }
+  ])
 }
 const loadDiagram = async () => {
   const res = await diagramModel().insertMany([
