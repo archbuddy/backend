@@ -6,7 +6,7 @@ const { getOpenapiDefinition } = require('./swagger.js')
 
 const healthRoute = require('./route/health')
 const diagramRoute = require('./route/diagram')
-const diagramItemRoute = require('./route/diagramItem')
+// const diagramItemRoute = require('./route/diagramItem')
 const edgeRoute = require('./route/edge')
 const entityRoute = require('./route/entity')
 const nodeRoute = require('./route/node')

@@ -3,7 +3,7 @@ const commonController = require('./commonController')
 const { nodeModel } = require('../model/node')
 const { edgeModel } = require('../model/edge')
 const { entityModel } = require('../model/entity')
-const { relationModel } = require('../model/relation') 
+const { relationModel } = require('../model/relation')
 /**
  * List diagram
  *
@@ -75,10 +75,10 @@ async function reactFlow (request, reply) {
   })
 }
 
-async function convertEdgeToReactFlow(edges) {
+async function convertEdgeToReactFlow (edges) {
   const newlist = []
   for (const item of edges) {
-    const entityRelation = await relationModel().findOne({ _id: item.relation})
+    const entityRelation = await relationModel().findOne({ _id: item.relation })
     newlist.push({
       id: item._id,
       sourceHandle: item.sourceHandle,
@@ -91,10 +91,10 @@ async function convertEdgeToReactFlow(edges) {
   return newlist
 }
 
-async function convertNodeToReactFlow(nodes) {
+async function convertNodeToReactFlow (nodes) {
   const newlist = []
   for (const item of nodes) {
-    const entityNode = await entityModel().findOne({ _id: item.entity})
+    const entityNode = await entityModel().findOne({ _id: item.entity })
     newlist.push({
       id: entityNode._id,
       position: {
@@ -107,7 +107,6 @@ async function convertNodeToReactFlow(nodes) {
   }
   return newlist
 }
-
 
 function getEdgeAsMap (list) {
   const map = new Map()
