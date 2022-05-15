@@ -63,11 +63,8 @@ async function deleteById (request, reply) {
 
 async function reactFlow (request, reply) {
   const diagramId = request.params.id
-  // request.query = `diagram=${diagramId}`
-  // const response = nodeController.list(request, reply)
-
-  const nodes = await nodeModel().find({ diagram: diagramId }).exec()
-  const edges = await edgeModel().find({ diagram: diagramId }).exec()
+  const nodes = await nodeModel().find({ diagram: diagramId }).populate('entity').exec()
+  const edges = await edgeModel().find({ diagram: diagramId }).populate('relation').exec()
   const reactEdges = await convertEdgeToReactFlow(edges)
   return reply.code(200).send({
     nodes: await convertNodeToReactFlow(nodes),
@@ -78,14 +75,13 @@ async function reactFlow (request, reply) {
 async function convertEdgeToReactFlow (edges) {
   const newlist = []
   for (const item of edges) {
-    const entityRelation = await relationModel().findOne({ _id: item.relation })
     newlist.push({
       id: item._id,
       sourceHandle: item.sourceHandle,
       targetHandle: item.targetHandle,
-      source: entityRelation.source,
-      target: entityRelation.target,
-      label: entityRelation.description
+      source: item.relation.source,
+      target: item.relation.target,
+      label: item.relation.description
     })
   }
   return newlist
@@ -94,15 +90,14 @@ async function convertEdgeToReactFlow (edges) {
 async function convertNodeToReactFlow (nodes) {
   const newlist = []
   for (const item of nodes) {
-    const entityNode = await entityModel().findOne({ _id: item.entity })
     newlist.push({
-      id: entityNode._id,
+      id: item.entity._id,
       position: {
         x: item.x,
         y: item.y
       },
-      data: { label: entityNode.name },
-      type: entityNode.type
+      data: { label: item.entity.name },
+      type: item.entity.type
     })
   }
   return newlist
