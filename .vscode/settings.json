@@ -1,0 +1,9 @@
+{
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/coverage": true,
+    "**/package-lock.json": true
+  },
+  "editor.formatOnSave": false,
+  "jest.jestCommandLine": "npm test --"
+}
