@@ -79,7 +79,10 @@ async function convertEdgeToReactFlow (edges) {
       targetHandle: item.targetHandle,
       source: item.relation.source,
       target: item.relation.target,
-      label: item.relation.description
+      label: item.relation.description,
+      markerEnd: {
+        type: 'arrowclosed'
+      }
     })
   }
   return newlist
