@@ -20,7 +20,8 @@ const nodeSchema = new Schema({
 })
 
 function nodeModel () {
-  return diagramItemModel.discriminator('node', nodeSchema, options)
+  const model = diagramItemModel()
+  return model.discriminators?.node ?? model.discriminator('node', nodeSchema, options)
 }
 
 module.exports = { nodeSchema, nodeModel }

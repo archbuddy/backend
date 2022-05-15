@@ -20,7 +20,8 @@ const edgeSchema = new Schema({
 })
 
 function edgeModel () {
-  return diagramItemModel.discriminator('edge', edgeSchema, options)
+  const model = diagramItemModel()
+  return model.discriminators?.edge ?? model.discriminator('edge', edgeSchema, options)
 }
 
 module.exports = { edgeSchema, edgeModel }
