@@ -24,13 +24,13 @@ const diagramItemSchema = {
   }
 }
 
+// TODO define if the uuid is required for diagram
 const diagramItemUpsertSchema = {
   type: 'object',
   required: ['diagram'],
   properties: {
     diagram: {
-      type: 'string',
-      format: 'uuid'
+      type: 'string'
     },
     active: {
       type: 'boolean'

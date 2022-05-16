@@ -1,4 +1,5 @@
 const { nodeModel } = require('../model/node')
+const { entityModel } = require('../model/entity')
 const commonController = require('./commonController.js')
 
 /**
@@ -26,7 +27,30 @@ async function byId (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function create (request, reply) {
-  return commonController.create(nodeModel(), request, reply)
+
+  // TODO Check if this is the correct way
+  // Create a entity and after create a node in the diagram
+  // I tried to use commonController to create the node and entity but the way is implemented is not possible
+  // but if you change the uuid generation and do not use request.body it maybe works
+  // request from screen {type,name,position,diagramId}
+  
+  // TODO Check if entity already exists
+  const entity = {
+    name: request.body.name,
+    type: request.body.type
+  }
+  const entityDbResult = await entityModel().create(entity)
+  
+  // TODO check if thos relation exists
+  const node = {
+    x: request.body.x,
+    y: request.body.y,
+    entity: entityDbResult._id,
+    diagram: request.body.diagram
+  }
+  await nodeModel().insertMany(node)
+
+  reply.code(201).send()
 }
 
 /**
