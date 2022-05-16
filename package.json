@@ -24,7 +24,7 @@
   "homepage": "https://archbuddy.github.io/documentation",
   "dependencies": {
     "@fastify/cors": "^7.0.0",
-    "@fastify/helmet": "8.0.0",
+    "@fastify/helmet": "8.0.1",
     "convict": "^6.2.3",
     "fastify": "^3.29.0",
     "fastify-plugin": "^3.0.0",
