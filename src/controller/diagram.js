@@ -59,6 +59,12 @@ async function deleteById (request, reply) {
   return commonController.deleteById(diagramModel(), request, reply)
 }
 
+/**
+ *
+ * @description https://www.rfc-editor.org/info/rfc7396
+ * @param {import('fastify').FastifyRequest} request
+ * @param {import('fastify').FastifyReply} reply
+ */
 async function reactFlow (request, reply) {
   const diagramId = request.params.id
   const nodes = await nodeModel().find({ diagram: diagramId }).populate('entity').exec()
