@@ -4,8 +4,7 @@ const diagramItemSchema = {
   required: ['diagram'],
   properties: {
     id: {
-      type: 'string',
-      format: 'uuid'
+      type: 'string'
     },
     diagram: {
       $ref: 'diagram'
