@@ -69,7 +69,26 @@ async function update (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function partialUpdate (request, reply) {
-  return commonController.partialUpdate(nodeModel(), request, reply)
+  // the id node that came here is from the entity object that do not match with the local id
+  // so update the node considering the diagramId and entityId
+  // and update the data
+  const entity = request.body
+  const query = { 
+    entity: request.params.id,
+    diagram: request.body.diagram
+  }
+  const toUpdate = { ...entity, id: request.params.id, updatedAt: new Date() }
+
+  const result = await nodeModel().updateOne(
+    query,
+    toUpdate
+  )
+
+  if (result.modifiedCount <= 0) {
+    throw new NotFound('Entity not found')
+  }
+
+  reply.status(201).send()
 }
 
 /**
