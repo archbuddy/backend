@@ -5,8 +5,7 @@ const relationSchema = {
   required: ['description', 'source', 'target'],
   properties: {
     id: {
-      type: 'string',
-      format: 'uuid'
+      type: 'string'
     },
     description: {
       type: 'string'

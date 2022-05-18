@@ -62,6 +62,9 @@ async function update (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function partialUpdate (request, reply) {
+  // TODO I think this operation is invalid for our context
+  // Maybe to change the handle? But I think the best option is to delete the edge
+  // and recreate it with different handles
   return commonController.partialUpdate(edgeModel(), request, reply)
 }
 
