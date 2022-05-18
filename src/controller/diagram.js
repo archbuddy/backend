@@ -105,7 +105,8 @@ async function convertNodeToReactFlow (nodes) {
         y: item.y
       },
       data: { label: item.entity.name },
-      type: item.entity.type
+      type: item.entity.type,
+      nodeId: item._id
     })
   }
   return newlist
