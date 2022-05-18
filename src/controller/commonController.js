@@ -47,7 +47,8 @@ async function list (model, request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function byId (model, request, reply) {
-  const result = await model.findOne({ id: request.params.id })
+  const query = { id: request.params.id }
+  const result = await model.findOne(query)
 
   if (!result) {
     throw new NotFound('Entity not found')
@@ -63,8 +64,9 @@ async function byId (model, request, reply) {
  */
 async function create (model, request, reply) {
   const id = uuidv4()
+  const data = { ...request.body, id, includedAt: new Date(), updatedAt: new Date() }
   await model.insertMany([
-    { ...request.body, id, includedAt: new Date(), updatedAt: new Date() }
+    data
   ])
   reply.code(201).header('Location', `${request.routerPath}/${id}`).send()
 }
@@ -77,13 +79,11 @@ async function create (model, request, reply) {
 async function update (model, request, reply) {
   const entity = request.body
   delete entity.updatedAt
-  delete entity.includedAt
   delete entity.id
 
-  const result = await model.updateOne(
-    { id: request.params.id },
-    { ...entity, id: request.params.id, updatedAt: new Date() }
-  )
+  const query = { _id: request.params.id }
+  const data = { ...entity, id: request.params.id, updatedAt: new Date() }
+  const result = await model.updateOne(query, data)
 
   if (result.modifiedCount <= 0) {
     throw new NotFound('Entity not found')
@@ -101,13 +101,11 @@ async function update (model, request, reply) {
 async function partialUpdate (model, request, reply) {
   const entity = request.body
   delete entity.updatedAt
-  delete entity.includedAt
   delete entity.id
 
-  const result = await model.updateOne(
-    { id: request.params.id },
-    { ...entity, id: request.params.id, updatedAt: new Date() }
-  )
+  const query = { _id: request.params.id }
+  const data = { ...entity, _id: request.params.id, updatedAt: new Date() }
+  const result = await model.updateOne( query, data )
 
   if (result.modifiedCount <= 0) {
     throw new NotFound('Entity not found')
@@ -122,7 +120,7 @@ async function partialUpdate (model, request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function deleteById (model, request, reply) {
-  const result = await model.deleteOne({ id: request.params.id })
+  const result = await model.deleteOne({ _id: request.params.id })
 
   if (result.deletedCount <= 0) {
     throw new NotFound('Entity not found')

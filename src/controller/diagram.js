@@ -59,6 +59,12 @@ async function deleteById (request, reply) {
   return commonController.deleteById(diagramModel(), request, reply)
 }
 
+/**
+ *
+ * @description https://www.rfc-editor.org/info/rfc7396
+ * @param {import('fastify').FastifyRequest} request
+ * @param {import('fastify').FastifyReply} reply
+ */
 async function reactFlow (request, reply) {
   const diagramId = request.params.id
   const nodes = await nodeModel().find({ diagram: diagramId }).populate('entity').exec()
@@ -82,7 +88,8 @@ async function convertEdgeToReactFlow (edges) {
       label: item.relation.description,
       markerEnd: {
         type: 'arrowclosed'
-      }
+      },
+      relation: item.relation._id
     })
   }
   return newlist
@@ -98,7 +105,8 @@ async function convertNodeToReactFlow (nodes) {
         y: item.y
       },
       data: { label: item.entity.name },
-      type: item.entity.type
+      type: item.entity.type,
+      nodeId: item._id
     })
   }
   return newlist

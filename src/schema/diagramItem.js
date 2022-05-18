@@ -4,8 +4,7 @@ const diagramItemSchema = {
   required: ['diagram'],
   properties: {
     id: {
-      type: 'string',
-      format: 'uuid'
+      type: 'string'
     },
     diagram: {
       $ref: 'diagram'
@@ -24,13 +23,13 @@ const diagramItemSchema = {
   }
 }
 
+// TODO define if the uuid is required for diagram
 const diagramItemUpsertSchema = {
   type: 'object',
   required: ['diagram'],
   properties: {
     diagram: {
-      type: 'string',
-      format: 'uuid'
+      type: 'string'
     },
     active: {
       type: 'boolean'

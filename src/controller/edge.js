@@ -1,4 +1,5 @@
 const { edgeModel } = require('../model/edge')
+const { relationModel } = require('../model/relation')
 const commonController = require('./commonController.js')
 
 /**
@@ -26,7 +27,23 @@ async function byId (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function create (request, reply) {
-  return commonController.create(edgeModel(), request, reply)
+  // get source and target and create a relation first
+  // get its id and associate with the edgeModel
+  const relation = {
+    description: '',
+    detail: '',
+    source: request.body.source,
+    target: request.body.target
+  }
+  const relationDbResult = await relationModel().create(relation)
+  const edge = {
+    sourceHandle: request.body.sourceHandle,
+    targetHandle: request.body.targetHandle,
+    relation: relationDbResult._id,
+    diagram: request.body.diagram
+  }
+  await edgeModel().create(edge)
+  reply.status(201).send()
 }
 
 /**
@@ -45,6 +62,9 @@ async function update (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function partialUpdate (request, reply) {
+  // TODO I think this operation is invalid for our context
+  // Maybe to change the handle? But I think the best option is to delete the edge
+  // and recreate it with different handles
   return commonController.partialUpdate(edgeModel(), request, reply)
 }
 
