@@ -1,5 +1,8 @@
 require('dotenv').config()
-const fastify = require('fastify')({ logger: true })
+
+const log = require('./util/logger')
+
+const fastify = require('fastify')({ logger: false })
 const fastifySwagger = require('@fastify/swagger')
 const fastifyHelmet = require('@fastify/helmet')
 const { getOpenapiDefinition } = require('./swagger.js')
@@ -60,13 +63,16 @@ fastify.setErrorHandler(function (error, request, reply) {
 
 // Run the server!
 const start = async () => {
-  await connectMongo()
   try {
+    await connectMongo()
+    log.info('Starting server')
     await fastify.listen(3000)
+    log.info('Started')
   } catch (err) {
     await disconnectMongo()
-    fastify.log.error(err)
+    log.error(err)
     process.exit(1)
   }
 }
+
 start()
