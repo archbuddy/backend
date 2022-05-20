@@ -85,7 +85,10 @@ async function convertEdgeToReactFlow (edges) {
       targetHandle: item.targetHandle,
       source: item.relation.source,
       target: item.relation.target,
-      label: item.relation.description,
+      data: {
+        description: item.relation.description,
+        detail: item.relation.detail
+      },
       markerEnd: {
         type: 'arrowclosed'
       },
@@ -104,7 +107,7 @@ async function convertNodeToReactFlow (nodes) {
         x: item.x,
         y: item.y
       },
-      data: { label: item.entity.name },
+      data: { name: item.entity.name, description: item.entity.description ?? '' },
       type: item.entity.type,
       nodeId: item._id
     })
@@ -141,13 +144,18 @@ async function prepareEdges (edges) {
     }
     const obj = JSON.parse(JSON.stringify(list[0]))
     obj.innerList = []
-    obj.label = ''
+    obj.data = {
+      description: '',
+      detail: ''
+    }
     for (let index = 0; index < list.length; index++) {
       const item = list[index]
       if ((index + 1) === list.length) {
-        obj.label += item.label
+        obj.data.description += item.data.description
+        obj.data.detail += item.data.detail
       } else {
-        obj.label += item.label + ', '
+        obj.data.description += item.data.description + ', '
+        obj.data.detail += item.data.detail + ', '
       }
       obj.innerList.push(item)
     }
