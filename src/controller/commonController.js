@@ -105,7 +105,7 @@ async function partialUpdate (model, request, reply) {
 
   const query = { _id: request.params.id }
   const data = { ...entity, _id: request.params.id, updatedAt: new Date() }
-  const result = await model.updateOne( query, data )
+  const result = await model.updateOne(query, data)
 
   if (result.modifiedCount <= 0) {
     throw new NotFound('Entity not found')
