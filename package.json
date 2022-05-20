@@ -33,7 +33,8 @@
     "fs-extra": "^10.1.0",
     "http-errors": "2.0.0",
     "mongoose": "^6.3.3",
-    "uuidv4": "^6.2.13"
+    "uuidv4": "^6.2.13",
+    "winston": "^3.7.2"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^2.2.2",

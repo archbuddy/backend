@@ -4,8 +4,10 @@ const { relationModel } = require('../model/relation')
 const { diagramModel } = require('../model/diagram')
 const { nodeModel } = require('../model/node')
 const { edgeModel } = require('../model/edge')
+const log = require('../util/logger')
 
 const seedDb = async () => {
+  log.info('Starting Seed')
   await connectMongo()
   await clear()
   const systems = await loadSystem()
@@ -15,6 +17,7 @@ const seedDb = async () => {
   await createView2(diagrams[1], systems, relations)
   await createView3(diagrams[2], systems, relations)
   await createView4(diagrams[3], systems, relations)
+  log.info('Seed finished')
 }
 
 const clear = async () => {
