@@ -27,12 +27,12 @@ const clear = async () => {
 
 const createView1 = async (diagram, systems, relations) => {
   await nodeModel().insertMany([
-    { x: -30, y: 10, entity: systems[0]._id, diagram: diagram._id },
-    { x: 99, y: -59, entity: systems[1]._id, diagram: diagram._id }
+    { x: 0, y: 0, entity: systems[0]._id, diagram: diagram._id },
+    { x: 500, y: 0, entity: systems[1]._id, diagram: diagram._id }
   ])
 
   await edgeModel().insertMany([
-    { sourceHandle: 'r1', targetHandle: 'l1', relation: relations[0]._id, diagram: diagram._id }
+    { sourceHandle: 'r', targetHandle: 'l', relation: relations[0]._id, diagram: diagram._id }
   ])
 }
 const createView2 = async (diagram, systems, relations) => {
@@ -42,7 +42,7 @@ const createView2 = async (diagram, systems, relations) => {
   ])
 
   await edgeModel().insertMany([
-    { sourceHandle: 'r1', targetHandle: 'l1', relation: relations[1]._id, diagram: diagram._id }
+    { sourceHandle: 'r', targetHandle: 'l', relation: relations[1]._id, diagram: diagram._id }
   ])
 }
 const createView3 = async (diagram, systems, relations) => {
@@ -52,7 +52,7 @@ const createView3 = async (diagram, systems, relations) => {
   ])
 
   await edgeModel().insertMany([
-    { sourceHandle: 'r1', targetHandle: 'l1', relation: relations[2]._id, diagram: diagram._id }
+    { sourceHandle: 'r', targetHandle: 'l', relation: relations[2]._id, diagram: diagram._id }
   ])
 }
 const createView4 = async (diagram, systems, relations) => {
@@ -63,9 +63,9 @@ const createView4 = async (diagram, systems, relations) => {
   ])
 
   await edgeModel().insertMany([
-    { sourceHandle: 'r1', targetHandle: 'l1', relation: relations[0]._id, diagram: diagram._id },
-    { sourceHandle: 'r1', targetHandle: 'l1', relation: relations[1]._id, diagram: diagram._id },
-    { sourceHandle: 'r1', targetHandle: 'l1', relation: relations[2]._id, diagram: diagram._id }
+    { sourceHandle: 'r', targetHandle: 'l', relation: relations[0]._id, diagram: diagram._id },
+    { sourceHandle: 'r', targetHandle: 'l', relation: relations[1]._id, diagram: diagram._id },
+    { sourceHandle: 'r', targetHandle: 'l', relation: relations[2]._id, diagram: diagram._id }
   ])
 }
 const loadDiagram = async () => {
