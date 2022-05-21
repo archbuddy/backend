@@ -1,9 +1,10 @@
 const mongoose = require('mongoose')
+const { v4: uuidv4 } = require('uuid')
 
 const { Schema } = mongoose
 
 const entitySchema = new Schema({
-  id: String,
+  _id: { type: String, default: uuidv4 },
   name: String,
   description: String,
   type: {

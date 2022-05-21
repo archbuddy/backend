@@ -9,7 +9,7 @@ const edgeSchema = new Schema({
   sourceHandle: String,
   targetHandle: String,
   relation: {
-    type: Schema.Types.String,
+    type: String,
     ref: relationModel(),
     relationship: {
       type: 'ONE_TO_ONE',
