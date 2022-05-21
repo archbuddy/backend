@@ -13,7 +13,7 @@ const diagramSchema = new Schema({
     relationship: {
       type: 'ONE_TO_ONE',
       localField: 'source',
-      foreignField: 'id'
+      foreignField: '_id'
     }
   },
   includedAt: Date,

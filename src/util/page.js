@@ -120,12 +120,19 @@ class Page {
 
   getData (data) {
     return data.map((d) => {
-      return {
-        ...d._doc,
-        _links: {
-          self: this.options.selfLinkBuilder(this.collectionPath, d)
-        }
-      }
+      return d._doc
+        ? {
+            ...d._doc,
+            _links: {
+              self: this.options.selfLinkBuilder(this.collectionPath, d)
+            }
+          }
+        : {
+            ...d,
+            _links: {
+              self: this.options.selfLinkBuilder(this.collectionPath, d)
+            }
+          }
     })
   }
 

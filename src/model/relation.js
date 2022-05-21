@@ -14,7 +14,7 @@ const relationSchema = new Schema({
     relationship: {
       type: 'ONE_TO_ONE',
       localField: 'source',
-      foreignField: 'id'
+      foreignField: '_id'
     }
   },
   target: {
@@ -23,7 +23,7 @@ const relationSchema = new Schema({
     relationship: {
       type: 'ONE_TO_ONE',
       localField: 'source',
-      foreignField: 'id'
+      foreignField: '_id'
     }
   },
   includedAt: Date,

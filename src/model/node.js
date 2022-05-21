@@ -14,7 +14,7 @@ const nodeSchema = new Schema({
     relationship: {
       type: 'ONE_TO_ONE',
       localField: 'source',
-      foreignField: 'id'
+      foreignField: '_id'
     }
   }
 })
