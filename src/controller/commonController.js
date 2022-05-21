@@ -9,16 +9,15 @@ const { buildQuery } = require('../util/fiqlQueryBuilder.js')
  * @param {import('fastify').FastifyReply} reply
  */
 async function list (model, request, reply) {
-  const query = buildQuery(model, request.query)
+  const q = buildQuery(model, request.query)
 
   let entities
   let count
-  const entitiesPromise = query.exec().then((e) => {
+  const entitiesPromise = q.pageQuery.exec().then((e) => {
     entities = e
   })
   // @TODO Count only entities on filter
-  const countPromise = model
-    .count({})
+  const countPromise = q.countQuery
     .exec()
     .then((c) => {
       count = c
@@ -31,7 +30,7 @@ async function list (model, request, reply) {
     entities,
     request.query.offset,
     request.query.limit,
-    count
+    count[0]?.count ?? count
   )
 
   return reply

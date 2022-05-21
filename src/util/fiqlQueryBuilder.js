@@ -49,17 +49,22 @@ function buildQuery (model, params) {
     }
   }
 
-  let query = {}
+  const result = { }
   if (aggs.length <= 0) {
-    query = model.find(filters)
+    result.countQuery = model.count(filters)
     if (selectFields.length > 0) {
-      query = query.select(selectFields.join(' '))
+      result.pageQuery = model.find(filters).select(selectFields.join(' '))
+    } else {
+      result.pageQuery = model.find(filters)
     }
   } else {
-    query = model.aggregate(aggs)
+    result.pageQuery = model.aggregate(aggs)
+    result.countQuery = model.aggregate(aggs.concat({ $count: 'count' }))
   }
 
-  return query.skip(parseInt(params.skip)).limit(parseInt(params.limit))
+  result.pageQuery = result.pageQuery.skip(parseInt(params.skip)).limit(parseInt(params.limit))
+
+  return result
 }
 
 const _buildQuery = (model, parsedFiql) => {
