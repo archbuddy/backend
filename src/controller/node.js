@@ -1,7 +1,7 @@
-const { NotFound } = require('http-errors')
 const { nodeModel } = require('../model/node')
 const { entityModel } = require('../model/entity')
 const commonController = require('./commonController.js')
+const { v4: uuidv4 } = require('uuid')
 
 /**
  * List nodes
@@ -41,8 +41,9 @@ async function create (request, reply) {
   }
   const entityDbResult = await entityModel().create(entity)
 
-  // TODO check if thos relation exists
+  // TODO check if this relation exists
   const node = {
+    _id: request.body._id ?? uuidv4(),
     x: request.body.x,
     y: request.body.y,
     entity: entityDbResult._id,
@@ -69,26 +70,7 @@ async function update (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function partialUpdate (request, reply) {
-  // the id node that came here is from the entity object that do not match with the local id
-  // so update the node considering the diagramId and entityId
-  // and update the data
-  const entity = request.body
-  const query = {
-    entity: request.params.id,
-    diagram: request.body.diagram
-  }
-  const toUpdate = { ...entity, id: request.params.id, updatedAt: new Date() }
-
-  const result = await nodeModel().updateOne(
-    query,
-    toUpdate
-  )
-
-  if (result.modifiedCount <= 0) {
-    throw new NotFound('Entity not found')
-  }
-
-  reply.status(201).send()
+  return commonController.partialUpdate(nodeModel(), request, reply)
 }
 
 /**

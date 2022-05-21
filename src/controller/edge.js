@@ -1,5 +1,6 @@
 const { edgeModel } = require('../model/edge')
 const { relationModel } = require('../model/relation')
+const { nodeModel } = require('../model/node')
 const commonController = require('./commonController.js')
 
 /**
@@ -27,21 +28,29 @@ async function byId (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function create (request, reply) {
-  // get source and target and create a relation first
-  // get its id and associate with the edgeModel
-  const relation = {
-    description: '',
-    detail: '',
-    source: request.body.source,
-    target: request.body.target
-  }
-  const relationDbResult = await relationModel().create(relation)
   const edge = {
-    sourceHandle: request.body.sourceHandle,
-    targetHandle: request.body.targetHandle,
-    relation: relationDbResult._id,
+    source: request.body.source,
+    target: request.body.target,
     diagram: request.body.diagram
   }
+
+  if (request.body.relation) {
+    edge.relation = request.body.relation
+  } else {
+    const sourceNode = await nodeModel().findById(request.body.source.node)
+    const targetNode = await nodeModel().findById(request.body.target.node)
+    const relation = {
+      description: 'some new relation',
+      detail: 'relation detail',
+      source: sourceNode.entity,
+      target: targetNode.entity
+    }
+
+    const relationDbResult = await relationModel().create(relation)
+
+    edge.relation = relationDbResult._id
+  }
+
   await edgeModel().create(edge)
   reply.status(201).send()
 }

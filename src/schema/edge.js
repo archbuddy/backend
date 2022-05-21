@@ -10,11 +10,29 @@ const edgeSchema = {
       type: 'object',
       required: ['name'],
       properties: {
-        sourceHandle: {
-          type: 'string'
+        source: {
+          type: 'object',
+          required: ['handle', 'node'],
+          properties: {
+            handle: {
+              type: 'string'
+            },
+            node: {
+              $ref: 'node'
+            }
+          }
         },
-        targetHandle: {
-          type: 'string'
+        target: {
+          type: 'object',
+          required: ['handle', 'node'],
+          properties: {
+            handle: {
+              type: 'string'
+            },
+            node: {
+              $ref: 'node'
+            }
+          }
         },
         relation: {
           $ref: 'relation'
@@ -26,13 +44,32 @@ const edgeSchema = {
 
 const edgeUpsertSchema = JSON.parse(JSON.stringify(diagramItemUpsertSchema))
 edgeUpsertSchema.properties = { ...diagramItemUpsertSchema.properties }
-edgeUpsertSchema.properties.sourceHandle = {
-  type: 'string'
+edgeUpsertSchema.properties.source = {
+  type: 'object',
+  required: ['handle', 'node'],
+  properties: {
+    handle: {
+      type: 'string'
+    },
+    node: {
+      format: 'uuid',
+      type: 'string'
+    }
+  }
 }
-edgeUpsertSchema.properties.targetHandle = {
-  type: 'string'
+edgeUpsertSchema.properties.target = {
+  type: 'object',
+  required: ['handle', 'node'],
+  properties: {
+    handle: {
+      type: 'string'
+    },
+    node: {
+      format: 'uuid',
+      type: 'string'
+    }
+  }
 }
-
 edgeUpsertSchema.properties.relation = {
   format: 'uuid',
   type: 'string'

@@ -46,7 +46,7 @@ async function list (model, request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function byId (model, request, reply) {
-  const query = { id: request.params.id }
+  const query = { _id: request.params.id }
   const result = await model.findOne(query)
 
   if (!result) {
@@ -62,12 +62,12 @@ async function byId (model, request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function create (model, request, reply) {
-  const id = uuidv4()
-  const data = { ...request.body, id, includedAt: new Date(), updatedAt: new Date() }
+  const _id = request.body._id ?? uuidv4()
+  const data = { ...request.body, _id, includedAt: new Date(), updatedAt: new Date() }
   await model.insertMany([
     data
   ])
-  reply.code(201).header('Location', `${request.routerPath}/${id}`).send()
+  reply.code(201).header('Location', `${request.routerPath}/${_id}`).send()
 }
 
 /**
@@ -78,10 +78,10 @@ async function create (model, request, reply) {
 async function update (model, request, reply) {
   const entity = request.body
   delete entity.updatedAt
-  delete entity.id
+  delete entity._id
 
   const query = { _id: request.params.id }
-  const data = { ...entity, id: request.params.id, updatedAt: new Date() }
+  const data = { ...entity, _id: request.params.id, updatedAt: new Date() }
   const result = await model.updateOne(query, data)
 
   if (result.modifiedCount <= 0) {
@@ -100,7 +100,7 @@ async function update (model, request, reply) {
 async function partialUpdate (model, request, reply) {
   const entity = request.body
   delete entity.updatedAt
-  delete entity.id
+  delete entity._id
 
   const query = { _id: request.params.id }
   const data = { ...entity, _id: request.params.id, updatedAt: new Date() }
