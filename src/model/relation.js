@@ -22,7 +22,7 @@ const relationSchema = new Schema({
     ref: entityModel(),
     relationship: {
       type: 'ONE_TO_ONE',
-      localField: 'source',
+      localField: 'target',
       foreignField: '_id'
     }
   },

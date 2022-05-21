@@ -62,7 +62,7 @@ class Page {
     return `${collectionPath}?offset=${offset}&limit=${limit}`
   }
 
-  static getSelfLink (collectionPath, dataItem, idProperties = ['id']) {
+  static getSelfLink (collectionPath, dataItem, idProperties = ['_id']) {
     return `${collectionPath}`.concat(
       idProperties.map((p) => `/${dataItem[p]}`)
     )
