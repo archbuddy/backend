@@ -3,7 +3,7 @@ const entitySchema = {
   type: 'object',
   required: ['name', 'description', 'type'],
   properties: {
-    id: {
+    _id: {
       type: 'string',
       format: 'uuid'
     },

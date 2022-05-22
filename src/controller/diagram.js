@@ -81,10 +81,10 @@ async function convertEdgeToReactFlow (edges) {
   for (const item of edges) {
     newlist.push({
       id: item._id,
-      sourceHandle: item.sourceHandle,
-      targetHandle: item.targetHandle,
-      source: item.relation.source,
-      target: item.relation.target,
+      sourceHandle: item.source.handle,
+      targetHandle: item.target.handle,
+      source: item.source.node,
+      target: item.target.node,
       data: {
         description: item.relation.description,
         detail: item.relation.detail
@@ -102,14 +102,14 @@ async function convertNodeToReactFlow (nodes) {
   const newlist = []
   for (const item of nodes) {
     newlist.push({
-      id: item.entity._id,
+      id: item._id,
       position: {
         x: item.x,
         y: item.y
       },
       data: { name: item.entity.name, description: item.entity.description ?? '' },
       type: item.entity.type,
-      nodeId: item._id
+      entity: item.entity._id
     })
   }
   return newlist

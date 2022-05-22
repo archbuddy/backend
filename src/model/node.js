@@ -9,12 +9,12 @@ const nodeSchema = new Schema({
   x: Number,
   y: Number,
   entity: {
-    type: Schema.Types.String,
+    type: String,
     ref: entityModel(),
     relationship: {
       type: 'ONE_TO_ONE',
       localField: 'source',
-      foreignField: 'id'
+      foreignField: '_id'
     }
   }
 })

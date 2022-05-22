@@ -62,7 +62,7 @@ class Page {
     return `${collectionPath}?offset=${offset}&limit=${limit}`
   }
 
-  static getSelfLink (collectionPath, dataItem, idProperties = ['id']) {
+  static getSelfLink (collectionPath, dataItem, idProperties = ['_id']) {
     return `${collectionPath}`.concat(
       idProperties.map((p) => `/${dataItem[p]}`)
     )
@@ -120,12 +120,19 @@ class Page {
 
   getData (data) {
     return data.map((d) => {
-      return {
-        ...d._doc,
-        _links: {
-          self: this.options.selfLinkBuilder(this.collectionPath, d)
-        }
-      }
+      return d._doc
+        ? {
+            ...d._doc,
+            _links: {
+              self: this.options.selfLinkBuilder(this.collectionPath, d)
+            }
+          }
+        : {
+            ...d,
+            _links: {
+              self: this.options.selfLinkBuilder(this.collectionPath, d)
+            }
+          }
     })
   }
 

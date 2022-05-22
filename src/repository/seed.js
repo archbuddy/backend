@@ -29,46 +29,136 @@ const clear = async () => {
 }
 
 const createView1 = async (diagram, systems, relations) => {
-  await nodeModel().insertMany([
-    { x: 0, y: 0, entity: systems[0]._id, diagram: diagram._id, includedAt: new Date() },
-    { x: 500, y: 0, entity: systems[1]._id, diagram: diagram._id, includedAt: new Date() }
+  const nodes = await nodeModel().insertMany([
+    {
+      x: 0,
+      y: 0,
+      entity: systems[0]._id,
+      diagram: diagram._id,
+      includedAt: new Date()
+    },
+    {
+      x: 500,
+      y: 0,
+      entity: systems[1]._id,
+      diagram: diagram._id,
+      includedAt: new Date()
+    }
   ])
 
   await edgeModel().insertMany([
-    { sourceHandle: 'r', targetHandle: 'l', relation: relations[0]._id, diagram: diagram._id, includedAt: new Date() }
+    {
+      source: { handle: 'r', node: nodes[0]._id },
+      target: { handle: 'l', node: nodes[1]._id },
+      relation: relations[0]._id,
+      diagram: diagram._id,
+      includedAt: new Date()
+    }
   ])
 }
 const createView2 = async (diagram, systems, relations) => {
-  await nodeModel().insertMany([
-    { x: -30, y: 10, entity: systems[0]._id, diagram: diagram._id, includedAt: new Date() },
-    { x: 91, y: 54, entity: systems[2]._id, diagram: diagram._id, includedAt: new Date() }
+  const nodes = await nodeModel().insertMany([
+    {
+      x: 0,
+      y: 0,
+      entity: systems[0]._id,
+      diagram: diagram._id,
+      includedAt: new Date()
+    },
+    {
+      x: 500,
+      y: 0,
+      entity: systems[2]._id,
+      diagram: diagram._id,
+      includedAt: new Date()
+    }
   ])
 
   await edgeModel().insertMany([
-    { sourceHandle: 'r', targetHandle: 'l', relation: relations[1]._id, diagram: diagram._id, includedAt: new Date() }
+    {
+      source: { handle: 'r', node: nodes[0] },
+      target: { handle: 'l', node: nodes[1] },
+      relation: relations[1]._id,
+      diagram: diagram._id,
+      includedAt: new Date()
+    }
   ])
 }
 const createView3 = async (diagram, systems, relations) => {
-  await nodeModel().insertMany([
-    { x: -30, y: 10, entity: systems[0]._id, diagram: diagram._id, includedAt: new Date() },
-    { x: 91, y: 54, entity: systems[2]._id, diagram: diagram._id, includedAt: new Date() }
+  const nodes = await nodeModel().insertMany([
+    {
+      x: 0,
+      y: 0,
+      entity: systems[0]._id,
+      diagram: diagram._id,
+      includedAt: new Date()
+    },
+    {
+      x: 500,
+      y: 0,
+      entity: systems[2]._id,
+      diagram: diagram._id,
+      includedAt: new Date()
+    }
   ])
 
   await edgeModel().insertMany([
-    { sourceHandle: 'r', targetHandle: 'l', relation: relations[2]._id, diagram: diagram._id, includedAt: new Date() }
+    {
+      source: { handle: 'r', node: nodes[0] },
+      target: { handle: 'l', node: nodes[1] },
+      relation: relations[2]._id,
+      diagram: diagram._id,
+      includedAt: new Date()
+    }
   ])
 }
 const createView4 = async (diagram, systems, relations) => {
-  await nodeModel().insertMany([
-    { x: -30, y: 10, entity: systems[0]._id, diagram: diagram._id, includedAt: new Date() },
-    { x: 99, y: -59, entity: systems[1]._id, diagram: diagram._id, includedAt: new Date() },
-    { x: 91, y: 54, entity: systems[2]._id, diagram: diagram._id, includedAt: new Date() }
+  const nodes = await nodeModel().insertMany([
+    {
+      x: 0,
+      y: 0,
+      entity: systems[0]._id,
+      diagram: diagram._id,
+      includedAt: new Date()
+    },
+    {
+      x: 500,
+      y: 0,
+      entity: systems[1]._id,
+      diagram: diagram._id,
+      includedAt: new Date()
+    },
+    {
+      x: 500,
+      y: 300,
+      entity: systems[2]._id,
+      diagram: diagram._id,
+      includedAt: new Date()
+    }
   ])
 
   await edgeModel().insertMany([
-    { sourceHandle: 'r', targetHandle: 'l', relation: relations[0]._id, diagram: diagram._id, includedAt: new Date() },
-    { sourceHandle: 'r', targetHandle: 'l', relation: relations[1]._id, diagram: diagram._id, includedAt: new Date() },
-    { sourceHandle: 'r', targetHandle: 'l', relation: relations[2]._id, diagram: diagram._id, includedAt: new Date() }
+    {
+      source: { handle: 'r', node: nodes[0] },
+      target: { handle: 'l', node: nodes[1] },
+      relation: relations[0]._id,
+      diagram: diagram._id,
+      includedAt: new Date()
+    },
+    {
+      source: { handle: 'r', node: nodes[0] },
+      target: { handle: 'l', node: nodes[2] },
+      relation: relations[1]._id,
+      diagram: diagram._id,
+      includedAt: new Date()
+    },
+    {
+      source: { handle: 'r', node: nodes[0] },
+      target: { handle: 'l', node: nodes[2] },
+      relation: relations[2]._id,
+      diagram: diagram._id,
+      includedAt: new Date()
+    }
   ])
 }
 const loadDiagram = async () => {
@@ -138,4 +228,6 @@ const loadSystem = async () => {
   return res
 }
 
-seedDb().then(async () => { await disconnectMongo() })
+seedDb().then(async () => {
+  await disconnectMongo()
+})

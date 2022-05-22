@@ -4,7 +4,7 @@ const relationSchema = {
   type: 'object',
   required: ['description', 'source', 'target'],
   properties: {
-    id: {
+    _id: {
       type: 'string'
     },
     description: {

@@ -126,7 +126,7 @@ describe('Query Builder', () => {
 
   test('Default query', async () => {
     // ACT
-    const result = await buildQuery(parentModel).exec()
+    const result = await buildQuery(parentModel).pageQuery.exec()
 
     // ASSERT
     expect(result.length).toBe(7)
@@ -134,7 +134,7 @@ describe('Query Builder', () => {
 
   test('Limit', async () => {
     // ACT
-    const result = await buildQuery(parentModel, { limit: 5 }).exec()
+    const result = await buildQuery(parentModel, { limit: 5 }).pageQuery.exec()
 
     // ASSERT
     expect(result.length).toBe(5)
@@ -142,7 +142,7 @@ describe('Query Builder', () => {
 
   test('Skip', async () => {
     // ACT
-    const result = await buildQuery(parentModel, { limit: 1, skip: 1 }).exec()
+    const result = await buildQuery(parentModel, { limit: 1, skip: 1 }).pageQuery.exec()
 
     // ASSERT
     expect(result.length).toBe(1)
@@ -155,7 +155,7 @@ describe('Query Builder', () => {
       const select = 'name'
 
       // ACT
-      const result = await buildQuery(parentModel, { fields: select }).exec()
+      const result = await buildQuery(parentModel, { fields: select }).pageQuery.exec()
 
       // ASSERT
       expect(result[0].name).toBe('Parent 1')
@@ -167,7 +167,7 @@ describe('Query Builder', () => {
       const select = 'name,active'
 
       // ACT
-      const result = await buildQuery(parentModel, { fields: select }).exec()
+      const result = await buildQuery(parentModel, { fields: select }).pageQuery.exec()
 
       // ASSERT
       expect(result[0].name).toBe('Parent 1')
@@ -180,7 +180,7 @@ describe('Query Builder', () => {
       const select = 'child.name'
 
       // ACT
-      const result = await buildQuery(parentModel, { fields: select }).exec()
+      const result = await buildQuery(parentModel, { fields: select }).pageQuery.exec()
 
       // ASSERT
       expect(result[0].name).toBeUndefined()
@@ -193,7 +193,7 @@ describe('Query Builder', () => {
       const select = 'child2.name'
 
       // ACT
-      const result = await buildQuery(parentModel, { fields: select }).exec()
+      const result = await buildQuery(parentModel, { fields: select }).pageQuery.exec()
 
       // ASSERT
       expect(result[0].name).toBeUndefined()
@@ -206,7 +206,7 @@ describe('Query Builder', () => {
       const select = 'child.name,child.parent.name'
 
       // ACT
-      const result = await buildQuery(parentModel, { fields: select }).exec()
+      const result = await buildQuery(parentModel, { fields: select }).pageQuery.exec()
 
       // ASSERT
       expect(result[0].name).toBeUndefined()
@@ -221,7 +221,7 @@ describe('Query Builder', () => {
       const fiql = "name=='Parent 1'"
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(1)
@@ -233,7 +233,7 @@ describe('Query Builder', () => {
       const fiql = "name!='Parent 1'"
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(6)
@@ -245,7 +245,7 @@ describe('Query Builder', () => {
       const fiql = "name=gt='Parent 5'"
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(2)
@@ -257,7 +257,7 @@ describe('Query Builder', () => {
       const fiql = "name=ge='Parent 5'"
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(3)
@@ -270,7 +270,7 @@ describe('Query Builder', () => {
       const fiql = "name=lt='Parent 2'"
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(1)
@@ -281,7 +281,7 @@ describe('Query Builder', () => {
       const fiql = 'name=le=Parent%202'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(2)
@@ -295,8 +295,8 @@ describe('Query Builder', () => {
       const fiql2 = "name=re='.*blue.*'"
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
-      const result2 = await buildQuery(parentModel, { fiql: fiql2 }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
+      const result2 = await buildQuery(parentModel, { fiql: fiql2 }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(1)
@@ -308,7 +308,7 @@ describe('Query Builder', () => {
       const fiql = "child.name=re=('1$',gi)"
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(1)
@@ -334,7 +334,7 @@ describe('Query Builder', () => {
       const fiql = 'age==20'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(1)
@@ -346,7 +346,7 @@ describe('Query Builder', () => {
       const fiql = 'age!=20'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(6)
@@ -357,7 +357,7 @@ describe('Query Builder', () => {
       const fiql = 'age=gt=20'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(5)
@@ -368,7 +368,7 @@ describe('Query Builder', () => {
       const fiql = 'age=ge=20'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(6)
@@ -379,7 +379,7 @@ describe('Query Builder', () => {
       const fiql = 'age=lt=20'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(1)
@@ -390,7 +390,7 @@ describe('Query Builder', () => {
       const fiql = 'age=le=20'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(2)
@@ -405,7 +405,7 @@ describe('Query Builder', () => {
       const fiql = 'includedAt==1995-12-17T03:24:00.000-03:00'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(1)
@@ -419,7 +419,7 @@ describe('Query Builder', () => {
       const fiql = 'includedAt!=1995-12-17T03:24:00.000-03:00'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(6)
@@ -430,7 +430,7 @@ describe('Query Builder', () => {
       const fiql = 'includedAt=gt=1999-12-17T03:24:00.000-03:00'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(1)
@@ -441,7 +441,7 @@ describe('Query Builder', () => {
       const fiql = 'includedAt=ge=1999-12-17T03:24:00.000-03:00'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(2)
@@ -452,7 +452,7 @@ describe('Query Builder', () => {
       const fiql = 'includedAt=lt=1995-12-17T03:24:00.000-03:00'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(1)
@@ -463,7 +463,7 @@ describe('Query Builder', () => {
       const fiql = 'includedAt=le=1995-12-17T03:24:00.000-03:00'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(2)
@@ -477,8 +477,8 @@ describe('Query Builder', () => {
       const fiql2 = 'active==0'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
-      const result2 = await buildQuery(parentModel, { fiql: fiql2 }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
+      const result2 = await buildQuery(parentModel, { fiql: fiql2 }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(3)
@@ -492,7 +492,7 @@ describe('Query Builder', () => {
       const fiql = 'active==true;age==10'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(1)
@@ -504,7 +504,7 @@ describe('Query Builder', () => {
       const fiql = 'active==false,age==10'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(5)
@@ -515,7 +515,7 @@ describe('Query Builder', () => {
       const fiql = '(active==true;age==10),(active==false;age!=40)'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(4)
@@ -528,7 +528,7 @@ describe('Query Builder', () => {
       const fiql = 'nestedChild._id==NC01'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(1)
@@ -540,7 +540,7 @@ describe('Query Builder', () => {
       const fiql = 'child._id==C06'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(2)
@@ -553,7 +553,7 @@ describe('Query Builder', () => {
       const fiql = 'child.subChild._id==C02'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(1)
@@ -565,7 +565,7 @@ describe('Query Builder', () => {
       const fiql = 'child.subChild._id==C02,child.subChild._id==C03'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(2)
@@ -578,7 +578,7 @@ describe('Query Builder', () => {
       const fiql = 'childsArray._id==C02'
 
       // ACT
-      const result = await buildQuery(parentModel, { fiql }).exec()
+      const result = await buildQuery(parentModel, { fiql }).pageQuery.exec()
 
       // ASSERT
       expect(result.length).toBe(1)

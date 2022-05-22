@@ -1,18 +1,19 @@
 const mongoose = require('mongoose')
 const { entityModel } = require('./entity.js')
+const { v4: uuidv4 } = require('uuid')
 
 const { Schema } = mongoose
 
 const diagramSchema = new Schema({
-  id: String,
+  _id: { type: String, default: uuidv4 },
   name: String,
   entity: {
-    type: Schema.Types.String,
+    type: String,
     ref: entityModel(),
     relationship: {
       type: 'ONE_TO_ONE',
       localField: 'source',
-      foreignField: 'id'
+      foreignField: '_id'
     }
   },
   includedAt: Date,

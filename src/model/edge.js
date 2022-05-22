@@ -1,20 +1,43 @@
 const mongoose = require('mongoose')
 const { diagramItemModel } = require('./diagramItem')
 const { relationModel } = require('./relation')
+const { nodeModel } = require('./node')
 
 const { Schema } = mongoose
 const options = { discriminatorKey: 'kind' }
 
 const edgeSchema = new Schema({
-  sourceHandle: String,
-  targetHandle: String,
+  source: new Schema({
+    handle: String,
+    node: {
+      type: String,
+      ref: nodeModel(),
+      relationship: {
+        type: 'ONE_TO_ONE',
+        localField: 'node',
+        foreignField: '_id'
+      }
+    }
+  }),
+  target: new Schema({
+    handle: String,
+    node: {
+      type: String,
+      ref: nodeModel(),
+      relationship: {
+        type: 'ONE_TO_ONE',
+        localField: 'node',
+        foreignField: '_id'
+      }
+    }
+  }),
   relation: {
-    type: Schema.Types.String,
+    type: String,
     ref: relationModel(),
     relationship: {
       type: 'ONE_TO_ONE',
-      localField: 'source',
-      foreignField: 'id'
+      localField: 'relation',
+      foreignField: '_id'
     }
   }
 })

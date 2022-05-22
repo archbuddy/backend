@@ -1,18 +1,19 @@
 const mongoose = require('mongoose')
 const { diagramModel } = require('./diagram')
+const { v4: uuidv4 } = require('uuid')
 
 const { Schema } = mongoose
 const options = { discriminatorKey: 'kind' }
 
 const diagramItemSchema = new Schema({
-  id: String,
+  _id: { type: String, default: uuidv4 },
   diagram: {
-    type: Schema.Types.String,
+    type: String,
     ref: diagramModel(),
     relationship: {
       type: 'ONE_TO_ONE',
       localField: 'diagram',
-      foreignField: 'id'
+      foreignField: '_id'
     }
   },
   includedAt: Date,
