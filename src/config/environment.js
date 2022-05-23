@@ -52,7 +52,7 @@ const config = convict({
   APP_TITLE: {
     doc: 'Application title',
     format: String,
-    default: 'franchise-api'
+    default: 'arch-buddy'
   },
   APP_VERSION: {
     doc: 'Application version',
