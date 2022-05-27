@@ -40,8 +40,8 @@ async function create (request, reply) {
     const sourceNode = await nodeModel().findById(request.body.source.node)
     const targetNode = await nodeModel().findById(request.body.target.node)
     const relation = {
-      description: 'some new relation',
-      detail: 'relation detail',
+      description: '',
+      detail: '',
       source: sourceNode.entity,
       target: targetNode.entity
     }
