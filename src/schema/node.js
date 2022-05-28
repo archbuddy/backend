@@ -16,6 +16,9 @@ const nodeSchema = {
         y: {
           type: 'number'
         },
+        variant: {
+          type: 'string'
+        },
         entity: {
           $ref: 'entity'
         }
@@ -27,7 +30,7 @@ const nodeSchema = {
 // TODO review which params are required and the type of each
 const nodeUpsertSchema = JSON.parse(JSON.stringify(diagramItemUpsertSchema))
 nodeSchema.properties = { ...diagramItemUpsertSchema.properties }
-nodeUpsertSchema.required.push('name')
+nodeUpsertSchema.required.push('variant')
 nodeUpsertSchema.required.push('x')
 nodeUpsertSchema.required.push('y')
 nodeUpsertSchema.properties.x = {
@@ -36,8 +39,18 @@ nodeUpsertSchema.properties.x = {
 nodeUpsertSchema.properties.y = {
   type: 'number'
 }
-nodeUpsertSchema.properties.name = {
+nodeUpsertSchema.properties.variant = {
   type: 'string'
+}
+nodeUpsertSchema.properties.entity = {
+  oneOf: [
+    {
+      $ref: 'entity'
+    },
+    {
+      type: 'string'
+    }
+  ]
 }
 
 module.exports = { nodeSchema, nodeUpsertSchema }
