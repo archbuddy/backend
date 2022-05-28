@@ -22,9 +22,9 @@ fastify.register(require('@fastify/cors'), {
 })
 fastify.register(fastifySwagger, getOpenapiDefinition())
 
-fastify.addHook("onRequest", (req, reply, done) => {
+fastify.addHook('onRequest', (req, reply, done) => {
   log.info({ url: req.raw.url, id: req.id, startTime: Date.now(), sessionId: req.sessionId })
-  done();
+  done()
 })
 
 fastify.addSchema(require('./schema/entity.js').entitySchema)
