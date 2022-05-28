@@ -142,10 +142,6 @@ async function prepareEdges (edges) {
     if (list === undefined) {
       continue
     }
-    if (list.length === 1) {
-      listToReturn.push(list[0])
-      continue
-    }
     const obj = JSON.parse(JSON.stringify(list[0]))
     obj.innerList = []
     obj.data = {
