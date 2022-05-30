@@ -21,6 +21,12 @@ fastify.register(require('@fastify/cors'), {
   origin: true
 })
 fastify.register(fastifySwagger, getOpenapiDefinition())
+
+fastify.addHook('onRequest', (req, reply, done) => {
+  log.info({ url: req.raw.url, id: req.id, startTime: Date.now(), sessionId: req.sessionId })
+  done()
+})
+
 fastify.addSchema(require('./schema/entity.js').entitySchema)
 fastify.addSchema(require('./schema/relation.js').relationSchema)
 fastify.addSchema(require('./schema/diagram.js').diagramSchema)
@@ -65,8 +71,9 @@ fastify.setErrorHandler(function (error, request, reply) {
 const start = async () => {
   try {
     await connectMongo()
-    log.info('Starting server')
-    await fastify.listen(3000)
+    const port = 3000
+    log.info(`Starting server on port ${port}`)
+    await fastify.listen(port)
     log.info('Started')
   } catch (err) {
     await disconnectMongo()
