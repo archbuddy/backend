@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon src/index.js",
     "test": "standard --fix && jest  --coverage ./tests/* --detectOpenHandles",
+    "test:husky": "jest  --coverage ./tests/* --detectOpenHandles",
     "test:custom": "standard --fix && jest ./tests/service/viewPoint.test.js",
     "lint": "standard",
     "lint:fix": "standard --fix",
