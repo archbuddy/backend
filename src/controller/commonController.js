@@ -142,7 +142,7 @@ async function deleteById (model, request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function validateParamsId (request, reply) {
-  if(request.params.id && ( request.params.id === undefined || request.params.id === "undefined" )) {
+  if (request.params.id && (request.params.id === undefined || request.params.id === 'undefined')) {
     reply.code(400).send({
       message: 'ID is undefined'
     })
