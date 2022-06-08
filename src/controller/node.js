@@ -54,7 +54,7 @@ async function create (request, reply) {
   }
   const data = await nodeModel().insertMany(node)
 
-  reply.code(201).header('Location', `${request.routerPath}/${data._id}`).send({ id: data._id })
+  reply.code(200).header('Location', `${request.routerPath}/${data._id}`).send({ id: data._id })
 }
 
 /**

@@ -65,7 +65,7 @@ async function create (model, request, reply) {
   const data = await model.inserOne([
     body
   ])
-  reply.code(201).header('Location', `${request.routerPath}/${data._id}`).send({ id: data._id })
+  reply.code(200).header('Location', `${request.routerPath}/${data._id}`).send({ id: data._id })
 }
 
 /**
