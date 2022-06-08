@@ -23,7 +23,7 @@ fastify.register(require('@fastify/cors'), {
 fastify.register(fastifySwagger, getOpenapiDefinition())
 
 fastify.addHook('onRequest', (req, reply, done) => {
-  log.info({ url: req.raw.url, id: req.id, startTime: Date.now(), sessionId: req.sessionId })
+  log.info({ url: req.raw.url, id: req.id, startTime: Date.now(), method: req.method })
   done()
 })
 

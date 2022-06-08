@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon src/index.js",
     "test": "standard --fix && jest  --coverage ./tests/* --detectOpenHandles",
+    "test:husky": "jest  --coverage ./tests/* --detectOpenHandles",
     "test:custom": "standard --fix && jest ./tests/service/viewPoint.test.js",
     "lint": "standard",
     "lint:fix": "standard --fix",
@@ -24,25 +25,25 @@
   "homepage": "https://archbuddy.github.io/documentation",
   "dependencies": {
     "@fastify/cors": "^7.0.0",
-    "@fastify/helmet": "8.0.1",
+    "@fastify/helmet": "8.1.0",
     "@fastify/static": "^5.0.2",
-    "@fastify/swagger": "^6.0.1",
+    "@fastify/swagger": "^6.1.0",
     "convict": "^6.2.3",
     "fastify": "^3.29.0",
     "fastify-plugin": "^3.0.0",
     "fiql-parser": "^0.1.2",
     "fs-extra": "^10.1.0",
     "http-errors": "2.0.0",
-    "mongoose": "^6.3.4",
+    "mongoose": "^6.3.5",
     "uuid": "^8.3.2",
     "winston": "^3.7.2"
   },
   "devDependencies": {
-    "@shelf/jest-mongodb": "^2.2.2",
+    "@shelf/jest-mongodb": "^3.0.1",
     "dotenv": "^16.0.1",
     "husky": "^8.0.1",
     "jest": "^28.1.0",
-    "mongodb-memory-server": "^8.5.2",
+    "mongodb-memory-server": "^8.6.0",
     "nodemon": "^2.0.16",
     "standard": "^17.0.0"
   },
