@@ -46,6 +46,8 @@ async function list (model, request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function byId (model, request, reply) {
+  await validateParamsId(request, reply)
+
   const query = { _id: request.params.id }
   const result = await model.findOne(query)
 
@@ -76,6 +78,8 @@ async function create (model, request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function update (model, request, reply) {
+  await validateParamsId(request, reply)
+
   const entity = request.body
   delete entity.updatedAt
   delete entity._id
@@ -98,6 +102,8 @@ async function update (model, request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function partialUpdate (model, request, reply) {
+  await validateParamsId(request, reply)
+
   const entity = request.body
   delete entity.updatedAt
   delete entity._id
@@ -119,12 +125,28 @@ async function partialUpdate (model, request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function deleteById (model, request, reply) {
+  await validateParamsId(request, reply)
+
   const result = await model.deleteOne({ _id: request.params.id })
 
   if (result.deletedCount <= 0) {
     throw new NotFound('Entity not found')
   }
   reply.code(204).send()
+}
+
+/**
+ *
+ * @description https://www.rfc-editor.org/info/rfc7396
+ * @param {import('fastify').FastifyRequest} request
+ * @param {import('fastify').FastifyReply} reply
+ */
+async function validateParamsId (request, reply) {
+  if (request.params.id && (request.params.id === undefined || request.params.id === 'undefined')) {
+    reply.code(400).send({
+      message: 'ID is undefined'
+    })
+  }
 }
 
 module.exports = { list, byId, create, update, partialUpdate, deleteById }
