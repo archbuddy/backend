@@ -34,24 +34,15 @@ async function create (request, reply) {
   // but if you change the uuid generation and do not use request.body it maybe works
   // request from screen {type,name,position,diagramId}
 
-  const entityId = typeof request.body.entity === 'string' ? request.body.entity : request.body.entity.id
-  if (!entityId) {
-    throw new Error('Cannot get entity id from body')
-  }
-  let entity = await entityModel().findById(entityId)
-  if (!entity) {
-    entity = await entityModel().create({
-      _id: request.body.entity.id,
-      name: request.body.entity.name,
-      description: request.body.entity.description,
-      type: request.body.entity.type,
-      variant: request.body.variant
-    })
-  }
+  entity = await entityModel().create({
+    name: request.body.entity.name,
+    description: request.body.entity.description,
+    type: request.body.entity.type,
+    variant: request.body.variant
+  })
 
   // TODO check if this relation exists
   const node = {
-    _id: request.body._id ?? uuidv4(),
     x: request.body.x,
     y: request.body.y,
     variant: request.body.variant,
