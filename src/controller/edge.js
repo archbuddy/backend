@@ -51,8 +51,9 @@ async function create (request, reply) {
     edge.relation = relationDbResult._id
   }
 
-  await edgeModel().create(edge)
-  reply.status(201).send()
+  const data = await edgeModel().create(edge)
+
+  reply.code(201).header('Location', `${request.routerPath}/${data._id}`).send({ id: data._id })
 }
 
 /**

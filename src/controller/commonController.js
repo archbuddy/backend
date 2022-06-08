@@ -1,6 +1,5 @@
 const { NotFound } = require('http-errors')
 const Page = require('../util/page.js')
-const { v4: uuidv4 } = require('uuid')
 const { buildQuery } = require('../util/fiqlQueryBuilder.js')
 /**
  * List Entity
@@ -62,12 +61,11 @@ async function byId (model, request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function create (model, request, reply) {
-  const _id = request.body._id ?? uuidv4()
-  const data = { ...request.body, _id, includedAt: new Date(), updatedAt: new Date() }
-  await model.insertMany([
-    data
+  const body = { ...request.body, includedAt: new Date(), updatedAt: new Date() }
+  const data = await model.inserOne([
+    body
   ])
-  reply.code(201).header('Location', `${request.routerPath}/${_id}`).send()
+  reply.code(201).header('Location', `${request.routerPath}/${data._id}`).send({ id: data._id })
 }
 
 /**
