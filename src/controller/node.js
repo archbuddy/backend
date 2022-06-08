@@ -1,7 +1,6 @@
 const { nodeModel } = require('../model/node')
 const { entityModel } = require('../model/entity')
 const commonController = require('./commonController.js')
-const { v4: uuidv4 } = require('uuid')
 
 /**
  * List nodes
@@ -34,7 +33,7 @@ async function create (request, reply) {
   // but if you change the uuid generation and do not use request.body it maybe works
   // request from screen {type,name,position,diagramId}
 
-  entity = await entityModel().create({
+  const entity = await entityModel().create({
     name: request.body.entity.name,
     description: request.body.entity.description,
     type: request.body.entity.type,
