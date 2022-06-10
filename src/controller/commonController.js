@@ -12,7 +12,6 @@ async function list (model, request, reply) {
 
   let entities
   let count
-  // TODO remove _id to return to screen
   const entitiesPromise = q.pageQuery.exec().then((e) => {
     entities = e
   })
@@ -22,9 +21,10 @@ async function list (model, request, reply) {
     .then((c) => {
       count = c
     })
-
+  
   await Promise.all([entitiesPromise, countPromise])
-
+  
+  // TODO remove _id to return to screen
   const page = new Page(
     request.routerPath,
     entities,
@@ -148,6 +148,11 @@ async function validateParamsId (request, reply) {
   }
 }
 
+/**
+ * Prepare a a response message
+ * @param {Moongose object} data 
+ * @returns Object without the _id
+ */
 function prepareResponse (data) {
   const obj = data.toObject()
   obj.id = obj._id
