@@ -65,7 +65,7 @@ async function byId (model, request, reply) {
 async function create (model, request, reply) {
   const body = { ...request.body, includedAt: new Date(), updatedAt: new Date() }
   const data = await model.create(body)
-  reply.code(200).header('Location', `${request.routerPath}/${data._id}`).send({ id: data._id })
+  reply.code(200).header('Location', `${request.routerPath}/${data._id}`).send(data)
 }
 
 /**
