@@ -52,7 +52,7 @@ async function create (request, reply) {
     entity: entityId,
     diagram: request.body.diagram
   }
-  const data = await nodeModel().insertMany(node)
+  const data = await nodeModel().create(node)
 
   reply.code(200)
     .header('Location', `${request.routerPath}/${data._id}`)
