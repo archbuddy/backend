@@ -53,7 +53,9 @@ async function create (request, reply) {
 
   const data = await edgeModel().create(edge)
 
-  reply.code(200).header('Location', `${request.routerPath}/${data._id}`).send(data)
+  reply.code(200)
+    .header('Location', `${request.routerPath}/${data._id}`)
+    .send(commonController.prepareResponse(data))
 }
 
 /**

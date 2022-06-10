@@ -12,6 +12,7 @@ async function list (model, request, reply) {
 
   let entities
   let count
+  // TODO remove _id to return to screen
   const entitiesPromise = q.pageQuery.exec().then((e) => {
     entities = e
   })
@@ -54,7 +55,7 @@ async function byId (model, request, reply) {
     throw new NotFound('Entity not found')
   }
 
-  reply.code(200).send(result)
+  reply.code(200).send(prepareResponse(result))
 }
 
 /**
@@ -65,7 +66,9 @@ async function byId (model, request, reply) {
 async function create (model, request, reply) {
   const body = { ...request.body, includedAt: new Date(), updatedAt: new Date() }
   const data = await model.create(body)
-  reply.code(200).header('Location', `${request.routerPath}/${data._id}`).send(data)
+  reply.code(200)
+    .header('Location', `${request.routerPath}/${data._id}`)
+    .send(prepareResponse(data))
 }
 
 /**
@@ -145,4 +148,9 @@ async function validateParamsId (request, reply) {
   }
 }
 
-module.exports = { list, byId, create, update, partialUpdate, deleteById }
+function prepareResponse (data) {
+  data.id = data._id
+  return data
+}
+
+module.exports = { list, byId, create, update, partialUpdate, deleteById, prepareResponse }
