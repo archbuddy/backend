@@ -149,8 +149,10 @@ async function validateParamsId (request, reply) {
 }
 
 function prepareResponse (data) {
-  data.id = data._id
-  return data
+  const obj = data.toObject()
+  obj.id = obj._id
+  delete obj._id
+  return obj
 }
 
 module.exports = { list, byId, create, update, partialUpdate, deleteById, prepareResponse }
