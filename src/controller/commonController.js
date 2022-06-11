@@ -1,6 +1,5 @@
 const { NotFound } = require('http-errors')
 const Page = require('../util/page.js')
-const { v4: uuidv4 } = require('uuid')
 const { buildQuery } = require('../util/fiqlQueryBuilder.js')
 /**
  * List Entity
@@ -22,9 +21,10 @@ async function list (model, request, reply) {
     .then((c) => {
       count = c
     })
-
+  
   await Promise.all([entitiesPromise, countPromise])
-
+  
+  // TODO remove _id to return to screen
   const page = new Page(
     request.routerPath,
     entities,
@@ -55,7 +55,7 @@ async function byId (model, request, reply) {
     throw new NotFound('Entity not found')
   }
 
-  reply.code(200).send(result)
+  reply.code(200).send(prepareResponse(result))
 }
 
 /**
@@ -64,12 +64,11 @@ async function byId (model, request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function create (model, request, reply) {
-  const _id = request.body._id ?? uuidv4()
-  const data = { ...request.body, _id, includedAt: new Date(), updatedAt: new Date() }
-  await model.insertMany([
-    data
-  ])
-  reply.code(201).header('Location', `${request.routerPath}/${_id}`).send()
+  const body = { ...request.body, includedAt: new Date(), updatedAt: new Date() }
+  const data = await model.create(body)
+  reply.code(200)
+    .header('Location', `${request.routerPath}/${data._id}`)
+    .send(prepareResponse(data))
 }
 
 /**
@@ -149,4 +148,16 @@ async function validateParamsId (request, reply) {
   }
 }
 
-module.exports = { list, byId, create, update, partialUpdate, deleteById }
+/**
+ * Prepare a a response message
+ * @param {Moongose object} data 
+ * @returns Object without the _id
+ */
+function prepareResponse (data) {
+  const obj = data.toObject()
+  obj.id = obj._id
+  delete obj._id
+  return obj
+}
+
+module.exports = { list, byId, create, update, partialUpdate, deleteById, prepareResponse }

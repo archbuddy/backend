@@ -1,7 +1,6 @@
 const { nodeModel } = require('../model/node')
 const { entityModel } = require('../model/entity')
 const commonController = require('./commonController.js')
-const { v4: uuidv4 } = require('uuid')
 
 /**
  * List nodes
@@ -34,33 +33,30 @@ async function create (request, reply) {
   // but if you change the uuid generation and do not use request.body it maybe works
   // request from screen {type,name,position,diagramId}
 
-  const entityId = typeof request.body.entity === 'string' ? request.body.entity : request.body.entity.id
-  if (!entityId) {
-    throw new Error('Cannot get entity id from body')
-  }
-  let entity = await entityModel().findById(entityId)
-  if (!entity) {
-    entity = await entityModel().create({
-      _id: request.body.entity.id,
+  let entityId = request.body.entity.id
+  if (entityId === undefined) {
+    const entity = await entityModel().create({
       name: request.body.entity.name,
       description: request.body.entity.description,
       type: request.body.entity.type,
       variant: request.body.variant
     })
+    entityId = entity._id
   }
 
   // TODO check if this relation exists
   const node = {
-    _id: request.body._id ?? uuidv4(),
     x: request.body.x,
     y: request.body.y,
     variant: request.body.variant,
-    entity: entity._id,
+    entity: entityId,
     diagram: request.body.diagram
   }
-  await nodeModel().insertMany(node)
+  const data = await nodeModel().create(node)
 
-  reply.code(201).send()
+  reply.code(200)
+    .header('Location', `${request.routerPath}/${data._id}`)
+    .send(commonController.prepareResponse(data))
 }
 
 /**
