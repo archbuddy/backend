@@ -34,7 +34,7 @@
     "fiql-parser": "^0.1.2",
     "fs-extra": "^10.1.0",
     "http-errors": "2.0.0",
-    "mongoose": "^6.3.5",
+    "mongoose": "^6.3.6",
     "uuid": "^8.3.2",
     "winston": "^3.7.2"
   },
@@ -42,7 +42,7 @@
     "@shelf/jest-mongodb": "^3.0.1",
     "dotenv": "^16.0.1",
     "husky": "^8.0.1",
-    "jest": "^28.1.0",
+    "jest": "^28.1.1",
     "mongodb-memory-server": "^8.6.0",
     "nodemon": "^2.0.16",
     "standard": "^17.0.0"
