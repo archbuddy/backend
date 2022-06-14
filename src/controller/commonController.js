@@ -160,4 +160,19 @@ function prepareResponse (data) {
   return obj
 }
 
-module.exports = { list, byId, create, update, partialUpdate, deleteById, prepareResponse }
+/**
+ * Return a standard message
+ * @param {*} code Error Code
+ * @param {*} message Message from the flow
+ * @param {*} error Exception error Object
+ * @returns Error message
+ */
+function prepareErrorResponse (code, message, error) {
+  return {
+    code,
+    message,
+    error: error?.message
+  }
+}
+
+module.exports = { list, byId, create, update, partialUpdate, deleteById, prepareResponse, prepareErrorResponse }

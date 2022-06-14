@@ -26,6 +26,16 @@ async function byId (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function create (request, reply) {
+  // Check if there a entity with the same name
+  const searchResult = await entityModel().find({ name: request.body.name}).exec()
+  if (searchResult !== undefined && searchResult.length > 0) {
+    return reply
+      .code(400)
+      .send(
+        commonController.prepareErrorResponse(400, 'Object already exists on database', undefined)
+      )
+  }
+  // if not create it
   return commonController.create(entityModel(), request, reply)
 }
 
