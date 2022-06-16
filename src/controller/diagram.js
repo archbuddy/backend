@@ -27,7 +27,9 @@ async function byId (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function create (request, reply) {
-  const result = await diagramModel().find( {name: request.body.name })
+  const result = await diagramModel().find(
+    { name: new RegExp(`^${request.body.name}$`, 'i') }
+  )
   if (result.length > 0) {
     return reply.code(409).send(commonController.prepareResponse(result[0]))
   }
