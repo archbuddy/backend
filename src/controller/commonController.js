@@ -161,17 +161,19 @@ function prepareResponse (data) {
 }
 
 /**
- * Return a standard message
+ * Return a standard message following the RFC 7807
  * @param {*} code Error Code
  * @param {*} message Message from the flow
  * @param {*} error Exception error Object
  * @returns Error message
  */
-function prepareErrorResponse (code, message, error) {
+function prepareErrorResponse (statusCode, message, detail, type, instance) {
   return {
-    code,
+    statusCode,
     message,
-    error: error?.message
+    detail,
+    type: type ?? 'https://archbuddy.github.io/documentation/commonErrors',
+    instance
   }
 }
 

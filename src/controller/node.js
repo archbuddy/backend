@@ -40,7 +40,13 @@ async function create (request, reply) {
       return reply
         .code(400)
         .send(
-          commonController.prepareErrorResponse(400, 'Object already exists on database', undefined)
+          commonController.prepareErrorResponse(
+            400,
+            'Object already exists on database',
+            `The node you are trying to create already exists with the name ${request.body.name}`,
+            undefined,
+            undefined
+          )
         )
     }
     const entity = await entityModel().create({
