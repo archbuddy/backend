@@ -78,6 +78,7 @@ const start = async () => {
   } catch (err) {
     await disconnectMongo()
     log.error(err)
+    log.error(err.message)
     process.exit(1)
   }
 }
