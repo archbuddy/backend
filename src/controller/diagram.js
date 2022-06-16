@@ -73,6 +73,11 @@ async function deleteById (request, reply) {
  */
 async function reactFlow (request, reply) {
   const diagramId = request.params.id
+  const obj = await diagramModel().findOne({ _id: diagramId})
+  if (obj === null) {
+    // TODO await error handling proposal
+    return reply.code(404).send()
+  }
   const nodes = await nodeModel().find({ diagram: diagramId }).populate('entity').exec()
   const edges = await edgeModel().find({ diagram: diagramId }).populate('relation').exec()
   const reactEdges = await convertEdgeToReactFlow(edges)
