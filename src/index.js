@@ -64,6 +64,14 @@ registryCommonRoutes(fastify, '/relations', relationRoute)
 fastify.get('/diagrams/:id/reactflow', diagramRoute.reactFlow)
 
 fastify.setErrorHandler(function (error, request, reply) {
+  const obj = {
+    url: request.url,
+    method: request.method,
+    params: request.params,
+    queryString: request.query,
+    errorMessage: error.message
+  }
+  log.error(`Generic error handling >>> ${JSON.stringify(obj)}`)
   reply.send(error)
 })
 
