@@ -157,6 +157,7 @@ function prepareResponse (data) {
   const obj = data.toObject()
   obj.id = obj._id
   delete obj._id
+  delete obj.__v
   return obj
 }
 
