@@ -35,6 +35,20 @@ async function create (request, reply) {
 
   let entityId = request.body.entity.id
   if (entityId === undefined) {
+    const searchResult = await entityModel().find({ name: request.body.name}).exec()
+    if (searchResult !== undefined && searchResult.length > 0) {
+      return reply
+        .code(400)
+        .send(
+          commonController.prepareErrorResponse(
+            400,
+            'Object already exists on database',
+            `The node you are trying to create already exists with the name ${request.body.name}`,
+            undefined,
+            undefined
+          )
+        )
+    }
     const entity = await entityModel().create({
       name: request.body.entity.name,
       description: request.body.entity.description,
