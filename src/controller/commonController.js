@@ -142,9 +142,13 @@ async function deleteById (model, request, reply) {
  */
 async function validateParamsId (request, reply) {
   if (request.params.id && (request.params.id === undefined || request.params.id === 'undefined')) {
-    reply.code(400).send({
-      message: 'ID is undefined'
-    })
+    reply.code(400).send(prepareErrorResponse(
+      400,
+      'Invalid ID',
+      `The id to execute the operation is invalid. Received: ${request.params.id}`,
+      undefined,
+      undefined
+    ))
   }
 }
 
@@ -174,7 +178,7 @@ function prepareErrorResponse (statusCode, message, detail, type, instance) {
     message,
     detail,
     type: type ?? 'https://archbuddy.github.io/documentation/commonErrors',
-    instance
+    instance: instance ?? ''
   }
 }
 

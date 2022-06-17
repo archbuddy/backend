@@ -75,8 +75,13 @@ async function reactFlow (request, reply) {
   const diagramId = request.params.id
   const obj = await diagramModel().findOne({ _id: diagramId})
   if (obj === null) {
-    // TODO await error handling proposal
-    return reply.code(404).send()
+    return reply.code(404).send(commonController.prepareErrorResponse(
+      404,
+      'Diagram not found',
+      'You are trying to retrieve data from a diagram that doesn\'t exists!',
+      undefined,
+      undefined
+    ))
   }
   const nodes = await nodeModel().find({ diagram: diagramId }).populate('entity').exec()
   const edges = await edgeModel().find({ diagram: diagramId }).populate('relation').exec()
