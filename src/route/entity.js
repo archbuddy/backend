@@ -16,7 +16,6 @@ const list = {
           description:
             'Filter to select fields thar must be returned. Ex.: "?fields=id,name"',
           type: 'string',
-          in: 'query',
           default: ''
         },
         fiql: {
@@ -45,19 +44,16 @@ Operator | Description
 =le= | Less Than or Equal To 
 =re= | Regular expressions. Available only for 'string' properties. <br /><br />Format: '('<regular expression>','<options: optional>')' <br /><br /> See details in [mongoDb docs](https://docs.mongodb.com/manual/reference/operator/query/regex/).`,
           type: 'string',
-          in: 'query',
           default: ''
         },
         offset: {
           description: 'Number of records to be skipped',
           type: 'integer',
-          in: 'query',
           default: 0
         },
         limit: {
           description: 'Number of records to be returned',
           type: 'integer',
-          in: 'query',
           default: 10
         }
       }
@@ -82,7 +78,7 @@ const byId = {
         id: {
           ...entitySchema.properties.id,
           description: 'Id',
-          in: 'query'
+          
         }
       }
     }
@@ -103,7 +99,7 @@ const byIdHead = {
         id: {
           ...entitySchema.properties.id,
           description: 'Id',
-          in: 'query'
+          
         }
       }
     }
@@ -149,7 +145,7 @@ const update = {
         id: {
           ...entitySchema.properties.id,
           description: 'Id',
-          in: 'query'
+          
         }
       }
     }
@@ -177,7 +173,7 @@ const partialUpdate = {
         id: {
           ...entitySchema.properties.id,
           description: 'Id',
-          in: 'query'
+          
         }
       }
     }
@@ -201,7 +197,7 @@ const deleteById = {
         id: {
           ...entitySchema.properties.id,
           description: 'Id',
-          in: 'query'
+          
         }
       }
     }
