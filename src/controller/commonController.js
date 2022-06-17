@@ -161,4 +161,21 @@ function prepareResponse (data) {
   return obj
 }
 
-module.exports = { list, byId, create, update, partialUpdate, deleteById, prepareResponse }
+/**
+ * Return a standard message following the RFC 7807
+ * @param {*} code Error Code
+ * @param {*} message Message from the flow
+ * @param {*} error Exception error Object
+ * @returns Error message
+ */
+function prepareErrorResponse (statusCode, message, detail, type, instance) {
+  return {
+    statusCode,
+    message,
+    detail,
+    type: type ?? 'https://archbuddy.github.io/documentation/commonErrors',
+    instance
+  }
+}
+
+module.exports = { list, byId, create, update, partialUpdate, deleteById, prepareResponse, prepareErrorResponse }
