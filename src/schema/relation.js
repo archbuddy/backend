@@ -15,10 +15,14 @@ const relationSchema = {
       type: 'string'
     },
     source: {
-      $ref: 'entity'
+      // TODO You cannot have the same $id (or the schema identifier) used for more than one schema - the exception will be thrown.
+      //$ref: 'entity'
+      type: 'object'
     },
     target: {
-      $ref: 'entity'
+      // TODO You cannot have the same $id (or the schema identifier) used for more than one schema - the exception will be thrown.
+      //$ref: 'entity'
+      type: 'object'
     },
     includedAt: {
       type: 'string',
