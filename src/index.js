@@ -96,7 +96,7 @@ const start = async () => {
     await connectMongo()
     const port = 3000
     log.info(`Starting server on port ${port}`)
-    await fastify.listen(port)
+    await fastify.listen({ port })
     log.info('Started')
   } catch (err) {
     await disconnectMongo()
