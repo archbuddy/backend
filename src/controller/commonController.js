@@ -21,9 +21,9 @@ async function list (model, request, reply) {
     .then((c) => {
       count = c
     })
-  
+
   await Promise.all([entitiesPromise, countPromise])
-  
+
   // TODO remove _id to return to screen
   const page = new Page(
     request.routerPath,
@@ -154,7 +154,7 @@ async function validateParamsId (request, reply) {
 
 /**
  * Prepare a a response message
- * @param {Moongose object} data 
+ * @param {Moongose object} data
  * @returns Object without the _id
  */
 function prepareResponse (data) {
