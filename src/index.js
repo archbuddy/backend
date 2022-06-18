@@ -29,6 +29,12 @@ fastify.addHook('onRequest', (req, reply, done) => {
 
 fastify.addHook('preHandler', (req, reply, done) => {
   log.debug('Start authentication validation')
+
+  if (req.raw.url.indexOf('/doc') === 0) {
+    done()
+    return
+  }
+
   if (!req.headers.authorization) {
     log.error('Header authorization is missing')
     reply.code(401).send()
