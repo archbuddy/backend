@@ -1,5 +1,4 @@
 const { nodeModel } = require('../model/node')
-const { entityModel } = require('../model/entity')
 const commonController = require('./commonController.js')
 
 /**
@@ -32,7 +31,7 @@ async function create (request, reply) {
   // I tried to use commonController to create the node and entity but the way is implemented is not possible
   // but if you change the uuid generation and do not use request.body it maybe works
   // request from screen {type,name,position,diagramId}
-  let entityId = request.body.entity
+  const entityId = request.body.entity
 
   // TODO check if this relation exists
   const node = {

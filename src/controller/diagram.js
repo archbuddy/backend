@@ -73,7 +73,7 @@ async function deleteById (request, reply) {
  */
 async function reactFlow (request, reply) {
   const diagramId = request.params.id
-  const obj = await diagramModel().findOne({ _id: diagramId})
+  const obj = await diagramModel().findOne({ _id: diagramId })
   if (obj === null) {
     return reply.code(404).send(commonController.prepareErrorResponse(
       404,
