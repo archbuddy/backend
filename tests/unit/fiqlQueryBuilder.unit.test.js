@@ -1,4 +1,4 @@
-const { buildQuery } = require('../fiqlQueryBuilder')
+const { buildQuery } = require('../../src/util/fiqlQueryBuilder')
 const mongoose = require('mongoose')
 const { MongoMemoryServer } = require('mongodb-memory-server')
 const testData = require('./testData.json')
