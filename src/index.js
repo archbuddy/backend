@@ -49,7 +49,6 @@ fastify.addHook('preHandler', (req, reply, done) => {
     log.error('Header authorization is invalid')
     reply.code(401).send()
   }
-
   log.debug('End authentication validation')
   done()
 })
