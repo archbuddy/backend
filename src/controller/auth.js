@@ -1,5 +1,4 @@
 const axios = require('axios')
-const fastify = require('fastify')({ logger: false })
 const commonController = require('./commonController')
 /**
  * Check the general availability of the application
@@ -17,7 +16,7 @@ async function authentication (request, reply) {
       reply.status(500).send(commonController.prepareErrorResponse(
         500,
         'Auth google params invalid',
-        `Params do not match requirements expected`,
+        'Params do not match requirements expected',
         undefined,
         undefined
       ))
@@ -51,7 +50,7 @@ async function authentication (request, reply) {
       ))
       return
     }
-    
+
     reply.status(200).send(paramMap)
   } else {
     reply.status(500).send(commonController.prepareErrorResponse(

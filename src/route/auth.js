@@ -7,7 +7,7 @@ const authentication = {
   handler: authController.authentication,
   schema: {
     query: {
-      type: 'object',
+      type: 'object'
     },
     response: {
     }
