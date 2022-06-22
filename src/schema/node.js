@@ -20,7 +20,8 @@ const nodeSchema = {
           type: 'string'
         },
         entity: {
-          $ref: 'entity'
+          type: 'string',
+          format: 'uuid'
         }
       }
     }
@@ -43,14 +44,8 @@ nodeUpsertSchema.properties.variant = {
   type: 'string'
 }
 nodeUpsertSchema.properties.entity = {
-  oneOf: [
-    {
-      $ref: 'entity'
-    },
-    {
-      type: 'string'
-    }
-  ]
+  type: 'string',
+  format: 'uuid'
 }
 
 module.exports = { nodeSchema, nodeUpsertSchema }

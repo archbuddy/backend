@@ -1,5 +1,4 @@
 const { nodeModel } = require('../model/node')
-const { entityModel } = require('../model/entity')
 const commonController = require('./commonController.js')
 
 /**
@@ -32,31 +31,7 @@ async function create (request, reply) {
   // I tried to use commonController to create the node and entity but the way is implemented is not possible
   // but if you change the uuid generation and do not use request.body it maybe works
   // request from screen {type,name,position,diagramId}
-
-  let entityId = request.body.entity.id
-  if (entityId === undefined) {
-    const searchResult = await entityModel().find({ name: request.body.name}).exec()
-    if (searchResult !== undefined && searchResult.length > 0) {
-      return reply
-        .code(400)
-        .send(
-          commonController.prepareErrorResponse(
-            400,
-            'Object already exists on database',
-            `The node you are trying to create already exists with the name ${request.body.name}`,
-            undefined,
-            undefined
-          )
-        )
-    }
-    const entity = await entityModel().create({
-      name: request.body.entity.name,
-      description: request.body.entity.description,
-      type: request.body.entity.type,
-      variant: request.body.variant
-    })
-    entityId = entity._id
-  }
+  const entityId = request.body.entity
 
   // TODO check if this relation exists
   const node = {

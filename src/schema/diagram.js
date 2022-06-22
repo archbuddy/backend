@@ -12,7 +12,8 @@ const diagramSchema =
       type: 'string'
     },
     entity: {
-      $ref: 'entity'
+      $ref: 'entity',
+      description: 'Is used for drill down proposal for level 2, 3, etc'
     },
     includedAt: {
       type: 'string',

@@ -27,6 +27,27 @@ fastify.addHook('onRequest', (req, reply, done) => {
   done()
 })
 
+fastify.addHook('preHandler', (req, reply, done) => {
+  log.debug('Start authentication validation')
+
+  if (req.raw.url.indexOf('/doc') === 0) {
+    done()
+    return
+  }
+
+  if (!req.headers.authorization) {
+    log.error('Header authorization is missing')
+    reply.code(401).send()
+  }
+  const parse = req.headers.authorization.split(' ')
+  if (parse.length !== 2 || parse[0] !== 'Bearer') {
+    log.error('Header authorization is invalid')
+    reply.code(401).send()
+  }
+  log.debug('End authentication validation')
+  done()
+})
+
 fastify.addSchema(require('./schema/entity.js').entitySchema)
 fastify.addSchema(require('./schema/relation.js').relationSchema)
 fastify.addSchema(require('./schema/diagram.js').diagramSchema)
@@ -64,6 +85,14 @@ registryCommonRoutes(fastify, '/relations', relationRoute)
 fastify.get('/diagrams/:id/reactflow', diagramRoute.reactFlow)
 
 fastify.setErrorHandler(function (error, request, reply) {
+  const obj = {
+    url: request.url,
+    method: request.method,
+    params: request.params,
+    queryString: request.query,
+    errorMessage: error.message
+  }
+  log.error(`Generic error handling >>> ${JSON.stringify(obj)}`)
   reply.send(error)
 })
 
@@ -73,11 +102,12 @@ const start = async () => {
     await connectMongo()
     const port = 3000
     log.info(`Starting server on port ${port}`)
-    await fastify.listen(port)
+    await fastify.listen({ port })
     log.info('Started')
   } catch (err) {
     await disconnectMongo()
     log.error(err)
+    log.error(err.message)
     process.exit(1)
   }
 }
