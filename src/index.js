@@ -14,6 +14,8 @@ const edgeRoute = require('./route/edge')
 const entityRoute = require('./route/entity')
 const nodeRoute = require('./route/node')
 const relationRoute = require('./route/relation')
+const authRoute = require('./route/auth')
+
 const { connectMongo, disconnectMongo } = require('./repository/db.js')
 
 fastify.register(require('@fastify/cors'), {
@@ -21,6 +23,9 @@ fastify.register(require('@fastify/cors'), {
   origin: true
 })
 fastify.register(fastifySwagger, getOpenapiDefinition())
+fastify.register(require('fastify-jwt'), {
+  secret: 'mysupersecret'
+})
 
 fastify.addHook('onRequest', (req, reply, done) => {
   log.info({ url: req.raw.url, id: req.id, startTime: Date.now(), method: req.method })
@@ -30,7 +35,7 @@ fastify.addHook('onRequest', (req, reply, done) => {
 fastify.addHook('preHandler', (req, reply, done) => {
   log.debug('Start authentication validation')
 
-  if (req.raw.url.indexOf('/doc') === 0) {
+  if (req.raw.url.indexOf('/doc') === 0 || req.raw.url.indexOf('/authentication') === 0) {
     done()
     return
   }
@@ -44,6 +49,7 @@ fastify.addHook('preHandler', (req, reply, done) => {
     log.error('Header authorization is invalid')
     reply.code(401).send()
   }
+
   log.debug('End authentication validation')
   done()
 })
@@ -83,6 +89,7 @@ registryCommonRoutes(fastify, '/relations', relationRoute)
 // fastify.delete('/diagramItems/:id', diagramItemRoute.deleteById)
 
 fastify.get('/diagrams/:id/reactflow', diagramRoute.reactFlow)
+fastify.post('/authentication', authRoute.authentication)
 
 fastify.setErrorHandler(function (error, request, reply) {
   const obj = {
