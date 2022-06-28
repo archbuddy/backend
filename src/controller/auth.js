@@ -63,7 +63,7 @@ async function authentication (request, reply) {
     providerName: 'Google',
     config: {
       id: '407853460821-co2oqe6ph6k0pcc4h4nae31cb1vvi5bb.apps.googleusercontent.com',
-      redirectUrl: 'http://localhost:3001/authentication?type=google',
+      redirectUrl: 'http://localhost:3001/auth/callback?type=google',
       endpoint: 'https://accounts.google.com/o/oauth2/v2/auth'
     }
   }, {
