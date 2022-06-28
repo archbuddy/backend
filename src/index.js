@@ -35,7 +35,10 @@ fastify.addHook('onRequest', (req, reply, done) => {
 fastify.addHook('preHandler', (req, reply, done) => {
   log.debug('Start authentication validation')
 
-  if (req.raw.url.indexOf('/doc') === 0 || req.raw.url.indexOf('/authentication') === 0) {
+  if (
+    req.raw.url.indexOf('/doc') === 0 || 
+    req.raw.url.indexOf('/authentication') === 0 ||
+    req.raw.url.indexOf('/favicon.ico') === 0) {
     done()
     return
   }
@@ -88,7 +91,8 @@ registryCommonRoutes(fastify, '/relations', relationRoute)
 // fastify.delete('/diagramItems/:id', diagramItemRoute.deleteById)
 
 fastify.get('/diagrams/:id/reactflow', diagramRoute.reactFlow)
-fastify.post('/authentication', authRoute.authentication)
+// TODO rename authentication function name to google specific
+fastify.post('/authentication/google', authRoute.authentication)
 fastify.get('/authentication/providers', authRoute.providers)
 
 fastify.setErrorHandler(function (error, request, reply) {
