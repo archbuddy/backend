@@ -14,6 +14,20 @@ const authentication = {
   }
 }
 
+const providers = {
+  preValidation,
+  preHandler,
+  handler: authController.providers,
+  schema: {
+    query: {
+      type: 'object'
+    },
+    response: {
+    }
+  }
+}
+
 module.exports = {
-  authentication
+  authentication,
+  providers
 }

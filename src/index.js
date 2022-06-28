@@ -89,6 +89,7 @@ registryCommonRoutes(fastify, '/relations', relationRoute)
 
 fastify.get('/diagrams/:id/reactflow', diagramRoute.reactFlow)
 fastify.post('/authentication', authRoute.authentication)
+fastify.get('/authentication/providers', authRoute.providers)
 
 fastify.setErrorHandler(function (error, request, reply) {
   const obj = {

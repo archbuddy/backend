@@ -63,4 +63,29 @@ async function authentication (request, reply) {
   }
 }
 
-module.exports = { authentication }
+/**
+ * Check the general availability of the application
+ *
+ * @param {import('fastify').FastifyRequest} request
+ * @param {import('fastify').FastifyReply} reply
+ */
+ async function providers (request, reply) {
+  reply.status(200).send([{
+    providerId: 'google',
+    providerName: 'Google',
+    config: {
+      id: '407853460821-co2oqe6ph6k0pcc4h4nae31cb1vvi5bb.apps.googleusercontent.com',
+      redirectUrl: 'https://localhost:3000/authenticate',
+      scope: 'openid email profile'
+    }
+  }, {
+    providerId: 'bypass',
+    providerName: 'By Pass',
+    config: {}
+  }])
+ }
+
+module.exports = {
+  authentication,
+  providers
+}
