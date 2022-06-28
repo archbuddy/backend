@@ -36,7 +36,7 @@ fastify.addHook('preHandler', (req, reply, done) => {
   log.debug('Start authentication validation')
 
   if (
-    req.raw.url.indexOf('/doc') === 0 || 
+    req.raw.url.indexOf('/doc') === 0 ||
     req.raw.url.indexOf('/authentication') === 0 ||
     req.raw.url.indexOf('/favicon.ico') === 0) {
     done()

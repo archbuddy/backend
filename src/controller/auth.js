@@ -47,7 +47,6 @@ async function authentication (request, reply) {
       undefined,
       undefined
     ))
-    return
   }
 }
 
@@ -57,7 +56,7 @@ async function authentication (request, reply) {
  * @param {import('fastify').FastifyRequest} request
  * @param {import('fastify').FastifyReply} reply
  */
- async function providers (request, reply) {
+async function providers (request, reply) {
   reply.status(200).send([{
     providerId: 'google',
     providerName: 'Google',
@@ -71,7 +70,7 @@ async function authentication (request, reply) {
     providerName: 'By Pass',
     config: {}
   }])
- }
+}
 
 module.exports = {
   authentication,
