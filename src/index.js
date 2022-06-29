@@ -47,6 +47,7 @@ fastify.addHook('preHandler', async (req, reply) => {
     reply.code(401).send()
   }
   try {
+    log.debug('will validate JWT')
     await req.jwtVerify()
     log.debug('End authentication validation')
   } catch (err) {
