@@ -71,7 +71,7 @@ async function providers (request, reply) {
     providerName: 'By Pass',
     config: {}
   }])
- }
+}
 
 module.exports = {
   authentication,
