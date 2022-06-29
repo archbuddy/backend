@@ -1,5 +1,6 @@
 const axios = require('axios')
 const commonController = require('./commonController')
+const log = require('../util/logger')
 /**
  * Check the general availability of the application
  *
@@ -31,7 +32,7 @@ async function authentication (request, reply) {
         authorization: `${paramMap.token_type} ${paramMap.access_token}`
       }
     })
-    console.log(result.data)
+    log.debug(result.data)
 
     const jwtData = {
       email: result.data.email,
@@ -70,7 +71,7 @@ async function providers (request, reply) {
     providerName: 'By Pass',
     config: {}
   }])
-}
+ }
 
 module.exports = {
   authentication,
