@@ -58,19 +58,26 @@ async function authentication (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function providers (request, reply) {
-  reply.status(200).send([{
-    providerId: 'google',
-    providerName: 'Google',
-    config: {
-      id: '407853460821-co2oqe6ph6k0pcc4h4nae31cb1vvi5bb.apps.googleusercontent.com',
-      redirectUrl: 'http://localhost:3001/auth/callback?type=google',
-      endpoint: 'https://accounts.google.com/o/oauth2/v2/auth'
-    }
-  }, {
-    providerId: 'bypass',
-    providerName: 'By Pass',
-    config: {}
-  }])
+  if (process.env.AUTH_PROVIDERS && process.env.AUTH_PROVIDERS === 'google') {
+    reply.status(200).send([{
+      providerId: 'google',
+      providerName: 'Google',
+      config: {
+        id: process.env.AUTH_PROVIDER_GOOGLE_ID,
+        redirectUrl: 'http://localhost:3001/auth/callback?type=google',
+        endpoint: process.env.AUTH_PROVIDER_GOOGLE_AUTH_ENDPOINT
+      }
+    }])
+    return
+  }
+  reply.status(500).send(
+    commonController.prepareErrorResponse(
+      500,
+      'Authentication provider',
+      'No authentication providers found',
+      undefined,
+      undefined)
+  )
 }
 
 module.exports = {

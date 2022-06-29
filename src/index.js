@@ -24,7 +24,7 @@ fastify.register(require('@fastify/cors'), {
 })
 fastify.register(fastifySwagger, getOpenapiDefinition())
 fastify.register(require('fastify-jwt'), {
-  secret: 'mysupersecret'
+  secret: process.env.AUTH_JWT_SECRET
 })
 
 fastify.addHook('onRequest', (req, reply, done) => {
