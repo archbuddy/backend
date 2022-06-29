@@ -32,14 +32,13 @@ fastify.addHook('onRequest', (req, reply, done) => {
   done()
 })
 
-fastify.addHook('preHandler', (req, reply, done) => {
+fastify.addHook('preHandler', async (req, reply) => {
   log.debug('Start authentication validation')
 
   if (
     req.raw.url.indexOf('/doc') === 0 ||
     req.raw.url.indexOf('/authentication') === 0 ||
     req.raw.url.indexOf('/favicon.ico') === 0) {
-    done()
     return
   }
 
@@ -47,13 +46,13 @@ fastify.addHook('preHandler', (req, reply, done) => {
     log.error('Header authorization is missing')
     reply.code(401).send()
   }
-  const parse = req.headers.authorization.split(' ')
-  if (parse.length !== 2 || parse[0] !== 'Bearer') {
-    log.error('Header authorization is invalid')
+  try {
+    await req.jwtVerify()
+    log.debug('End authentication validation')
+  } catch (err) {
+    log.error('Invalid auth')
     reply.code(401).send()
   }
-  log.debug('End authentication validation')
-  done()
 })
 
 fastify.addSchema(require('./schema/entity.js').entitySchema)
