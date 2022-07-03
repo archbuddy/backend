@@ -21,9 +21,9 @@ async function list (model, request, reply) {
     .then((c) => {
       count = c
     })
-  
+
   await Promise.all([entitiesPromise, countPromise])
-  
+
   // TODO remove _id to return to screen
   const page = new Page(
     request.routerPath,
@@ -142,15 +142,19 @@ async function deleteById (model, request, reply) {
  */
 async function validateParamsId (request, reply) {
   if (request.params.id && (request.params.id === undefined || request.params.id === 'undefined')) {
-    reply.code(400).send({
-      message: 'ID is undefined'
-    })
+    reply.code(400).send(prepareErrorResponse(
+      400,
+      'Invalid ID',
+      `The id to execute the operation is invalid. Received: ${request.params.id}`,
+      undefined,
+      undefined
+    ))
   }
 }
 
 /**
  * Prepare a a response message
- * @param {Moongose object} data 
+ * @param {Moongose object} data
  * @returns Object without the _id
  */
 function prepareResponse (data) {
@@ -174,7 +178,7 @@ function prepareErrorResponse (statusCode, message, detail, type, instance) {
     message,
     detail,
     type: type ?? 'https://archbuddy.github.io/documentation/commonErrors',
-    instance
+    instance: instance ?? ''
   }
 }
 

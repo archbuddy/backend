@@ -14,6 +14,8 @@ const edgeRoute = require('./route/edge')
 const entityRoute = require('./route/entity')
 const nodeRoute = require('./route/node')
 const relationRoute = require('./route/relation')
+const authRoute = require('./route/auth')
+
 const { connectMongo, disconnectMongo } = require('./repository/db.js')
 
 fastify.register(require('@fastify/cors'), {
@@ -21,10 +23,37 @@ fastify.register(require('@fastify/cors'), {
   origin: true
 })
 fastify.register(fastifySwagger, getOpenapiDefinition())
+fastify.register(require('fastify-jwt'), {
+  secret: process.env.AUTH_JWT_SECRET
+})
 
 fastify.addHook('onRequest', (req, reply, done) => {
   log.info({ url: req.raw.url, id: req.id, startTime: Date.now(), method: req.method })
   done()
+})
+
+fastify.addHook('preHandler', async (req, reply) => {
+  log.debug('Start authentication validation')
+
+  if (
+    req.raw.url.indexOf('/doc') === 0 ||
+    req.raw.url.indexOf('/authentication') === 0 ||
+    req.raw.url.indexOf('/favicon.ico') === 0) {
+    return
+  }
+
+  if (!req.headers.authorization) {
+    log.error('Header authorization is missing')
+    reply.code(401).send()
+  }
+  try {
+    log.debug('will validate JWT')
+    await req.jwtVerify()
+    log.debug('End authentication validation')
+  } catch (err) {
+    log.error('Invalid auth')
+    reply.code(401).send()
+  }
 })
 
 fastify.addSchema(require('./schema/entity.js').entitySchema)
@@ -62,8 +91,19 @@ registryCommonRoutes(fastify, '/relations', relationRoute)
 // fastify.delete('/diagramItems/:id', diagramItemRoute.deleteById)
 
 fastify.get('/diagrams/:id/reactflow', diagramRoute.reactFlow)
+// TODO rename authentication function name to google specific
+fastify.post('/authentication/google', authRoute.authentication)
+fastify.get('/authentication/providers', authRoute.providers)
 
 fastify.setErrorHandler(function (error, request, reply) {
+  const obj = {
+    url: request.url,
+    method: request.method,
+    params: request.params,
+    queryString: request.query,
+    errorMessage: error.message
+  }
+  log.error(`Generic error handling >>> ${JSON.stringify(obj)}`)
   reply.send(error)
 })
 
@@ -78,6 +118,7 @@ const start = async () => {
   } catch (err) {
     await disconnectMongo()
     log.error(err)
+    log.error(err.message)
     process.exit(1)
   }
 }

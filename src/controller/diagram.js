@@ -27,7 +27,9 @@ async function byId (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function create (request, reply) {
-  const result = await diagramModel().find( {name: request.body.name })
+  const result = await diagramModel().find(
+    { name: new RegExp(`^${request.body.name}$`, 'i') }
+  )
   if (result.length > 0) {
     return reply.code(409).send(commonController.prepareResponse(result[0]))
   }
@@ -71,6 +73,16 @@ async function deleteById (request, reply) {
  */
 async function reactFlow (request, reply) {
   const diagramId = request.params.id
+  const obj = await diagramModel().findOne({ _id: diagramId })
+  if (obj === null) {
+    return reply.code(404).send(commonController.prepareErrorResponse(
+      404,
+      'Diagram not found',
+      'You are trying to retrieve data from a diagram that doesn\'t exists!',
+      undefined,
+      undefined
+    ))
+  }
   const nodes = await nodeModel().find({ diagram: diagramId }).populate('entity').exec()
   const edges = await edgeModel().find({ diagram: diagramId }).populate('relation').exec()
   const reactEdges = await convertEdgeToReactFlow(edges)
