@@ -39,7 +39,7 @@ fastify.addHook('onRequest', (req, reply, done) => {
 })
 
 log.info('[Fastify] Add hook preHandler')
-fastify.addHook('preHandler', (req, reply, done) => {
+fastify.addHook('preHandler', async (req, reply) => {
   log.debug('Start authentication validation')
 
   if (
