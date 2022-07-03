@@ -49,7 +49,7 @@ async function authentication (request, reply) {
       id: result.data.id,
       name: result.data.given_name ?? result.data.name
     }
-    reply.status(200).send({ token: this.jwt.sign(jwtData,{ expiresIn: '1h' }) })
+    reply.status(200).send({ token: this.jwt.sign(jwtData, { expiresIn: '1h' }) })
   } catch (err) {
     log.error(err.message)
     log.error(err.stackStrace)
