@@ -79,7 +79,7 @@ const config = convict({
     doc: 'Mongo database name',
     format: String,
     env: 'MONGO_DBNAME',
-    default: 'archBuddyDb'
+    default: ''
   },
   MONGO_PORT: {
     doc: 'Mongo database port',
@@ -91,13 +91,13 @@ const config = convict({
     doc: 'Mongo database user',
     format: String,
     env: 'MONGO_USER',
-    default: 'root'
+    default: ''
   },
   MONGO_PWD: {
     doc: 'Mongo database user',
     format: String,
     env: 'MONGO_PWD',
-    default: 'password'
+    default: ''
   },
   MONGO_SSL: {
     doc: 'Mongo database ssl conection',
