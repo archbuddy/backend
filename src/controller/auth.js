@@ -26,25 +26,37 @@ async function authentication (request, reply) {
     const result = item.split('=')
     paramMap[result[0]] = result[1]
   })
+  let result
   try {
-    const result = await axios.get('https://www.googleapis.com/oauth2/v1/userinfo?alt=json', {
+    result = await axios.get('https://www.googleapis.com/oauth2/v1/userinfo?alt=json', {
       headers: {
         authorization: `${paramMap.token_type} ${paramMap.access_token}`
       }
     })
     log.debug(result.data)
-
-    const jwtData = {
-      email: result.data.email,
-      id: result.data.id,
-      name: result.data.given_name ?? result.data.name
-    }
-    reply.status(200).send({ token: this.jwt.sign(jwtData) })
   } catch (err) {
     reply.status(401).send(commonController.prepareErrorResponse(
       401,
       'Google auth expired',
       'This error is propably related to the google access_token expired',
+      undefined,
+      undefined
+    ))
+  }
+  try {
+    const jwtData = {
+      email: result.data.email,
+      id: result.data.id,
+      name: result.data.given_name ?? result.data.name
+    }
+    reply.status(200).send({ token: this.jwt.sign(jwtData, { expiresIn: '1h' }) })
+  } catch (err) {
+    log.error(err.message)
+    log.error(err.stackStrace)
+    reply.status(500).send(commonController.prepareErrorResponse(
+      500,
+      'JWT Generation',
+      'Error generating JWT',
       undefined,
       undefined
     ))
