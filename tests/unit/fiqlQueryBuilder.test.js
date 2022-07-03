@@ -94,7 +94,7 @@ const connectMongo = async () => {
 const initializeDatabase = async () => {
   await childModel.insertMany(testData.childs)
 
-  return await parentModel.insertMany(testData.parents)
+  return parentModel.insertMany(testData.parents)
 }
 
 const disconnectMongo = async () => {

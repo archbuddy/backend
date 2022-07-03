@@ -23,8 +23,8 @@ async function authentication (request, reply) {
     return
   }
   params.substring(1).split('&').forEach((item) => {
-    const result = item.split('=')
-    paramMap[result[0]] = result[1]
+    const param = item.split('=')
+    paramMap[param[0]] = param[1]
   })
   let result
   try {
@@ -68,10 +68,10 @@ async function authentication (request, reply) {
 /**
  * Check the general availability of the application
  *
- * @param {import('fastify').FastifyRequest} request
+ * @param {import('fastify').FastifyRequest} _request
  * @param {import('fastify').FastifyReply} reply
  */
-async function providers (request, reply) {
+async function providers (_request, reply) {
   if (process.env.AUTH_PROVIDERS && process.env.AUTH_PROVIDERS === 'google') {
     reply.status(200).send([{
       providerId: 'google',
