@@ -14,6 +14,8 @@ const edgeRoute = require('./route/edge')
 const entityRoute = require('./route/entity')
 const nodeRoute = require('./route/node')
 const relationRoute = require('./route/relation')
+const authRoute = require('./route/auth')
+
 const { connectMongo, disconnectMongo } = require('./repository/db.js')
 
 fastify.register(require('@fastify/cors'), {
@@ -21,17 +23,22 @@ fastify.register(require('@fastify/cors'), {
   origin: true
 })
 fastify.register(fastifySwagger, getOpenapiDefinition())
+fastify.register(require('@fastify/jwt'), {
+  secret: process.env.AUTH_JWT_SECRET
+})
 
 fastify.addHook('onRequest', (req, reply, done) => {
   log.info({ url: req.raw.url, id: req.id, startTime: Date.now(), method: req.method })
   done()
 })
 
-fastify.addHook('preHandler', (req, reply, done) => {
+fastify.addHook('preHandler', async (req, reply) => {
   log.debug('Start authentication validation')
 
-  if (req.raw.url.indexOf('/doc') === 0) {
-    done()
+  if (
+    req.raw.url.indexOf('/doc') === 0 ||
+    req.raw.url.indexOf('/authentication') === 0 ||
+    req.raw.url.indexOf('/favicon.ico') === 0) {
     return
   }
 
@@ -39,13 +46,15 @@ fastify.addHook('preHandler', (req, reply, done) => {
     log.error('Header authorization is missing')
     reply.code(401).send()
   }
-  const parse = req.headers.authorization.split(' ')
-  if (parse.length !== 2 || parse[0] !== 'Bearer') {
-    log.error('Header authorization is invalid')
+
+  try {
+    log.debug('will validate JWT')
+    await req.jwtVerify()
+    log.debug('End authentication validation')
+  } catch (err) {
+    log.error('Invalid auth')
     reply.code(401).send()
   }
-  log.debug('End authentication validation')
-  done()
 })
 
 fastify.addSchema(require('./schema/entity.js').entitySchema)
@@ -61,10 +70,10 @@ fastify.get('/healthcheck', healthRoute.check)
 fastify.get('/healthcheck/complete', healthRoute.complete)
 
 const registryCommonRoutes = (app, routePrefix, route) => {
+  log.debug(`Registering route ${routePrefix}, get, post, getId, headId, putId, pathId, deleteId`)
   app.get(routePrefix, route.list)
   app.post(routePrefix, route.create)
   app.get(`${routePrefix}/:id`, route.byId)
-  app.head(`${routePrefix}/:id`, route.byIdHead)
   app.put(`${routePrefix}/:id`, route.update)
   app.patch(`${routePrefix}/:id`, route.partialUpdate)
   app.delete(`${routePrefix}/:id`, route.deleteById)
@@ -83,6 +92,8 @@ registryCommonRoutes(fastify, '/relations', relationRoute)
 // fastify.delete('/diagramItems/:id', diagramItemRoute.deleteById)
 
 fastify.get('/diagrams/:id/reactflow', diagramRoute.reactFlow)
+fastify.post('/authentication/google', authRoute.authentication)
+fastify.get('/authentication/providers', authRoute.providers)
 
 fastify.setErrorHandler(function (error, request, reply) {
   const obj = {
