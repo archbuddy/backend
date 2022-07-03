@@ -23,7 +23,7 @@ fastify.register(require('@fastify/cors'), {
   origin: true
 })
 fastify.register(fastifySwagger, getOpenapiDefinition())
-fastify.register(require('fastify-jwt'), {
+fastify.register(require('@fastify/jwt'), {
   secret: process.env.AUTH_JWT_SECRET
 })
 
@@ -91,7 +91,6 @@ registryCommonRoutes(fastify, '/relations', relationRoute)
 // fastify.delete('/diagramItems/:id', diagramItemRoute.deleteById)
 
 fastify.get('/diagrams/:id/reactflow', diagramRoute.reactFlow)
-// TODO rename authentication function name to google specific
 fastify.post('/authentication/google', authRoute.authentication)
 fastify.get('/authentication/providers', authRoute.providers)
 
