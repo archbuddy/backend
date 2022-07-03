@@ -9,7 +9,6 @@ const { getOpenapiDefinition } = require('./swagger.js')
 
 const healthRoute = require('./route/health')
 const diagramRoute = require('./route/diagram')
-// const diagramItemRoute = require('./route/diagramItem')
 const edgeRoute = require('./route/edge')
 const entityRoute = require('./route/entity')
 const nodeRoute = require('./route/node')
@@ -18,21 +17,29 @@ const authRoute = require('./route/auth')
 
 const { connectMongo, disconnectMongo } = require('./repository/db.js')
 
-fastify.register(require('@fastify/cors'), {
-  // put your options here
-  origin: true
-})
+log.info('[Fastify] Register Helmet')
+fastify.register(fastifyHelmet)
+
+const cors = {
+  origin: process.env.CORS_ORIGIN ?? true
+}
+log.info(`[Fastify] Setup Cors > ${JSON.stringify(cors)}`)
+fastify.register(require('@fastify/cors'), cors)
+
+log.info('[Fastify] Register Openapi')
 fastify.register(fastifySwagger, getOpenapiDefinition())
 fastify.register(require('@fastify/jwt'), {
   secret: process.env.AUTH_JWT_SECRET
 })
 
+log.info('[Fastify] Add Hook onRequest')
 fastify.addHook('onRequest', (req, reply, done) => {
   log.info({ url: req.raw.url, id: req.id, startTime: Date.now(), method: req.method })
   done()
 })
 
-fastify.addHook('preHandler', async (req, reply) => {
+log.info('[Fastify] Add hook preHandler')
+fastify.addHook('preHandler', (req, reply, done) => {
   log.debug('Start authentication validation')
 
   if (
@@ -57,20 +64,26 @@ fastify.addHook('preHandler', async (req, reply) => {
   }
 })
 
+log.info('[Fastify] Add Schema - Entity')
 fastify.addSchema(require('./schema/entity.js').entitySchema)
+log.info('[Fastify] Add Schema - Relation')
 fastify.addSchema(require('./schema/relation.js').relationSchema)
+log.info('[Fastify] Add Schema - Diagram')
 fastify.addSchema(require('./schema/diagram.js').diagramSchema)
+log.info('[Fastify] Add Schema - DiagramItem')
 fastify.addSchema(require('./schema/diagramItem.js').diagramItemSchema)
+log.info('[Fastify] Add Schema - Edge')
 fastify.addSchema(require('./schema/edge.js').edgeSchema)
+log.info('[Fastify] Add Schema - Node')
 fastify.addSchema(require('./schema/node.js').nodeSchema)
 
-fastify.register(fastifyHelmet)
-
+log.info('[Fastify] Register Route - /healthcheck')
 fastify.get('/healthcheck', healthRoute.check)
+log.info('[Fastify] Register Route - /healthcheck/complete')
 fastify.get('/healthcheck/complete', healthRoute.complete)
 
 const registryCommonRoutes = (app, routePrefix, route) => {
-  log.debug(`Registering route ${routePrefix}, get, post, getId, headId, putId, pathId, deleteId`)
+  log.info(`[Fastify] Register Route - ${routePrefix} - and common http methods`)
   app.get(routePrefix, route.list)
   app.post(routePrefix, route.create)
   app.get(`${routePrefix}/:id`, route.byId)
@@ -85,36 +98,20 @@ registryCommonRoutes(fastify, '/entities', entityRoute)
 registryCommonRoutes(fastify, '/nodes', nodeRoute)
 registryCommonRoutes(fastify, '/relations', relationRoute)
 
-// TODO Maybe we don't need this for now
-// fastify.get('/diagramItems', diagramItemRoute.list)
-// fastify.get('/diagramItems/:id', diagramItemRoute.byId)
-// fastify.head('/diagramItems/:id', diagramItemRoute.byIdHead)
-// fastify.delete('/diagramItems/:id', diagramItemRoute.deleteById)
-
+log.info('[Fastify] Register Route - /diagrams/:id/reactflow')
 fastify.get('/diagrams/:id/reactflow', diagramRoute.reactFlow)
 fastify.post('/authentication/google', authRoute.authentication)
 fastify.get('/authentication/providers', authRoute.providers)
 
-fastify.setErrorHandler(function (error, request, reply) {
-  const obj = {
-    url: request.url,
-    method: request.method,
-    params: request.params,
-    queryString: request.query,
-    errorMessage: error.message
-  }
-  log.error(`Generic error handling >>> ${JSON.stringify(obj)}`)
-  reply.send(error)
-})
-
 // Run the server!
 const start = async () => {
   try {
+    log.info('Connecting to mongo')
     await connectMongo()
     const port = 3000
     log.info(`Starting server on port ${port}`)
     await fastify.listen({ port })
-    log.info('Started')
+    log.info('Server Started')
   } catch (err) {
     await disconnectMongo()
     log.error(err)
