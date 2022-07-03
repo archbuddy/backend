@@ -69,10 +69,10 @@ fastify.get('/healthcheck', healthRoute.check)
 fastify.get('/healthcheck/complete', healthRoute.complete)
 
 const registryCommonRoutes = (app, routePrefix, route) => {
+  log.debug(`Registering route ${routePrefix}, get, post, getId, headId, putId, pathId, deleteId`)
   app.get(routePrefix, route.list)
   app.post(routePrefix, route.create)
   app.get(`${routePrefix}/:id`, route.byId)
-  app.head(`${routePrefix}/:id`, route.byIdHead)
   app.put(`${routePrefix}/:id`, route.update)
   app.patch(`${routePrefix}/:id`, route.partialUpdate)
   app.delete(`${routePrefix}/:id`, route.deleteById)
