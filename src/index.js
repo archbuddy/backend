@@ -100,7 +100,9 @@ registryCommonRoutes(fastify, '/relations', relationRoute)
 
 log.info('[Fastify] Register Route - /diagrams/:id/reactflow')
 fastify.get('/diagrams/:id/reactflow', diagramRoute.reactFlow)
+log.info('[Fastify] Register Route - /authentication/google')
 fastify.post('/authentication/google', authRoute.authentication)
+log.info('[Fastify] Register Route - /authentication/providers')
 fastify.get('/authentication/providers', authRoute.providers)
 
 // Run the server!
