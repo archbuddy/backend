@@ -49,7 +49,9 @@ async function authentication (request, reply) {
       id: result.data.id,
       name: result.data.given_name ?? result.data.name
     }
-    reply.status(200).send({ token: this.jwt.sign(jwtData, { expiresIn: '1h' }) })
+    const token = this.jwt.sign(jwtData, { expiresIn: '1h' })
+    log.debug(`Token generated ${token}`)
+    reply.status(200).send({ token })
   } catch (err) {
     log.error(err.message)
     log.error(err.stackStrace)
