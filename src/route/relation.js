@@ -55,7 +55,7 @@ const byId = {
       properties: {
         id: {
           ...relationSchema.properties.id,
-          description: 'Id',
+          description: 'Id'
         }
       }
     }
@@ -75,7 +75,7 @@ const byIdHead = {
       properties: {
         id: {
           ...relationSchema.properties.id,
-          description: 'Id',
+          description: 'Id'
         }
       }
     }
@@ -120,7 +120,7 @@ const update = {
       properties: {
         id: {
           ...relationSchema.properties.id,
-          description: 'Id',
+          description: 'Id'
         }
       }
     }
@@ -147,7 +147,7 @@ const partialUpdate = {
       properties: {
         id: {
           ...relationSchema.properties.id,
-          description: 'Id',
+          description: 'Id'
         }
       }
     }
@@ -170,7 +170,7 @@ const deleteById = {
       properties: {
         id: {
           ...relationSchema.properties.id,
-          description: 'Id',
+          description: 'Id'
         }
       }
     }

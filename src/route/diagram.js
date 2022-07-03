@@ -75,8 +75,8 @@ const byIdHead = {
       properties: {
         id: {
           ...diagramSchema.properties.id,
-          description: 'Id',
-          
+          description: 'Id'
+
         }
       }
     }
@@ -121,8 +121,8 @@ const update = {
       properties: {
         id: {
           ...diagramSchema.properties.id,
-          description: 'Id',
-          
+          description: 'Id'
+
         }
       }
     }
@@ -149,8 +149,8 @@ const partialUpdate = {
       properties: {
         id: {
           ...diagramSchema.properties.id,
-          description: 'Id',
-          
+          description: 'Id'
+
         }
       }
     }
@@ -173,8 +173,8 @@ const deleteById = {
       properties: {
         id: {
           ...diagramSchema.properties.id,
-          description: 'Id',
-          
+          description: 'Id'
+
         }
       }
     }
