@@ -17,25 +17,21 @@ const list = {
           description:
             'Filter to select fields thar must be returned. Ex.: "?fields=id,name"',
           type: 'string',
-          in: 'query',
           default: ''
         },
         fiql: {
           description: fiqlDescription,
           type: 'string',
-          in: 'query',
           default: ''
         },
         offset: {
           description: 'Number of records to be skipped',
           type: 'integer',
-          in: 'query',
           default: 0
         },
         limit: {
           description: 'Number of records to be returned',
           type: 'integer',
-          in: 'query',
           default: 10
         }
       }
@@ -59,8 +55,8 @@ const byId = {
       properties: {
         id: {
           ...entitySchema.properties.id,
-          description: 'Id',
-          in: 'query'
+          description: 'Id'
+
         }
       }
     }
@@ -80,8 +76,8 @@ const byIdHead = {
       properties: {
         id: {
           ...entitySchema.properties.id,
-          description: 'Id',
-          in: 'query'
+          description: 'Id'
+
         }
       }
     }
@@ -126,8 +122,8 @@ const update = {
       properties: {
         id: {
           ...entitySchema.properties.id,
-          description: 'Id',
-          in: 'query'
+          description: 'Id'
+
         }
       }
     }
@@ -154,8 +150,8 @@ const partialUpdate = {
       properties: {
         id: {
           ...entitySchema.properties.id,
-          description: 'Id',
-          in: 'query'
+          description: 'Id'
+
         }
       }
     }
@@ -178,8 +174,8 @@ const deleteById = {
       properties: {
         id: {
           ...entitySchema.properties.id,
-          description: 'Id',
-          in: 'query'
+          description: 'Id'
+
         }
       }
     }

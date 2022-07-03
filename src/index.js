@@ -23,7 +23,7 @@ fastify.register(require('@fastify/cors'), {
   origin: true
 })
 fastify.register(fastifySwagger, getOpenapiDefinition())
-fastify.register(require('fastify-jwt'), {
+fastify.register(require('@fastify/jwt'), {
   secret: process.env.AUTH_JWT_SECRET
 })
 
@@ -69,10 +69,10 @@ fastify.get('/healthcheck', healthRoute.check)
 fastify.get('/healthcheck/complete', healthRoute.complete)
 
 const registryCommonRoutes = (app, routePrefix, route) => {
+  log.debug(`Registering route ${routePrefix}, get, post, getId, headId, putId, pathId, deleteId`)
   app.get(routePrefix, route.list)
   app.post(routePrefix, route.create)
   app.get(`${routePrefix}/:id`, route.byId)
-  app.head(`${routePrefix}/:id`, route.byIdHead)
   app.put(`${routePrefix}/:id`, route.update)
   app.patch(`${routePrefix}/:id`, route.partialUpdate)
   app.delete(`${routePrefix}/:id`, route.deleteById)
@@ -91,7 +91,6 @@ registryCommonRoutes(fastify, '/relations', relationRoute)
 // fastify.delete('/diagramItems/:id', diagramItemRoute.deleteById)
 
 fastify.get('/diagrams/:id/reactflow', diagramRoute.reactFlow)
-// TODO rename authentication function name to google specific
 fastify.post('/authentication/google', authRoute.authentication)
 fastify.get('/authentication/providers', authRoute.providers)
 
