@@ -1,5 +1,5 @@
 
-async function preHandler (request, reply) {
+async function preHandler (_request, _reply) {
   // Add here your pre-handle code
   // For example:
   // const hostname = request.body.email.split('@')[1]
@@ -9,7 +9,7 @@ async function preHandler (request, reply) {
   // })
 }
 
-async function preValidation (request, reply) {
+async function preValidation (_request, _reply) {
   // Add here your pre-validation code
   // For example:
   // if (!request.headers['x-youheader']) {
