@@ -1,19 +1,5 @@
 const fs = require('fs-extra')
-const { resolve, basename, extname } = require('path')
-
-function getSchemas () {
-  const schemasDir = resolve(__dirname, 'schema')
-  let schemas = []
-  if (fs.pathExistsSync(schemasDir)) {
-    schemas = fs.readdirSync(schemasDir).map((fileName) => {
-      return {
-        $id: basename(fileName, extname(fileName)),
-        ...fs.readJsonSync(resolve(schemasDir, fileName))
-      }
-    })
-  }
-  return schemas
-}
+const { resolve } = require('path')
 
 function getPackageInfo () {
   return fs.readJsonSync(resolve(process.cwd(), 'package.json'))
@@ -32,6 +18,7 @@ function getOpenApiDefinition () {
       }
     },
     uiConfig: {
+      docExpansion: 'full',
       deepLinking: false
     },
     staticCSP: true,
@@ -89,4 +76,4 @@ function getPageSchema (schemaName) {
   }
 }
 
-module.exports = { getSchemas, getOpenApiDefinition, getPageSchema }
+module.exports = { getOpenApiDefinition, getPageSchema }

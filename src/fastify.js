@@ -4,9 +4,6 @@ const { getOpenApiDefinition } = require('./swagger.js')
 const log = require('./util/logger')
 
 const setupRegisters = (fastify) => {
-  log.info('[Fastify] Register Helmet')
-  fastify.register(fastifyHelmet)
-
   const cors = {
     origin: process.env.CORS_ORIGIN ?? true
   }
@@ -15,6 +12,9 @@ const setupRegisters = (fastify) => {
 
   log.info('[Fastify] Register OpenApi')
   fastify.register(fastifySwagger, getOpenApiDefinition())
+
+  log.info('[Fastify] Register Helmet')
+  fastify.register(fastifyHelmet)
 
   log.info('[Fastify] Register JWT')
   fastify.register(require('@fastify/jwt'), {
