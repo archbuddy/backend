@@ -19,7 +19,7 @@ function getPackageInfo () {
   return fs.readJsonSync(resolve(process.cwd(), 'package.json'))
 }
 
-function getOpenapiDefinition () {
+function getOpenApiDefinition () {
   const packageInfo = getPackageInfo()
 
   return {
@@ -89,4 +89,4 @@ function getPageSchema (schemaName) {
   }
 }
 
-module.exports = { getSchemas, getOpenapiDefinition, getPageSchema }
+module.exports = { getSchemas, getOpenApiDefinition, getPageSchema }

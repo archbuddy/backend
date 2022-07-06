@@ -4,7 +4,7 @@ const diagramSchema =
   type: 'object',
   required: ['name'],
   properties: {
-    _id: {
+    id: {
       type: 'string',
       format: 'uuid'
     },
