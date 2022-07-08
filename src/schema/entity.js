@@ -45,7 +45,6 @@ const entitySchema = {
 }
 
 const entityUpsertSchema = {
-
   type: 'object',
   required: ['name', 'description', 'type'],
   properties: {
