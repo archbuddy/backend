@@ -57,7 +57,6 @@ const byId = {
         id: {
           ...diagramItemSchema.properties.id,
           description: 'Id'
-
         }
       }
     }
@@ -78,7 +77,6 @@ const byIdHead = {
         id: {
           ...diagramItemSchema.properties.id,
           description: 'Id'
-
         }
       }
     }
@@ -124,7 +122,6 @@ const update = {
         id: {
           ...diagramItemSchema.properties.id,
           description: 'Id'
-
         }
       }
     }
@@ -152,7 +149,6 @@ const partialUpdate = {
         id: {
           ...diagramItemSchema.properties.id,
           description: 'Id'
-
         }
       }
     }
@@ -176,7 +172,6 @@ const deleteById = {
         id: {
           ...diagramItemSchema.properties.id,
           description: 'Id'
-
         }
       }
     }
