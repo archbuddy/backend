@@ -32,7 +32,10 @@ const setupHooks = (fastify) => {
   log.info('[Fastify] Add hook preHandler')
   fastify.addHook('preHandler', async (req, reply) => {
     log.debug('Start authentication validation')
-
+    if (process.env.DISABLE_AUTH === 'true') {
+      log.error('Auth skipped!!!')
+      return
+    }
     if (
       req.raw.url.indexOf('/doc') === 0 ||
         req.raw.url.indexOf('/authentication') === 0 ||
