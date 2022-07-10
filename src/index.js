@@ -48,7 +48,12 @@ fastify.addHook('preHandler', async (req, reply) => {
     req.raw.url.indexOf('/favicon.ico') === 0) {
     return
   }
-  return
+
+  if (process.env.DISABLE_AUTH === 'true') {
+    log.error('Bypassing authentication')
+    return
+  }
+
   if (!req.headers.authorization) {
     log.error('Header authorization is missing')
     reply.code(401).send()
