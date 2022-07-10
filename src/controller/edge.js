@@ -55,7 +55,7 @@ async function create (request, reply) {
 
   reply.code(200)
     .header('Location', `${request.routerPath}/${data._id}`)
-    .send(commonController.prepareResponse(data))
+    .send(data.toObject())
 }
 
 /**

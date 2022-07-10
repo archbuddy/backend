@@ -56,7 +56,6 @@ const byId = {
         id: {
           ...entitySchema.properties.id,
           description: 'Id'
-
         }
       }
     }

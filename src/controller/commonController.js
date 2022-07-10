@@ -24,10 +24,12 @@ async function list (model, request, reply) {
 
   await Promise.all([entitiesPromise, countPromise])
 
+  const list = entities.map(i => i.toObject())
+
   // TODO remove _id to return to screen
   const page = new Page(
     request.routerPath,
-    entities,
+    list,
     request.query.offset,
     request.query.limit,
     count[0]?.count ?? count
@@ -55,7 +57,7 @@ async function byId (model, request, reply) {
     throw new NotFound('Entity not found')
   }
 
-  reply.code(200).send(prepareResponse(result))
+  reply.code(200).send(result.toObject())
 }
 
 /**
@@ -68,7 +70,7 @@ async function create (model, request, reply) {
   const data = await model.create(body)
   reply.code(200)
     .header('Location', `${request.routerPath}/${data._id}`)
-    .send(prepareResponse(data))
+    .send(data.toObject())
 }
 
 /**
@@ -153,19 +155,6 @@ async function validateParamsId (request, reply) {
 }
 
 /**
- * Prepare a a response message
- * @param {Moongose object} data
- * @returns Object without the _id
- */
-function prepareResponse (data) {
-  const obj = data.toObject()
-  obj.id = obj._id
-  delete obj._id
-  delete obj.__v
-  return obj
-}
-
-/**
  * Return a standard message following the RFC 7807
  * @param {*} code Error Code
  * @param {*} message Message from the flow
@@ -182,4 +171,4 @@ function prepareErrorResponse (statusCode, message, detail, type, instance) {
   }
 }
 
-module.exports = { list, byId, create, update, partialUpdate, deleteById, prepareResponse, prepareErrorResponse }
+module.exports = { list, byId, create, update, partialUpdate, deleteById, prepareErrorResponse }

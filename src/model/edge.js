@@ -2,11 +2,11 @@ const mongoose = require('mongoose')
 const { diagramItemModel } = require('./diagramItem')
 const { relationModel } = require('./relation')
 const { nodeModel } = require('./node')
-
+const base = require('./base')
 const { Schema } = mongoose
 const options = { discriminatorKey: 'kind' }
 
-const edgeSchema = new Schema({
+const schema = new Schema({
   source: new Schema({
     handle: String,
     node: {
@@ -42,9 +42,11 @@ const edgeSchema = new Schema({
   }
 })
 
+base.defaultBehaviour(schema)
+
 function edgeModel () {
   const model = diagramItemModel()
-  return model.discriminators?.edge ?? model.discriminator('edge', edgeSchema, options)
+  return model.discriminators?.edge ?? model.discriminator('edge', schema, options)
 }
 
-module.exports = { edgeSchema, edgeModel }
+module.exports = { schema, edgeModel }

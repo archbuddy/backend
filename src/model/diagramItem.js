@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 const { diagramModel } = require('./diagram')
 const { v4: uuidv4 } = require('uuid')
-
+const base = require('./base')
 const { Schema } = mongoose
 const options = { discriminatorKey: 'kind' }
 
-const diagramItemSchema = new Schema({
+const schema = new Schema({
   _id: { type: String, default: uuidv4 },
   diagram: {
     type: String,
@@ -21,10 +21,12 @@ const diagramItemSchema = new Schema({
   active: Boolean
 })
 
+base.defaultBehaviour(schema)
+
 function diagramItemModel () {
-  return mongoose.model('diagramItem', diagramItemSchema, 'diagramItems', options)
+  return mongoose.model('diagramItem', schema, 'diagramItems', options)
 }
 
 module.exports = {
-  diagramItemSchema, diagramItemModel
+  schema, diagramItemModel
 }

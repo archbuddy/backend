@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 const { entityModel } = require('./entity.js')
 const { v4: uuidv4 } = require('uuid')
-
+const base = require('./base')
 const { Schema } = mongoose
 
-const diagramSchema = new Schema({
+const schema = new Schema({
   _id: { type: String, default: uuidv4 },
   name: String,
   entity: {
@@ -21,8 +21,10 @@ const diagramSchema = new Schema({
   active: Boolean
 })
 
+base.defaultBehaviour(schema)
+
 function diagramModel () {
-  return mongoose.model('diagram', diagramSchema, 'diagrams')
+  return mongoose.model('diagram', schema, 'diagrams')
 }
 
-module.exports = { diagramSchema, diagramModel }
+module.exports = { schema, diagramModel }

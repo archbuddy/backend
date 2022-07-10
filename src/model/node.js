@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 const { diagramItemModel } = require('./diagramItem')
 const { entityModel } = require('./entity')
-
+const base = require('./base')
 const { Schema } = mongoose
 const options = { discriminatorKey: 'kind' }
 
-const nodeSchema = new Schema({
+const schema = new Schema({
   x: Number,
   y: Number,
   variant: String,
@@ -20,9 +20,11 @@ const nodeSchema = new Schema({
   }
 })
 
+base.defaultBehaviour(schema)
+
 function nodeModel () {
   const model = diagramItemModel()
-  return model.discriminators?.node ?? model.discriminator('node', nodeSchema, options)
+  return model.discriminators?.node ?? model.discriminator('node', schema, options)
 }
 
-module.exports = { nodeSchema, nodeModel }
+module.exports = { schema, nodeModel }

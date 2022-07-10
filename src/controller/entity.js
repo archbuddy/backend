@@ -30,7 +30,7 @@ async function create (request, reply) {
     { name: new RegExp(`^${request.body.name}$`, 'i') }
   )
   if (result.length > 0) {
-    return reply.code(409).send(commonController.prepareResponse(result[0]))
+    return reply.code(409).send(result[0].toObject())
   }
   return commonController.create(entityModel(), request, reply)
 }
