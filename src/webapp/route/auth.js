@@ -1,5 +1,5 @@
-const { preHandler, preValidation } = require('../hook/auth.js')
-const authController = require('../controller/auth.js')
+const { preHandler, preValidation } = require('./hook/default.js')
+const authController = require('../../services/controller/auth.js')
 
 const authentication = {
   preValidation,

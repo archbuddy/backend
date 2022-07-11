@@ -1,11 +1,8 @@
-const { buildQuery } = require('../../src/util/fiqlQueryBuilder')
+const { buildQuery } = require('../../../src/util/fiqlQueryBuilder')
 const mongoose = require('mongoose')
-const { MongoMemoryServer } = require('mongodb-memory-server')
 const testData = require('./testData.json')
-
-let mongoServer
-
 const { Schema } = mongoose
+const db = require('../util')
 
 const child = new Schema({
   _id: String,
@@ -69,37 +66,10 @@ const parent = new Schema({
 })
 const parentModel = mongoose.model('parent', parent, 'parents')
 
-const connectMongo = async () => {
-  mongoose.Promise = Promise
-  mongoServer = await MongoMemoryServer.create()
-  const mongoUri = mongoServer.getUri()
-  const mongooseOpts = {
-    useNewUrlParser: true,
-    dbName: 'fiqlQueryBuilderTest'
-  }
-
-  const connectionPromise = mongoose.connect(mongoUri, mongooseOpts)
-
-  mongoose.connection.on('error', (e) => {
-    if (e.message.code === 'ETIMEDOUT') {
-      console.log(e)
-      mongoose.connect(mongoUri, mongooseOpts)
-    }
-    console.log(e)
-  })
-  console.log(mongoUri)
-  await connectionPromise
-}
-
 const initializeDatabase = async () => {
   await childModel.insertMany(testData.childs)
 
   return parentModel.insertMany(testData.parents)
-}
-
-const disconnectMongo = async () => {
-  await mongoose.disconnect()
-  await mongoServer.stop()
 }
 
 const dropCollections = async () => {
@@ -109,14 +79,14 @@ const dropCollections = async () => {
 
 describe('Query Builder', () => {
   beforeAll(async () => {
-    await connectMongo()
+    await db.connectMongo()
     await initializeDatabase()
   })
 
   afterAll(async () => {
     try {
       await dropCollections()
-      await disconnectMongo()
+      await db.disconnectMongo()
     } catch (error) {
       console.log(error)
     }

@@ -1,5 +1,5 @@
-const { preHandler, preValidation } = require('../hook/diagram.js')
-const diagramController = require('../controller/diagram.js')
+const { preHandler, preValidation } = require('./hook/default.js')
+const diagramController = require('../../services/controller/diagram.js')
 const { getPageSchema } = require('../swagger.js')
 const { diagramSchema, diagramUpsertSchema } = require('../schema/diagram.js')
 const { fiqlDescription } = require('./base')

@@ -4,14 +4,14 @@
   "description": "Backend to handle all application interaction, authentication and so on",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon src/index.js",
+    "start": "nodemon src/webapp/server.js",
     "test": "standard --fix && jest  --coverage ./tests/* --detectOpenHandles",
     "test:husky": "jest  --coverage ./tests/* --detectOpenHandles",
-    "test:custom": "standard --fix && jest ./tests/service/viewPoint.test.js",
+    "test:custom": "standard --fix && jest ./tests/unit/business/*",
     "lint": "standard",
     "lint:fix": "standard --fix",
     "prepare": "husky install",
-    "seed": "node src/repository/seed.js"
+    "seed": "node src/services/repository/seed.js"
   },
   "repository": {
     "type": "git",

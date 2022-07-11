@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const config = require('../config/environment.js')
 const { readFileSync } = require('fs')
 const { join } = require('path')
-const log = require('../util/logger')
+const log = require('../../util/logger')
 
 async function connectMongo () {
   const options = {

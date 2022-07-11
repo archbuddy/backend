@@ -1,15 +1,16 @@
-const { preHandler, preValidation } = require('../hook/diagramItem.js')
-const diagramItemController = require('../controller/diagramItem.js')
+const { preHandler, preValidation } = require('./hook/default.js')
+const nodeController = require('../../services/controller/node.js')
 const { getPageSchema } = require('../swagger.js')
-const { diagramItemSchema, diagramItemUpsertSchema } = require('../schema/diagramItem.js')
+const { nodeUpsertSchema } = require('../schema/node.js')
+const { diagramItemSchema } = require('../schema/diagramItem.js')
 const { fiqlDescription } = require('./base')
 
 const list = {
   preValidation,
   preHandler,
-  handler: diagramItemController.list,
+  handler: nodeController.list,
   schema: {
-    tags: ['DiagramItem'],
+    tags: ['Node'],
     query: {
       type: 'object',
       properties: {
@@ -37,18 +38,18 @@ const list = {
       }
     },
     response: {
-      200: getPageSchema('diagramItem')
+      200: getPageSchema('node')
     }
   }
 }
 const byId = {
   preValidation,
   preHandler,
-  handler: diagramItemController.byId,
+  handler: nodeController.byId,
   schema: {
-    tags: ['DiagramItem'],
+    tags: ['Node'],
     response: {
-      200: { $ref: 'diagramItem' }
+      200: { $ref: 'node' }
     },
     params: {
       type: 'object',
@@ -65,9 +66,9 @@ const byId = {
 const byIdHead = {
   preValidation,
   preHandler,
-  handler: diagramItemController.byId,
+  handler: nodeController.byId,
   schema: {
-    tags: ['DiagramItem'],
+    tags: ['Node'],
     response: {
       200: { type: 'null' }
     },
@@ -86,10 +87,10 @@ const byIdHead = {
 const create = {
   preValidation,
   preHandler,
-  handler: diagramItemController.create,
+  handler: nodeController.create,
   schema: {
-    tags: ['DiagramItem'],
-    body: diagramItemUpsertSchema,
+    tags: ['Node'],
+    body: nodeUpsertSchema,
     response: {
       201: {
         description: 'Successfully created item',
@@ -97,7 +98,7 @@ const create = {
         headers: {
           Location: {
             type: 'string',
-            description: 'Location of the new DiagramItem'
+            description: 'Location of the new Node'
           }
         }
       }
@@ -107,10 +108,10 @@ const create = {
 const update = {
   preValidation,
   preHandler,
-  handler: diagramItemController.update,
+  handler: nodeController.update,
   schema: {
-    tags: ['DiagramItem'],
-    body: diagramItemUpsertSchema,
+    tags: ['Node'],
+    body: nodeUpsertSchema,
     response: {
       204: {
         description: 'Successfully updated item',
@@ -132,12 +133,12 @@ const update = {
 const partialUpdate = {
   preValidation,
   preHandler,
-  handler: diagramItemController.partialUpdate,
+  handler: nodeController.partialUpdate,
   schema: {
-    tags: ['DiagramItem'],
+    tags: ['Node'],
     body: {
       type: 'object',
-      properties: diagramItemUpsertSchema.properties
+      properties: nodeUpsertSchema.properties
     },
     response: {
       204: {
@@ -160,9 +161,9 @@ const partialUpdate = {
 const deleteById = {
   preValidation,
   preHandler,
-  handler: diagramItemController.deleteById,
+  handler: nodeController.deleteById,
   schema: {
-    tags: ['DiagramItem'],
+    tags: ['Node'],
     response: {
       200: {
         description: 'Successfully deleted item',

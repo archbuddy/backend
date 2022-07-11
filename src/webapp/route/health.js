@@ -1,4 +1,4 @@
-const healthController = require('../controller/health.js')
+const healthController = require('../../services/controller/health.js')
 
 const check = {
   handler: healthController.check,

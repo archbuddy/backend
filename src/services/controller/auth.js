@@ -1,6 +1,6 @@
 const axios = require('axios')
 const commonController = require('./commonController')
-const log = require('../util/logger')
+const log = require('../../util/logger')
 /**
  * Check the general availability of the application
  *

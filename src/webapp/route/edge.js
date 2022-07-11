@@ -1,5 +1,5 @@
-const { preHandler, preValidation } = require('../hook/edge.js')
-const edgeController = require('../controller/edge.js')
+const { preHandler, preValidation } = require('./hook/default.js')
+const edgeController = require('../../services/controller/edge.js')
 const { getPageSchema } = require('../swagger.js')
 const { edgeUpsertSchema } = require('../schema/edge.js')
 const { diagramItemSchema } = require('../schema/diagramItem.js')

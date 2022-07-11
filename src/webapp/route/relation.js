@@ -1,15 +1,15 @@
-const { preHandler, preValidation } = require('../hook/entity.js')
-const entityController = require('../controller/entity.js')
+const { preHandler, preValidation } = require('./hook/default.js')
+const relationController = require('../../services/controller/relation.js')
 const { getPageSchema } = require('../swagger.js')
-const { entitySchema, entityUpsertSchema } = require('../schema/entity.js')
+const { relationSchema, relationUpsertSchema } = require('../schema/relation.js')
 const { fiqlDescription } = require('./base')
 
 const list = {
   preValidation,
   preHandler,
-  handler: entityController.list,
+  handler: relationController.list,
   schema: {
-    tags: ['Entity'],
+    tags: ['Relation'],
     query: {
       type: 'object',
       properties: {
@@ -37,24 +37,24 @@ const list = {
       }
     },
     response: {
-      200: getPageSchema('entity')
+      200: getPageSchema('relation')
     }
   }
 }
 const byId = {
   preValidation,
   preHandler,
-  handler: entityController.byId,
+  handler: relationController.byId,
   schema: {
-    tags: ['Entity'],
+    tags: ['Relation'],
     response: {
-      200: { $ref: 'entity' }
+      200: { $ref: 'relation' }
     },
     params: {
       type: 'object',
       properties: {
         id: {
-          ...entitySchema.properties.id,
+          ...relationSchema.properties.id,
           description: 'Id'
         }
       }
@@ -64,9 +64,9 @@ const byId = {
 const byIdHead = {
   preValidation,
   preHandler,
-  handler: entityController.byId,
+  handler: relationController.byId,
   schema: {
-    tags: ['Entity'],
+    tags: ['Relation'],
     response: {
       200: { type: 'null' }
     },
@@ -74,9 +74,8 @@ const byIdHead = {
       type: 'object',
       properties: {
         id: {
-          ...entitySchema.properties.id,
+          ...relationSchema.properties.id,
           description: 'Id'
-
         }
       }
     }
@@ -85,10 +84,10 @@ const byIdHead = {
 const create = {
   preValidation,
   preHandler,
-  handler: entityController.create,
+  handler: relationController.create,
   schema: {
-    tags: ['Entity'],
-    body: entityUpsertSchema,
+    tags: ['Relation'],
+    body: relationUpsertSchema,
     response: {
       201: {
         description: 'Successfully created item',
@@ -96,7 +95,7 @@ const create = {
         headers: {
           Location: {
             type: 'string',
-            description: 'Location of the new Entity'
+            description: 'Location of the new Relation'
           }
         }
       }
@@ -106,10 +105,10 @@ const create = {
 const update = {
   preValidation,
   preHandler,
-  handler: entityController.update,
+  handler: relationController.update,
   schema: {
-    tags: ['Entity'],
-    body: entityUpsertSchema,
+    tags: ['Relation'],
+    body: relationUpsertSchema,
     response: {
       204: {
         description: 'Successfully updated item',
@@ -120,9 +119,8 @@ const update = {
       type: 'object',
       properties: {
         id: {
-          ...entitySchema.properties.id,
+          ...relationSchema.properties.id,
           description: 'Id'
-
         }
       }
     }
@@ -131,12 +129,12 @@ const update = {
 const partialUpdate = {
   preValidation,
   preHandler,
-  handler: entityController.partialUpdate,
+  handler: relationController.partialUpdate,
   schema: {
-    tags: ['Entity'],
+    tags: ['Relation'],
     body: {
       type: 'object',
-      properties: entityUpsertSchema.properties
+      properties: relationUpsertSchema.properties
     },
     response: {
       204: {
@@ -148,9 +146,8 @@ const partialUpdate = {
       type: 'object',
       properties: {
         id: {
-          ...entitySchema.properties.id,
+          ...relationSchema.properties.id,
           description: 'Id'
-
         }
       }
     }
@@ -159,9 +156,9 @@ const partialUpdate = {
 const deleteById = {
   preValidation,
   preHandler,
-  handler: entityController.deleteById,
+  handler: relationController.deleteById,
   schema: {
-    tags: ['Entity'],
+    tags: ['Relation'],
     response: {
       200: {
         description: 'Successfully deleted item',
@@ -172,9 +169,8 @@ const deleteById = {
       type: 'object',
       properties: {
         id: {
-          ...entitySchema.properties.id,
+          ...relationSchema.properties.id,
           description: 'Id'
-
         }
       }
     }

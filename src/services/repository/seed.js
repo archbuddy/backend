@@ -4,7 +4,7 @@ const { relationModel } = require('../model/relation')
 const { diagramModel } = require('../model/diagram')
 const { nodeModel } = require('../model/node')
 const { edgeModel } = require('../model/edge')
-const log = require('../util/logger')
+const log = require('../../util/logger')
 
 const seedDb = async () => {
   log.info('Starting Seed')
