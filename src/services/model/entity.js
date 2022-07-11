@@ -2,32 +2,25 @@ const mongoose = require('mongoose')
 const { v4: uuidv4 } = require('uuid')
 const base = require('./base')
 const { Schema } = mongoose
+const model = require('../../util/model')
 
 const schema = new Schema({
   _id: { type: String, default: uuidv4 },
-  name: String,
-  description: String,
+  name: { type: String, required: true },
+  description: { type: String, default: '' },
   type: {
     type: String,
-    enum: [
-      'person',
-      'system',
-      'container',
-      'storageContainer',
-      'microserviceContainer',
-      'busContainer',
-      'webContainer',
-      'mobContainer'
-    ]
+    enum: model.getEnumEntityTypes(),
+    required: true
   },
   variant: {
     type: String,
-    enum: ['internal', 'external'],
+    enum: model.getEnumEntityVariants(),
     default: 'internal'
   },
-  includedAt: Date,
-  updatedAt: Date,
-  active: Boolean
+  includedAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: undefined },
+  active: { type: Boolean, default: true }
 })
 
 base.defaultBehaviour(schema)

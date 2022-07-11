@@ -30,11 +30,49 @@ const connectMongo = async () => {
 }
 
 const disconnectMongo = async () => {
+  /*
+  const db = mongoose.connection.db
+  const collections = await db.listCollections().toArray()
+  collections
+    .map((collection) => collection.name)
+    .forEach(async (collectionName) => {
+      db.dropCollection(collectionName)
+    })
+  */
   await mongoose.disconnect()
   await mongoServer.stop()
 }
 
+const mockFastifyRequest = (routerPath, body, query, params) => {
+  return {
+    routerPath,
+    body,
+    query,
+    params
+  }
+}
+
+const mockFastifyReply = (body) => {
+  const reply = {
+    value: 0,
+    code: (code) => {
+      this.value = code
+      return reply
+    },
+    header: (key, value) => { return reply },
+    send: (obj) => { return reply }
+  }
+
+  const spyCode = jest.spyOn(reply, 'code')
+  const spyHeader = jest.spyOn(reply, 'header')
+  const spySend = jest.spyOn(reply, 'send')
+
+  return { reply, spyCode, spyHeader, spySend }
+}
+
 module.exports = {
   connectMongo,
-  disconnectMongo
+  disconnectMongo,
+  mockFastifyRequest,
+  mockFastifyReply
 }
