@@ -3,7 +3,7 @@ const nodeController = require('../../services/controller/node.js')
 const { getPageSchema } = require('../swagger.js')
 const { nodeUpsertSchema } = require('../schema/node.js')
 const { diagramItemSchema } = require('../schema/diagramItem.js')
-const { fiqlDescription } = require('./base')
+const { getListSchemaDefaultQueryProperty } = require('./base')
 
 const list = {
   preValidation,
@@ -11,32 +11,7 @@ const list = {
   handler: nodeController.list,
   schema: {
     tags: ['Node'],
-    query: {
-      type: 'object',
-      properties: {
-        fields: {
-          description:
-            'Filter to select fields thar must be returned. Ex.: "?fields=id,name"',
-          type: 'string',
-          default: ''
-        },
-        fiql: {
-          description: fiqlDescription,
-          type: 'string',
-          default: ''
-        },
-        offset: {
-          description: 'Number of records to be skipped',
-          type: 'integer',
-          default: 0
-        },
-        limit: {
-          description: 'Number of records to be returned',
-          type: 'integer',
-          default: 10
-        }
-      }
-    },
+    query: getListSchemaDefaultQueryProperty(),
     response: {
       200: getPageSchema('node')
     }

@@ -2,7 +2,7 @@ const { preHandler, preValidation } = require('./hook/default.js')
 const entityController = require('../../services/controller/entity.js')
 const { getPageSchema } = require('../swagger.js')
 const { entitySchema, entityUpsertSchema } = require('../schema/entity.js')
-const { fiqlDescription } = require('./base')
+const { getListSchemaDefaultQueryProperty } = require('./base')
 
 const list = {
   preValidation,
@@ -10,32 +10,7 @@ const list = {
   handler: entityController.list,
   schema: {
     tags: ['Entity'],
-    query: {
-      type: 'object',
-      properties: {
-        fields: {
-          description:
-            'Filter to select fields thar must be returned. Ex.: "?fields=id,name"',
-          type: 'string',
-          default: ''
-        },
-        fiql: {
-          description: fiqlDescription,
-          type: 'string',
-          default: ''
-        },
-        offset: {
-          description: 'Number of records to be skipped',
-          type: 'integer',
-          default: 0
-        },
-        limit: {
-          description: 'Number of records to be returned',
-          type: 'integer',
-          default: 10
-        }
-      }
-    },
+    query: getListSchemaDefaultQueryProperty(),
     response: {
       200: getPageSchema('entity')
     }
