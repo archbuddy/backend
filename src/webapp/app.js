@@ -42,7 +42,7 @@ const build = async () => {
   })
 
   log.info('[Fastify] Add Hook onRequest')
-  fastify.addHook('onRequest', (req, reply, done) => {
+  fastify.addHook('onRequest', (req, _reply, done) => {
     log.info({ url: req.raw.url, id: req.id, startTime: Date.now(), method: req.method })
     done()
   })

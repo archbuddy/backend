@@ -26,7 +26,6 @@ async function list (model, request, reply) {
 
   const list = entities.map(i => i.toObject())
 
-  // TODO remove _id to return to screen
   const page = new Page(
     request.routerPath,
     list,
@@ -102,21 +101,8 @@ async function update (model, request, reply) {
  * @param {import('fastify').FastifyRequest} request
  * @param {import('fastify').FastifyReply} reply
  */
-async function partialUpdate (model, request, reply) {
-  await validateParamsId(request, reply)
-
-  const entity = request.body
-  delete entity.updatedAt
-  delete entity._id
-
-  const query = { _id: request.params.id }
-  const data = { ...entity, _id: request.params.id, updatedAt: new Date() }
-  const result = await model.updateOne(query, data)
-
-  if (result.modifiedCount <= 0) {
-    throw new NotFound('Entity not found')
-  }
-  reply.code(204).send()
+async function partialUpdate (_model, _request, _reply) {
+  throw new Error('Must be implemented in the specific controller')
 }
 
 /**

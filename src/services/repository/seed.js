@@ -162,17 +162,16 @@ const createView4 = async (diagram, systems, relations) => {
   ])
 }
 const loadDiagram = async () => {
-  const res = await diagramModel().insertMany([
+  return diagramModel().insertMany([
     { name: 'View Point 1', includedAt: new Date() },
     { name: 'View Point 2', includedAt: new Date() },
     { name: 'View Point 3', includedAt: new Date() },
     { name: 'View Point 4', includedAt: new Date() }
   ])
-  return res
 }
 
 const loadRelations = async (systems) => {
-  const res = await relationModel().insertMany([
+  return relationModel().insertMany([
     {
       description: 'authenticate',
       detail: '',
@@ -195,11 +194,10 @@ const loadRelations = async (systems) => {
       includedAt: new Date()
     }
   ])
-  return res
 }
 
 const loadSystem = async () => {
-  const res = await entityModel().insertMany([
+  return entityModel().insertMany([
     {
       name: 'Arch Buddy',
       description: '',
@@ -225,7 +223,6 @@ const loadSystem = async () => {
       includedAt: new Date()
     }
   ])
-  return res
 }
 
 seedDb().then(async () => {

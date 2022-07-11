@@ -6,7 +6,7 @@ const { getPackageInfo } = require('../../util/common')
  * @param {import('fastify').FastifyRequest} request
  * @param {import('fastify').FastifyReply} reply
  */
-function check (request, reply) {
+function check (_request, _reply) {
   return { status: 'ok' }
 }
 
@@ -16,7 +16,7 @@ function check (request, reply) {
  * @param {import('fastify').FastifyRequest} request
  * @param {import('fastify').FastifyReply} reply
  */
-async function complete (request, reply) {
+async function complete (_request, _reply) {
   const pkg = getPackageInfo()
   return {
     meta: {

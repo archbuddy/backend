@@ -8,7 +8,7 @@ const defaultBehaviour = (schema) => {
   schema.options.virtuals = false
   schema.options.versionKey = false
   schema.options.toObject = {}
-  schema.options.toObject.transform = function (doc, ret, options) {
+  schema.options.toObject.transform = function (doc, ret, _options) {
     // remove the _id of every document before returning the result
     delete ret._id
     ret.id = doc._id
