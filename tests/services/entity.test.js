@@ -162,7 +162,6 @@ test('update by id', async () => {
   expect(responseBodyId.id).toBe(id)
   expect(responseBodyId.name).toBe(entity.name)
   expect(responseBodyId.description).toBe('mydesc')
-  expect(responseBodyId).toHaveProperty('updatedAt')
 })
 
 test('delete by id', async () => {
