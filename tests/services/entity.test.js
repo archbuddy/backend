@@ -18,15 +18,6 @@ afterAll(async () => {
   await testHelper.disconnectMongo()
 })
 
-test('invalid body', async () => {
-  // ARRANGE
-  const body = {
-  }
-  const { reply, spyCode, spyHeader, spySend } = testHelper.mockFastifyReply()
-  // ACT
-  await controller.create(testHelper.mockFastifyRequest('', body), reply)
-})
-
 test('create a new entity', async () => {
   // ARRANGE
   const body = {
