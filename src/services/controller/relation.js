@@ -26,6 +26,15 @@ async function byId (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function create (request, reply) {
+  if (request.body.source === request.body.target) {
+    return reply.code(400).send(commonController.prepareErrorResponse(
+      400,
+      'Source and target are the same',
+      'We do not support connection a system to a system, because it not represent a valid connection in the c4model framework',
+      undefined,
+      undefined
+    ))
+  }
   return commonController.create(relationModel(), request, reply)
 }
 
