@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 const log = require('../util/log')
 
 const fastify = require('fastify')({ log: false })
@@ -21,7 +19,8 @@ const registryCommonRoutes = (app, routePrefix, route) => {
   app.post(routePrefix, route.create)
   app.get(`${routePrefix}/:id`, route.byId)
   app.put(`${routePrefix}/:id`, route.update)
-  app.patch(`${routePrefix}/:id`, route.partialUpdate)
+  // TODO Check this in the future. I disabled it because the generic logic in the controllers were doing a full update
+  // app.patch(`${routePrefix}/:id`, route.partialUpdate)
   app.delete(`${routePrefix}/:id`, route.deleteById)
 }
 

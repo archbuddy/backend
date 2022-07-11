@@ -1,3 +1,5 @@
+const model = require('../../util/model')
+
 const entitySchema = {
   $id: 'entity',
   type: 'object',
@@ -15,20 +17,11 @@ const entitySchema = {
     },
     type: {
       type: 'string',
-      enum: [
-        'person',
-        'system',
-        'container',
-        'storageContainer',
-        'microserviceContainer',
-        'busContainer',
-        'webContainer',
-        'mobContainer'
-      ]
+      enum: model.getEnumEntityTypes()
     },
     variant: {
       type: 'string',
-      enum: ['internal', 'external']
+      enum: model.getEnumEntityVariants()
     },
     includedAt: {
       type: 'string',
@@ -58,20 +51,11 @@ const entityUpsertSchema = {
     },
     type: {
       type: 'string',
-      enum: [
-        'person',
-        'system',
-        'container',
-        'storageContainer',
-        'microserviceContainer',
-        'busContainer',
-        'webContainer',
-        'mobContainer'
-      ]
+      enum: model.getEnumEntityTypes()
     },
     variant: {
       type: 'string',
-      enum: ['internal', 'external']
+      enum: model.getEnumEntityVariants()
     },
     active: {
       type: 'boolean'

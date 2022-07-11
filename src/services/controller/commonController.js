@@ -83,6 +83,7 @@ async function update (model, request, reply) {
   const entity = request.body
   delete entity.updatedAt
   delete entity._id
+  delete entity.id
 
   const query = { _id: request.params.id }
   const data = { ...entity, _id: request.params.id, updatedAt: new Date() }

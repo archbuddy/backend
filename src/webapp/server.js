@@ -1,3 +1,4 @@
+require('dotenv').config()
 
 const { connectMongo, disconnectMongo } = require('../services/repository/db.js')
 const build = require('./app')

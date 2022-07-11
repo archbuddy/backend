@@ -27,7 +27,10 @@ async function byId (request, reply) {
  */
 async function create (request, reply) {
   const result = await entityModel().find(
-    { name: new RegExp(`^${request.body.name}$`, 'i') }
+    {
+      name: new RegExp(`^${request.body.name.trim()}$`, 'i'),
+      type: request.body.type
+    }
   )
   if (result.length > 0) {
     return reply.code(409).send(result[0].toObject())

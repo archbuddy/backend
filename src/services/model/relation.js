@@ -6,8 +6,8 @@ const { Schema } = mongoose
 
 const schema = new Schema({
   _id: { type: String, default: uuidv4 },
-  description: String,
-  detail: String,
+  description: { type: String, default: '' },
+  detail: { type: String, default: '' },
   source: {
     type: String,
     ref: entityModel(),
@@ -15,7 +15,8 @@ const schema = new Schema({
       type: 'ONE_TO_ONE',
       localField: 'source',
       foreignField: '_id'
-    }
+    },
+    required: true
   },
   target: {
     type: String,
@@ -24,11 +25,12 @@ const schema = new Schema({
       type: 'ONE_TO_ONE',
       localField: 'target',
       foreignField: '_id'
-    }
+    },
+    required: true
   },
-  includedAt: Date,
-  updatedAt: Date,
-  active: Boolean
+  includedAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: undefined },
+  active: { type: Boolean, default: true }
 })
 
 base.defaultBehaviour(schema)
