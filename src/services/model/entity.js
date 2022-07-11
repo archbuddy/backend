@@ -16,7 +16,8 @@ const schema = new Schema({
   variant: {
     type: String,
     enum: model.getEnumEntityVariants(),
-    default: 'internal'
+    default: 'internal',
+    required: true
   },
   includedAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: undefined },
