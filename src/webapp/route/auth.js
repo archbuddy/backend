@@ -10,6 +10,14 @@ const authentication = {
       type: 'object'
     },
     response: {
+      200: {
+        type: 'object',
+        properties: {
+          token: {
+            type: 'string'
+          }
+        }
+      }
     }
   }
 }
@@ -23,6 +31,46 @@ const providers = {
       type: 'object'
     },
     response: {
+      200: { 
+        type: "array",
+        default: [],
+        items: {
+          title: "Items",
+          type: "object",
+          required: [
+            "providerId",
+            "providerName",
+            "config"
+          ],
+          properties: {
+            providerId: {
+              type: "string",
+            },
+            providerName: {
+              type: "string",
+            },
+            config: {
+              type: "object",
+              required: [
+                "id",
+                "redirectUrl",
+                "endpoint"
+              ],
+              properties: {
+                id: {
+                  type: "string",
+                },
+                redirectUrl: {
+                    type: "string",
+                },
+                endpoint: {
+                  type: "string",
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
