@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 const log = require('../util/log')
 
 const fastify = require('fastify')({ log: false })
