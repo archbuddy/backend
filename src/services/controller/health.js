@@ -1,4 +1,4 @@
-const { loadPackageJson } = require('../util/loadPackageJson.js')
+const { getPackageInfo } = require('../../util/common')
 
 /**
  * Check the general availability of the application
@@ -17,7 +17,7 @@ function check (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function complete (request, reply) {
-  const pkg = loadPackageJson()
+  const pkg = getPackageInfo()
   return {
     meta: {
       name: pkg.name,

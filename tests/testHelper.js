@@ -6,7 +6,7 @@ let mongoServer
 const connectMongo = async () => {
   if (mongoServer) {
     return mongoServer
-  } 
+  }
   mongoose.Promise = Promise
   mongoServer = await MongoMemoryServer.create()
   const mongoUri = mongoServer.getUri()

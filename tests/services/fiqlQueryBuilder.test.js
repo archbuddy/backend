@@ -1,8 +1,8 @@
-const { buildQuery } = require('../../../src/util/fiqlQueryBuilder')
+const { buildQuery } = require('../../src/services/util/fiqlQueryBuilder')
 const mongoose = require('mongoose')
-const testData = require('./testData.json')
+const testData = require('./fiqlQueryBuilder.json')
 const { Schema } = mongoose
-const db = require('../util')
+const db = require('../testHelper')
 
 const child = new Schema({
   _id: String,
