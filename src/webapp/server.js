@@ -1,7 +1,7 @@
 
 const { connectMongo, disconnectMongo } = require('../services/repository/db.js')
 const build = require('./app')
-const log = require('../util/logger')
+const log = require('../util/log')
 // Run the server!
 const start = async () => {
   try {

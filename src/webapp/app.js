@@ -1,8 +1,8 @@
 require('dotenv').config()
 
-const log = require('../util/logger')
+const log = require('../util/log')
 
-const fastify = require('fastify')({ logger: false })
+const fastify = require('fastify')({ log: false })
 const fastifySwagger = require('@fastify/swagger')
 const fastifyHelmet = require('@fastify/helmet')
 const { getOpenapiDefinition } = require('./swagger.js')
