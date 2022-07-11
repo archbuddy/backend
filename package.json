@@ -46,7 +46,7 @@
     "husky": "^8.0.1",
     "jest": "^28.1.1",
     "mongodb-memory-server": "^8.6.0",
-    "nodemon": "^2.0.18",
+    "nodemon": "^2.0.19",
     "standard": "^17.0.0"
   },
   "standard": {
