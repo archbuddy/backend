@@ -31,40 +31,40 @@ const providers = {
       type: 'object'
     },
     response: {
-      200: { 
-        type: "array",
+      200: {
+        type: 'array',
         default: [],
         items: {
-          title: "Items",
-          type: "object",
+          title: 'Items',
+          type: 'object',
           required: [
-            "providerId",
-            "providerName",
-            "config"
+            'providerId',
+            'providerName',
+            'config'
           ],
           properties: {
             providerId: {
-              type: "string",
+              type: 'string'
             },
             providerName: {
-              type: "string",
+              type: 'string'
             },
             config: {
-              type: "object",
+              type: 'object',
               required: [
-                "id",
-                "redirectUrl",
-                "endpoint"
+                'id',
+                'redirectUrl',
+                'endpoint'
               ],
               properties: {
                 id: {
-                  type: "string",
+                  type: 'string'
                 },
                 redirectUrl: {
-                    type: "string",
+                  type: 'string'
                 },
                 endpoint: {
-                  type: "string",
+                  type: 'string'
                 }
               }
             }
