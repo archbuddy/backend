@@ -63,3 +63,21 @@ test('create a new diagram with the same name with spaces', async () => {
   expect(spyCode.mock.calls[0][0]).toBe(409)
   validateDefaultSchemaBehaviour(responseBody)
 })
+
+test('list entities', async () => {
+  // ARRANGE
+  const { reply, spyCode, spySend } = testHelper.mockFastifyReply()
+  // ACT
+  await controller.list(testHelper.mockFastifyRequest({}, {}, { offset: 0, limit: 10 }), reply)
+  // ASSERT
+  const responseBody = spySend.mock.calls[0][0]
+  expect(spyCode.mock.calls[0][0]).toBe(200)
+  expect(responseBody).toHaveProperty('_links')
+  expect(responseBody).toHaveProperty('_meta')
+  expect(responseBody).toHaveProperty('data')
+  expect(Array.isArray(responseBody.data)).toBe(true)
+  expect(responseBody.data.length > 0).toBe(true)
+  for (const obj of responseBody.data) {
+    validateDefaultSchemaBehaviour(obj)
+  }
+})
