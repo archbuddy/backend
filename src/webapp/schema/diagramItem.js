@@ -3,7 +3,7 @@ const diagramItemSchema = {
   type: 'object',
   required: ['diagram'],
   properties: {
-    _id: {
+    id: {
       type: 'string',
       format: 'uuid'
     },

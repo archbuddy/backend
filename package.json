@@ -7,7 +7,7 @@
     "start": "nodemon src/webapp/server.js",
     "test": "standard && jest  --coverage ./tests/*",
     "test:husky": "jest  --coverage ./tests/* --detectOpenHandles",
-    "test:custom": "standard --fix && jest ./tests/services/relation.test.js",
+    "test:custom": "standard --fix && jest ./tests/services/diagram.test.js",
     "lint": "standard",
     "lint:fix": "standard --fix",
     "prepare": "husky install",

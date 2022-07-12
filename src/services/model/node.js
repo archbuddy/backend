@@ -8,7 +8,7 @@ const options = { discriminatorKey: 'kind' }
 const schema = new Schema({
   x: Number,
   y: Number,
-  variant: String,
+  variant: { type: String, required: true, trim: true },
   entity: {
     type: String,
     ref: entityModel(),
