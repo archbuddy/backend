@@ -4,6 +4,5 @@
     "**/coverage": true,
     "**/package-lock.json": true
   },
-  "editor.formatOnSave": false,
-  "jest.jestCommandLine": "npm test --"
+  "editor.formatOnSave": false
 }
