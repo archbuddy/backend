@@ -20,8 +20,9 @@ afterAll(async () => {
 
 test('create a new diagram', async () => {
   // ARRANGE
+  const nameWithSpace = '  diagram 1'
   const body = {
-    name: 'diagram 1'
+    name: nameWithSpace
   }
   const { reply, spyCode, spyHeader, spySend } = testHelper.mockFastifyReply()
   // ACT
@@ -32,6 +33,7 @@ test('create a new diagram', async () => {
   expect(spyHeader.mock.calls[0][0]).toBe('Location')
   expect(spyHeader.mock.calls[0][1]).toBe(`/${responseBody.id}`)
   validateDefaultSchemaBehaviour(responseBody)
+  expect(responseBody.name).toBe(nameWithSpace.trim())
 })
 
 test('create a new diagram with the same name', async () => {

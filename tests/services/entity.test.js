@@ -20,8 +20,9 @@ afterAll(async () => {
 
 test('create a new entity', async () => {
   // ARRANGE
+  const nameWithSpace = 'arch buddy  '
   const body = {
-    name: 'arch buddy',
+    name: nameWithSpace,
     type: 'system'
   }
   const { reply, spyCode, spyHeader, spySend } = testHelper.mockFastifyReply()
@@ -33,6 +34,7 @@ test('create a new entity', async () => {
   expect(spyHeader.mock.calls[0][0]).toBe('Location')
   expect(spyHeader.mock.calls[0][1]).toBe(`/${responseBody.id}`)
   validateDefaultSchemaBehaviour(responseBody)
+  expect(responseBody.name).toBe(nameWithSpace.trim())
 })
 
 test('create a existing entity', async () => {
