@@ -41,7 +41,7 @@ const build = async () => {
       }
     )
   })
-  
+
   const cors = {
     origin: process.env.CORS_ORIGIN ?? true
   }
