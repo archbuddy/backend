@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const { connectMongo, disconnectMongo } = require('./db')
 const { entityModel } = require('../model/entity')
 const { relationModel } = require('../model/relation')
@@ -35,14 +37,16 @@ const createView1 = async (diagram, systems, relations) => {
       y: 0,
       entity: systems[0]._id,
       diagram: diagram._id,
-      includedAt: new Date()
+      includedAt: new Date(),
+      variant: 'internal'
     },
     {
       x: 500,
       y: 0,
       entity: systems[1]._id,
       diagram: diagram._id,
-      includedAt: new Date()
+      includedAt: new Date(),
+      variant: 'internal'
     }
   ])
 
@@ -63,14 +67,16 @@ const createView2 = async (diagram, systems, relations) => {
       y: 0,
       entity: systems[0]._id,
       diagram: diagram._id,
-      includedAt: new Date()
+      includedAt: new Date(),
+      variant: 'internal'
     },
     {
       x: 500,
       y: 0,
       entity: systems[2]._id,
       diagram: diagram._id,
-      includedAt: new Date()
+      includedAt: new Date(),
+      variant: 'internal'
     }
   ])
 
@@ -91,14 +97,16 @@ const createView3 = async (diagram, systems, relations) => {
       y: 0,
       entity: systems[0]._id,
       diagram: diagram._id,
-      includedAt: new Date()
+      includedAt: new Date(),
+      variant: 'internal'
     },
     {
       x: 500,
       y: 0,
       entity: systems[2]._id,
       diagram: diagram._id,
-      includedAt: new Date()
+      includedAt: new Date(),
+      variant: 'internal'
     }
   ])
 
@@ -119,21 +127,24 @@ const createView4 = async (diagram, systems, relations) => {
       y: 0,
       entity: systems[0]._id,
       diagram: diagram._id,
-      includedAt: new Date()
+      includedAt: new Date(),
+      variant: 'internal'
     },
     {
       x: 500,
       y: 0,
       entity: systems[1]._id,
       diagram: diagram._id,
-      includedAt: new Date()
+      includedAt: new Date(),
+      variant: 'internal'
     },
     {
       x: 500,
       y: 300,
       entity: systems[2]._id,
       diagram: diagram._id,
-      includedAt: new Date()
+      includedAt: new Date(),
+      variant: 'internal'
     }
   ])
 
