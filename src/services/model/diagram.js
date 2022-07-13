@@ -6,7 +6,7 @@ const { Schema } = mongoose
 
 const schema = new Schema({
   _id: { type: String, default: uuidv4 },
-  name: String,
+  name: { type: String, required: true, trim: true },
   entity: {
     type: String,
     ref: entityModel(),
@@ -16,9 +16,9 @@ const schema = new Schema({
       foreignField: '_id'
     }
   },
-  includedAt: Date,
-  updatedAt: Date,
-  active: Boolean
+  includedAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: undefined },
+  active: { type: Boolean, default: true }
 })
 
 base.defaultBehaviour(schema)

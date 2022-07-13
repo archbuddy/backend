@@ -1,4 +1,3 @@
-const { NotFound } = require('http-errors')
 const Page = require('../util/page.js')
 const { buildQuery } = require('../util/fiqlQueryBuilder.js')
 /**
@@ -53,7 +52,14 @@ async function byId (model, request, reply) {
   const result = await model.findOne(query)
 
   if (!result) {
-    throw new NotFound('Entity not found')
+    reply.code(404).send(prepareErrorResponse(
+      404,
+      'Not found',
+      `${model.modelName} id ${request.params.id} not found`,
+      undefined,
+      undefined
+    ))
+    return
   }
 
   reply.code(200).send(result.toObject())
@@ -90,7 +96,14 @@ async function update (model, request, reply) {
   const result = await model.updateOne(query, data)
 
   if (result.modifiedCount <= 0) {
-    throw new NotFound('Entity not found')
+    reply.code(404).send(prepareErrorResponse(
+      404,
+      'Not found',
+      `${model.modelName} id ${request.params.id} not found`,
+      undefined,
+      undefined
+    ))
+    return
   }
 
   reply.code(204).send()
@@ -102,8 +115,28 @@ async function update (model, request, reply) {
  * @param {import('fastify').FastifyRequest} request
  * @param {import('fastify').FastifyReply} reply
  */
-async function partialUpdate (_model, _request, _reply) {
-  throw new Error('Must be implemented in the specific controller')
+async function partialUpdate (model, request, reply) {
+  await validateParamsId(request, reply)
+
+  const findResult = await model.findOne({ _id: request.params.id })
+  if (findResult === null || findResult === undefined) {
+    reply.code(404).send(prepareErrorResponse(
+      404,
+      'Not found',
+      `${model.modelName} id ${request.params.id} not found`,
+      undefined,
+      undefined
+    ))
+    return
+  }
+  const body = request.body
+  for (const key of Object.keys(body)) {
+    findResult[key] = body[key]
+  }
+
+  findResult.updatedAt = new Date()
+  findResult.save()
+  reply.code(204).send()
 }
 
 /**
@@ -118,7 +151,14 @@ async function deleteById (model, request, reply) {
   const result = await model.deleteOne({ _id: request.params.id })
 
   if (result.deletedCount <= 0) {
-    throw new NotFound('Entity not found')
+    reply.code(404).send(prepareErrorResponse(
+      404,
+      'Not found',
+      `${model.modelName} id ${request.params.id} not found`,
+      undefined,
+      undefined
+    ))
+    return
   }
   reply.code(204).send()
 }
@@ -158,4 +198,4 @@ function prepareErrorResponse (statusCode, message, detail, type, instance) {
   }
 }
 
-module.exports = { list, byId, create, update, partialUpdate, deleteById, prepareErrorResponse }
+module.exports = { list, byId, create, update, partialUpdate, deleteById, prepareErrorResponse, validateParamsId }

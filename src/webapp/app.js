@@ -19,14 +19,28 @@ const registryCommonRoutes = (app, routePrefix, route) => {
   app.post(routePrefix, route.create)
   app.get(`${routePrefix}/:id`, route.byId)
   app.put(`${routePrefix}/:id`, route.update)
-  // TODO Check this in the future. I disabled it because the generic logic in the controllers were doing a full update
-  // app.patch(`${routePrefix}/:id`, route.partialUpdate)
+  app.patch(`${routePrefix}/:id`, route.partialUpdate)
   app.delete(`${routePrefix}/:id`, route.deleteById)
 }
 
 const build = async () => {
   log.info('[Fastify] Register Helmet')
   fastify.register(fastifyHelmet)
+
+  log.info('[Fastify] Set error handler')
+  fastify.setErrorHandler(function (error, _request, reply) {
+    log.error(`Generic error handler. Message: ${error.message}`)
+    log.error(error.stack)
+    reply.status(500).send(
+      {
+        statusCode: 500,
+        message: 'Generic error',
+        detail: error.message,
+        type: 'https://archbuddy.github.io/documentation/commonErrors',
+        instance: ''
+      }
+    )
+  })
 
   const cors = {
     origin: process.env.CORS_ORIGIN ?? true

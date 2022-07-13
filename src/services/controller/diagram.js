@@ -28,14 +28,13 @@ async function byId (request, reply) {
  */
 async function create (request, reply) {
   const result = await diagramModel().find(
-    { name: new RegExp(`^${request.body.name}$`, 'i') }
+    { name: new RegExp(`^${request.body.name.trim()}$`, 'i') }
   )
   if (result.length > 0) {
-    return reply.code(409).send(commonController.prepareResponse(result[0]))
+    return reply.code(409).send(result[0].toObject())
   }
   return commonController.create(diagramModel(), request, reply)
 }
-
 /**
  *
  * @param {import('fastify').FastifyRequest} request

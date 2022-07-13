@@ -4,11 +4,17 @@ const { entityModel } = require('./entity')
 const base = require('./base')
 const { Schema } = mongoose
 const options = { discriminatorKey: 'kind' }
+const model = require('../../util/model')
 
 const schema = new Schema({
   x: Number,
   y: Number,
-  variant: String,
+  variant: {
+    type: String,
+    required: true,
+    trim: true,
+    enum: model.getEnumC4Variants()
+  },
   entity: {
     type: String,
     ref: entityModel(),
@@ -16,7 +22,8 @@ const schema = new Schema({
       type: 'ONE_TO_ONE',
       localField: 'source',
       foreignField: '_id'
-    }
+    },
+    required: true
   }
 })
 

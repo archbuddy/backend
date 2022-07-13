@@ -20,9 +20,11 @@ afterAll(async () => {
 
 test('create a new entity', async () => {
   // ARRANGE
+  const nameWithSpace = 'arch buddy  '
   const body = {
-    name: 'arch buddy',
-    type: 'system'
+    name: nameWithSpace,
+    type: 'system',
+    variant: 'internal'
   }
   const { reply, spyCode, spyHeader, spySend } = testHelper.mockFastifyReply()
   // ACT
@@ -33,13 +35,15 @@ test('create a new entity', async () => {
   expect(spyHeader.mock.calls[0][0]).toBe('Location')
   expect(spyHeader.mock.calls[0][1]).toBe(`/${responseBody.id}`)
   validateDefaultSchemaBehaviour(responseBody)
+  expect(responseBody.name).toBe(nameWithSpace.trim())
 })
 
 test('create a existing entity', async () => {
   // ARRANGE
   const body = {
     name: 'arch buddy',
-    type: 'system'
+    type: 'system',
+    variant: 'internal'
   }
   const { reply, spyCode, spySend } = testHelper.mockFastifyReply()
   // ACT
@@ -54,7 +58,8 @@ test('create a existing entity - changing case', async () => {
   // ARRANGE
   const body = {
     name: 'Arch Buddy',
-    type: 'system'
+    type: 'system',
+    variant: 'internal'
   }
   const { reply, spyCode, spySend } = testHelper.mockFastifyReply()
   // ACT
@@ -69,7 +74,8 @@ test('create a existing entity - with spaces', async () => {
   // ARRANGE
   const body = {
     name: ' Arch Buddy ',
-    type: 'system'
+    type: 'system',
+    variant: 'internal'
   }
   const { reply, spyCode, spySend } = testHelper.mockFastifyReply()
   // ACT
@@ -84,7 +90,8 @@ test('create a entity with the same name but different type', async () => {
   // ARRANGE
   const body = {
     name: 'Arch Buddy',
-    type: 'person'
+    type: 'person',
+    variant: 'internal'
   }
   const { reply, spyCode, spyHeader, spySend } = testHelper.mockFastifyReply()
   // ACT
