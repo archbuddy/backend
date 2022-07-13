@@ -22,28 +22,32 @@ beforeAll(async () => {
 
   await controllerEntity.create(testHelper.mockFastifyRequest('', {
     name: 'system 1',
-    type: 'system'
+    type: 'system',
+    variant: 'internal'
   }), reply)
 
   listOfEntities.push(spySend.mock.calls[0][0])
 
   await controllerEntity.create(testHelper.mockFastifyRequest('', {
     name: 'system 2',
-    type: 'system'
+    type: 'system',
+    variant: 'internal'
   }), reply)
 
   listOfEntities.push(spySend.mock.calls[1][0])
 
   await controllerEntity.create(testHelper.mockFastifyRequest('', {
     name: 'system 3',
-    type: 'system'
+    type: 'system',
+    variant: 'internal'
   }), reply)
 
   listOfEntities.push(spySend.mock.calls[2][0])
 
   await controllerEntity.create(testHelper.mockFastifyRequest('', {
     name: 'person 1',
-    type: 'person'
+    type: 'person',
+    variant: 'internal'
   }), reply)
 
   listOfEntities.push(spySend.mock.calls[3][0])

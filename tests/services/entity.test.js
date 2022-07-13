@@ -23,7 +23,8 @@ test('create a new entity', async () => {
   const nameWithSpace = 'arch buddy  '
   const body = {
     name: nameWithSpace,
-    type: 'system'
+    type: 'system',
+    variant: 'internal'
   }
   const { reply, spyCode, spyHeader, spySend } = testHelper.mockFastifyReply()
   // ACT
@@ -41,7 +42,8 @@ test('create a existing entity', async () => {
   // ARRANGE
   const body = {
     name: 'arch buddy',
-    type: 'system'
+    type: 'system',
+    variant: 'internal'
   }
   const { reply, spyCode, spySend } = testHelper.mockFastifyReply()
   // ACT
@@ -56,7 +58,8 @@ test('create a existing entity - changing case', async () => {
   // ARRANGE
   const body = {
     name: 'Arch Buddy',
-    type: 'system'
+    type: 'system',
+    variant: 'internal'
   }
   const { reply, spyCode, spySend } = testHelper.mockFastifyReply()
   // ACT
@@ -71,7 +74,8 @@ test('create a existing entity - with spaces', async () => {
   // ARRANGE
   const body = {
     name: ' Arch Buddy ',
-    type: 'system'
+    type: 'system',
+    variant: 'internal'
   }
   const { reply, spyCode, spySend } = testHelper.mockFastifyReply()
   // ACT
@@ -86,7 +90,8 @@ test('create a entity with the same name but different type', async () => {
   // ARRANGE
   const body = {
     name: 'Arch Buddy',
-    type: 'person'
+    type: 'person',
+    variant: 'internal'
   }
   const { reply, spyCode, spyHeader, spySend } = testHelper.mockFastifyReply()
   // ACT
