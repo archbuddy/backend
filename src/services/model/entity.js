@@ -17,7 +17,6 @@ const schema = new Schema({
   variant: {
     type: String,
     enum: model.getEnumC4Variants(),
-    default: 'internal',
     required: true,
     trim: true
   },
