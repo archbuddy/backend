@@ -11,11 +11,11 @@ const getEnumEntityTypes = () => {
   ]
 }
 
-const getEnumEntityVariants = () => {
+const getEnumC4Variants = () => {
   return ['internal', 'external']
 }
 
 module.exports = {
   getEnumEntityTypes,
-  getEnumEntityVariants
+  getEnumC4Variants
 }

@@ -37,7 +37,7 @@ async function connectMongo () {
   } else {
     mongoUrl = `mongodb://${config.MONGO_URI}:${config.MONGO_PORT}`
   }
-  log.debug(`MongoUrl: ${mongoUrl}`)
+  log.info(`MongoUrl: ${mongoUrl}`)
   await mongoose.connect(mongoUrl, options)
 }
 

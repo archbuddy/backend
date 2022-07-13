@@ -21,7 +21,7 @@ const entitySchema = {
     },
     variant: {
       type: 'string',
-      enum: model.getEnumEntityVariants()
+      enum: model.getEnumC4Variants()
     },
     includedAt: {
       type: 'string',
@@ -55,7 +55,7 @@ const entityUpsertSchema = {
     },
     variant: {
       type: 'string',
-      enum: model.getEnumEntityVariants()
+      enum: model.getEnumC4Variants()
     },
     active: {
       type: 'boolean'

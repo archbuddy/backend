@@ -1,4 +1,5 @@
 const { diagramItemUpsertSchema } = require('./diagramItem')
+const model = require('../../util/model')
 
 const nodeSchema = {
   $id: 'node',
@@ -17,7 +18,8 @@ const nodeSchema = {
           type: 'number'
         },
         variant: {
-          type: 'string'
+          type: 'string',
+          enum: model.getEnumC4Variants()
         },
         entity: {
           type: 'string',
