@@ -1,6 +1,8 @@
 const axios = require('axios')
 const commonController = require('./commonController')
 const log = require('../../util/log')
+const auditController = require('./auditController')
+
 /**
  * Check the general availability of the application
  *
@@ -47,10 +49,12 @@ async function authentication (request, reply) {
     const jwtData = {
       email: result.data.email,
       id: result.data.id,
-      name: result.data.given_name ?? result.data.name
+      name: result.data.given_name ?? result.data.name,
+      provider: 'google'
     }
     const token = this.jwt.sign(jwtData, { expiresIn: '1h' })
     log.debug(`Token generated ${token}`)
+    await auditController.login(result.data.email, 'jwt token generated', undefined)
     reply.status(200).send({ token })
   } catch (err) {
     log.error(err.message)
