@@ -123,7 +123,7 @@ const build = async () => {
   log.info('[Fastify] Register Route - /tags POST')
   fastify.post('/tags', tagRoute.create)
   log.info('[Fastify] Register Route - /tags PUT')
-  fastify.put(`/tags/:id`, tagRoute.update)
+  fastify.put('/tags/:id', tagRoute.update)
 
   log.info('[Fastify] Register Route - /diagrams/:id/reactflow')
   fastify.get('/diagrams/:id/reactflow', diagramRoute.reactFlow)
