@@ -15,7 +15,12 @@ const getEnumC4Variants = () => {
   return ['internal', 'external']
 }
 
+const getEnumTagType = () => {
+  return ['DIAGRAM']
+}
+
 module.exports = {
   getEnumEntityTypes,
-  getEnumC4Variants
+  getEnumC4Variants,
+  getEnumTagType
 }
