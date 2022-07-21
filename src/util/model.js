@@ -16,7 +16,7 @@ const getEnumC4Variants = () => {
 }
 
 const getEnumTagType = () => {
-  return ['DIAGRAM']
+  return ['DIAGRAM', 'SYSTEM']
 }
 
 module.exports = {

@@ -16,8 +16,11 @@ const tagSchema = {
       type: 'string'
     },
     type: {
-      type: 'string',
-      enum: model.getEnumTagType()
+      type: 'array',
+      items: {
+        type: 'string',
+        enum: model.getEnumTagType()
+      }
     },
     includedAt: {
       type: 'string',
@@ -37,8 +40,11 @@ const tagUpsertSchema = {
       type: 'string'
     },
     type: {
-      type: 'string',
-      enum: model.getEnumTagType()
+      type: 'array',
+      items: {
+        type: 'string',
+        enum: model.getEnumTagType()
+      }
     }
   }
 }
