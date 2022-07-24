@@ -73,24 +73,24 @@ async function deleteById (request, reply) {
  * @param {import('fastify').FastifyRequest} request
  * @param {import('fastify').FastifyReply} reply
  */
- async function listAllConnections (request, reply) {
+async function listAllConnections (request, reply) {
   const query = [
     {
-      '$match': {
-        'source': request.params.source, 
-        'target': request.params.target
+      $match: {
+        source: request.params.source,
+        target: request.params.target
       }
     }
   ]
   const filter = request.query.name
   if (filter) {
     query.push({
-      '$match': {
-        '$or': [
+      $match: {
+        $or: [
           {
-            'description': new RegExp(`.*${filter}.*`, 'i')
+            description: new RegExp(`.*${filter}.*`, 'i')
           }, {
-            'detail': new RegExp(`.*${filter}.*`, 'i')
+            detail: new RegExp(`.*${filter}.*`, 'i')
           }
         ]
       }
