@@ -151,6 +151,49 @@ const deleteById = {
     }
   }
 }
+const listAllConnections = {
+  preValidation,
+  preHandler,
+  handler: relationController.listAllConnections,
+  schema: {
+    tags: ['Relation'],
+    params: {
+      type: 'object',
+      properties: {
+        source: {
+          type: 'string',
+          format: 'uuid',
+          description: 'Source of the relation'
+        },
+        target: {
+          type: 'string',
+          format: 'uuid',
+          description: 'Target of the relation'
+        }
+      }
+    },
+    query: {
+      type: 'object',
+      properties: {
+        name: {
+          description: 'filter relations by name',
+          type: 'string',
+          default: ''
+        }
+      }
+    },
+    response: {
+      200: {
+        type: 'array',
+        properties: {
+          items: {
+            $ref: 'relation'
+          }
+        }
+      }
+    }
+  }
+}
 
 module.exports = {
   list,
@@ -159,5 +202,6 @@ module.exports = {
   create,
   update,
   partialUpdate,
-  deleteById
+  deleteById,
+  listAllConnections
 }

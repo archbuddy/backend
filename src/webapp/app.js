@@ -131,6 +131,9 @@ const build = async () => {
   fastify.post('/authentication/google', authRoute.authentication)
   log.info('[Fastify] Register Route - /authentication/providers')
   fastify.get('/authentication/providers', authRoute.providers)
+  log.info('[Fastify] Register Route - /relations/:source/:target')
+  fastify.get('/relations/:source/:target', relationRoute.listAllConnections)
+  
 
   return fastify
 }

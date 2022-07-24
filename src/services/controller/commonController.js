@@ -1,7 +1,7 @@
 const Page = require('../util/page.js')
 const { buildQuery } = require('../util/fiqlQueryBuilder.js')
 const auditController = require('./auditController')
-
+const log = require('../../util/log')
 /**
  * List Entity
  *
@@ -10,6 +10,7 @@ const auditController = require('./auditController')
  */
 async function list (model, request, reply) {
   const q = buildQuery(model, request.query)
+  log.debug(`Query for ${model.modelName}`)
 
   let entities
   let count
