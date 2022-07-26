@@ -74,14 +74,24 @@ async function deleteById (request, reply) {
  * @param {import('fastify').FastifyReply} reply
  */
 async function listAllConnections (request, reply) {
-  const query = [
-    {
-      $match: {
-        source: request.params.source,
-        target: request.params.target
-      }
+  const query = [{
+    $match: {
+      source: request.params.source,
+      target: request.params.target
     }
-  ]
+  }]
+  // TODO the strategy to exclude all relations that are already on the diagram should be validated again 
+  // to avoid performance issue, since the diagram could have tons of connections, maybe to avoid this we
+  // need to use a diagramId as a parameter and execute a vlookup on the database
+  const exclude = request.query.exclude
+  if (exclude) {
+    query.push({
+      $match: {
+        _id: {
+          $nin: exclude.split(',')
+        }
+    }})
+  }
   const filter = request.query.name
   if (filter) {
     query.push({

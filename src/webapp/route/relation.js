@@ -179,6 +179,11 @@ const listAllConnections = {
           description: 'filter relations by name',
           type: 'string',
           default: ''
+        },
+        exclude: {
+          description: 'Exclude relations that you don\'t want to see. For example: YOu are showing 2 relations, but have 4 on database, you would like to see just the two that doesn\'t match. Values splitted by comma',
+          type: 'string',
+          default: ''
         }
       }
     },
