@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^3.0.1",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.2",
     "husky": "^8.0.1",
     "jest": "^28.1.1",
     "mongodb-memory-server": "^8.6.0",
