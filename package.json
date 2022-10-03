@@ -36,7 +36,7 @@
     "fiql-parser": "^0.1.2",
     "fs-extra": "^10.1.0",
     "http-errors": "2.0.0",
-    "mongoose": "^6.4.4",
+    "mongoose": "^6.6.3",
     "uuid": "^8.3.2",
     "winston": "^3.7.2"
   },
