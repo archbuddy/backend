@@ -41,7 +41,7 @@
     "winston": "^3.7.2"
   },
   "devDependencies": {
-    "@shelf/jest-mongodb": "^3.0.1",
+    "@shelf/jest-mongodb": "^4.1.1",
     "dotenv": "^16.0.1",
     "husky": "^8.0.1",
     "jest": "^28.1.1",
