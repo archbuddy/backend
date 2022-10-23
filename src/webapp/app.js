@@ -12,6 +12,7 @@ const entityRoute = require('./route/entity')
 const nodeRoute = require('./route/node')
 const relationRoute = require('./route/relation')
 const authRoute = require('./route/auth')
+const tagRoute = require('./route/tag')
 
 const registryCommonRoutes = (app, routePrefix, route) => {
   log.info(`[Fastify] Register Route - ${routePrefix} - and common http methods`)
@@ -103,6 +104,8 @@ const build = async () => {
   fastify.addSchema(require('./schema/edge.js').edgeSchema)
   log.info('[Fastify] Add Schema - Node')
   fastify.addSchema(require('./schema/node.js').nodeSchema)
+  log.info('[Fastify] Add Schema - Tag')
+  fastify.addSchema(require('./schema/tag.js').tagSchema)
 
   log.info('[Fastify] Register Route - /healthcheck')
   fastify.get('/healthcheck', healthRoute.check)
@@ -115,12 +118,21 @@ const build = async () => {
   registryCommonRoutes(fastify, '/nodes', nodeRoute)
   registryCommonRoutes(fastify, '/relations', relationRoute)
 
+  log.info('[Fastify] Register Route - /tags GET')
+  fastify.get('/tags', tagRoute.list)
+  log.info('[Fastify] Register Route - /tags POST')
+  fastify.post('/tags', tagRoute.create)
+  log.info('[Fastify] Register Route - /tags PUT')
+  fastify.put('/tags/:id', tagRoute.update)
+
   log.info('[Fastify] Register Route - /diagrams/:id/reactflow')
   fastify.get('/diagrams/:id/reactflow', diagramRoute.reactFlow)
   log.info('[Fastify] Register Route - /authentication/google')
   fastify.post('/authentication/google', authRoute.authentication)
   log.info('[Fastify] Register Route - /authentication/providers')
   fastify.get('/authentication/providers', authRoute.providers)
+  log.info('[Fastify] Register Route - /relations/:source/:target')
+  fastify.get('/relations/:source/:target', relationRoute.listAllConnections)
 
   return fastify
 }

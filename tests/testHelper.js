@@ -48,7 +48,12 @@ const mockFastifyRequest = (routerPath, body, query, params) => {
     routerPath,
     body,
     query,
-    params
+    params,
+    user: {
+      email: 'test@mail.com',
+      provider: 'google',
+      id: '123'
+    }
   }
 }
 

@@ -1,5 +1,7 @@
 const Page = require('../util/page.js')
 const { buildQuery } = require('../util/fiqlQueryBuilder.js')
+const auditController = require('./auditController')
+const log = require('../../util/log')
 /**
  * List Entity
  *
@@ -8,6 +10,7 @@ const { buildQuery } = require('../util/fiqlQueryBuilder.js')
  */
 async function list (model, request, reply) {
   const q = buildQuery(model, request.query)
+  log.debug(`Query for ${model.modelName}`)
 
   let entities
   let count
@@ -73,6 +76,7 @@ async function byId (model, request, reply) {
 async function create (model, request, reply) {
   const body = { ...request.body, includedAt: new Date(), updatedAt: new Date() }
   const data = await model.create(body)
+  await auditController.insert(request, `Model: ${model.modelName}`, data.toObject())
   reply.code(200)
     .header('Location', `${request.routerPath}/${data._id}`)
     .send(data.toObject())
@@ -105,7 +109,7 @@ async function update (model, request, reply) {
     ))
     return
   }
-
+  await auditController.update(request, `Model: ${model.modelName}`, data)
   reply.code(204).send()
 }
 
@@ -136,6 +140,7 @@ async function partialUpdate (model, request, reply) {
 
   findResult.updatedAt = new Date()
   findResult.save()
+  await auditController.update(request, `Model: ${model.modelName} - partial update`, findResult.toObject())
   reply.code(204).send()
 }
 
@@ -160,6 +165,7 @@ async function deleteById (model, request, reply) {
     ))
     return
   }
+  await auditController.remove(request, `Model: ${model.modelName}`, { id: request.params.id })
   reply.code(204).send()
 }
 

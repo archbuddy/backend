@@ -1,7 +1,8 @@
 const { edgeModel } = require('../model/edge')
 const { relationModel } = require('../model/relation')
 const { nodeModel } = require('../model/node')
-const commonController = require('./commonController.js')
+const commonController = require('./commonController')
+const auditController = require('./auditController')
 
 /**
  * List edges
@@ -52,7 +53,7 @@ async function create (request, reply) {
   }
 
   const data = await edgeModel().create(edge)
-
+  await auditController.insert(request, 'Create edge', data)
   reply.code(200)
     .header('Location', `${request.routerPath}/${data._id}`)
     .send(data.toObject())

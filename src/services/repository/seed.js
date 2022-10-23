@@ -6,6 +6,7 @@ const { relationModel } = require('../model/relation')
 const { diagramModel } = require('../model/diagram')
 const { nodeModel } = require('../model/node')
 const { edgeModel } = require('../model/edge')
+const { tagModel } = require('../model/tag')
 const log = require('../../util/log')
 
 const seedDb = async () => {
@@ -28,6 +29,7 @@ const clear = async () => {
   await diagramModel().deleteMany()
   await relationModel().deleteMany()
   await entityModel().deleteMany()
+  await tagModel().deleteMany()
 }
 
 const createView1 = async (diagram, systems, relations) => {

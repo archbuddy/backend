@@ -1,6 +1,6 @@
 const { relationModel } = require('../model/relation')
 const commonController = require('./commonController.js')
-
+const log = require('../../util/log')
 /**
  * List nodes
  *
@@ -67,4 +67,54 @@ async function deleteById (request, reply) {
   return commonController.deleteById(relationModel(), request, reply)
 }
 
-module.exports = { list, byId, create, update, partialUpdate, deleteById }
+/**
+ *
+ * @description https://www.rfc-editor.org/info/rfc7396
+ * @param {import('fastify').FastifyRequest} request
+ * @param {import('fastify').FastifyReply} reply
+ */
+async function listAllConnections (request, reply) {
+  const query = [{
+    $match: {
+      source: request.params.source,
+      target: request.params.target
+    }
+  }]
+  // TODO the strategy to exclude all relations that are already on the diagram should be validated again
+  // to avoid performance issue, since the diagram could have tons of connections, maybe to avoid this we
+  // need to use a diagramId as a parameter and execute a vlookup on the database
+  const exclude = request.query.exclude
+  if (exclude) {
+    query.push({
+      $match: {
+        _id: {
+          $nin: exclude.split(',')
+        }
+      }
+    })
+  }
+  const filter = request.query.name
+  if (filter) {
+    query.push({
+      $match: {
+        $or: [
+          {
+            description: new RegExp(`.*${filter}.*`, 'i')
+          }, {
+            detail: new RegExp(`.*${filter}.*`, 'i')
+          }
+        ]
+      }
+    })
+  }
+  log.debug(`Filter relations ${JSON.stringify(query)}`)
+  const data = await relationModel().aggregate(query).exec()
+  const list = data.map(i => {
+    i.id = i._id
+    delete i._id
+    return i
+  })
+  return reply.code(200).send(list)
+}
+
+module.exports = { list, byId, create, update, partialUpdate, deleteById, listAllConnections }

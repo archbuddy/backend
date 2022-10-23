@@ -151,6 +151,54 @@ const deleteById = {
     }
   }
 }
+const listAllConnections = {
+  preValidation,
+  preHandler,
+  handler: relationController.listAllConnections,
+  schema: {
+    tags: ['Relation'],
+    params: {
+      type: 'object',
+      properties: {
+        source: {
+          type: 'string',
+          format: 'uuid',
+          description: 'Source of the relation'
+        },
+        target: {
+          type: 'string',
+          format: 'uuid',
+          description: 'Target of the relation'
+        }
+      }
+    },
+    query: {
+      type: 'object',
+      properties: {
+        name: {
+          description: 'filter relations by name',
+          type: 'string',
+          default: ''
+        },
+        exclude: {
+          description: 'Exclude relations that you don\'t want to see. For example: YOu are showing 2 relations, but have 4 on database, you would like to see just the two that doesn\'t match. Values splitted by comma',
+          type: 'string',
+          default: ''
+        }
+      }
+    },
+    response: {
+      200: {
+        type: 'array',
+        properties: {
+          items: {
+            $ref: 'relation'
+          }
+        }
+      }
+    }
+  }
+}
 
 module.exports = {
   list,
@@ -159,5 +207,6 @@ module.exports = {
   create,
   update,
   partialUpdate,
-  deleteById
+  deleteById,
+  listAllConnections
 }

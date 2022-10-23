@@ -1,5 +1,6 @@
 const { nodeModel } = require('../model/node')
 const commonController = require('./commonController.js')
+const auditController = require('./auditController')
 
 /**
  * List nodes
@@ -42,7 +43,7 @@ async function create (request, reply) {
     diagram: request.body.diagram
   }
   const data = await nodeModel().create(node)
-
+  await auditController.insert(request, 'Create Node', data.toObject())
   reply.code(200)
     .header('Location', `${request.routerPath}/${data._id}`)
     .send(data.toObject())
