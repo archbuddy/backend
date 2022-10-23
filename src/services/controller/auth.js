@@ -1,4 +1,3 @@
-const axios = require('axios')
 const commonController = require('./commonController')
 const log = require('../../util/log')
 const auditController = require('./auditController')
@@ -30,7 +29,8 @@ async function authentication (request, reply) {
   })
   let result
   try {
-    result = await axios.get('https://www.googleapis.com/oauth2/v1/userinfo?alt=json', {
+    result = await fetch('https://www.googleapis.com/oauth2/v1/userinfo?alt=json', {
+      method: 'GET',
       headers: {
         authorization: `${paramMap.token_type} ${paramMap.access_token}`
       }
