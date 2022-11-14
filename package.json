@@ -24,7 +24,7 @@
   },
   "homepage": "https://archbuddy.github.io/documentation",
   "dependencies": {
-    "@fastify/cors": "^8.1.0",
+    "@fastify/cors": "^8.2.0",
     "@fastify/helmet": "^10.0.2",
     "@fastify/jwt": "^6.3.2",
     "@fastify/static": "^6.5.0",
