@@ -45,7 +45,7 @@
     "dotenv": "^16.0.2",
     "husky": "^8.0.1",
     "jest": "^29.0.2",
-    "mongodb-memory-server": "^8.9.1",
+    "mongodb-memory-server": "^8.10.2",
     "nodemon": "^2.0.19",
     "standard": "^17.0.0"
   },
